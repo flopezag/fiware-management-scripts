@@ -1,4 +1,4 @@
-#!/usr/bin/env /home/mev/HelpDesk/helpdesk-sync/bin/python
+#!/usr/bin/env <PATH_HELPDESK>/env/bin/python
 
 import sys
 import logging

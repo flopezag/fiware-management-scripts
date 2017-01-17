@@ -1,4 +1,4 @@
-#!/usr/bin/env /home/mev/DesksReminder/venv/bin/python
+#!/usr/bin/env <PATH_DESKSREMINDER>/env/bin/python
 
 import os
 import logging

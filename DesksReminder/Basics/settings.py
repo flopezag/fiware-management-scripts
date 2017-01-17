@@ -80,7 +80,7 @@ if Config.sections():
     JIRA_PASSWORD = jira_section['password']
 
 else:
-    msg = '\nERROR: There is not defined DESKREMINDER_SETTINGS_FILE environment variable ' \
+    msg = '\nERROR: There is not defined DESKSREMINDER_SETTINGS_FILE environment variable ' \
           '\n       pointing to configuration file or there is no desksreminder.ini file' \
           '\n       in the /etd/init.d directory.' \
           '\n\n       Please correct at least one of them to execute the program.'
