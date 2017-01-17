@@ -85,9 +85,12 @@ if Config.sections():
 
     API_KEY_STACKOVERFLOW = stackoverflow_section['api_key']
 
+    # Data from backlog.fiware.org section
+    backlog_section = config_section_map("backlog.fiware.org")
+    API_KEY_BACKLOG = backlog_section['api_key']
 
 else:
-    msg = '\nERROR: There is not defined HELPDES_KREMINDER_SETTINGS_FILE environment variable ' \
+    msg = '\nERROR: There is not defined HELPDESK_REMINDER_SETTINGS_FILE environment variable ' \
           '\n       pointing to configuration file or there is no desksreminder.ini file' \
           '\n       in the /etd/init.d directory.' \
           '\n\n       Please correct at least one of them to execute the program.'
