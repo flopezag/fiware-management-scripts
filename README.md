@@ -1,5 +1,5 @@
 #<a name="top"></a>FIWARE HelpDesk and Desks reminders script
-[![License badge](https://img.shields.io/badge/license-AGPL-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
+[![License badge](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 These scripts were developed in order to facilitate the diary operations of the Jira
 and the synchronization with different tools. The Purpose is to check if there are issues
@@ -38,10 +38,10 @@ The recommend installation method is using a virtualenv. Actually, the installat
 process is only about the python dependencies, because the python code do not need 
 installation.
 
-1) Clone this repository.
-2) Excute the script 'source config.sh'
-3) Define the configuration file in './DesksReminder/Basics/desksreminder.ini'
-4) Define the configuration file in './HelpDesk/Basics/helpdeskreminder.ini'
+1. Clone this repository.
+2. Excute the script 'source config.sh'
+3. Define the configuration file in './DesksReminder/Basics/desksreminder.ini'
+4. Define the configuration file in './HelpDesk/Basics/helpdeskreminder.ini'
 
 Now the system is ready to use. Just activate the corresponding virtualenv and
 launch the scripts.
