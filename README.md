@@ -59,7 +59,7 @@ If the scripts cannot get this environment variable, it tries to find this file 
 '/etc/init.d'. In any oder case, the scripts will give you an error.
 
 In case of HelpDesk, the scripts try to find if there is defined an environment
-variable whose name is 'HELPDESKREMINDER_SETTINGS_FILE' to the 'helpdeskreminder.ini' 
+variable whose name is 'HELPDESK_REMINDER_SETTINGS_FILE' to the 'helpdeskreminder.ini' 
 file. If the scripts cannot get this environment variable, it tries to find this 
 file in '/etc/init.d'. In any oder case, the scripts will give you an error.
 
