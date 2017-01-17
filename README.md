@@ -43,8 +43,8 @@ installation.
 3. Define the configuration file in './DesksReminder/Basics/desksreminder.ini'
 4. Define the configuration file in './HelpDesk/Basics/helpdeskreminder.ini'
 
-Now the system is ready to use. Just activate the corresponding virtualenv and
-launch the scripts.
+Now the system is ready to use. You do not need to activate the virtualenv. The scripts
+will do it for you.
 
 [Top](#top)
 

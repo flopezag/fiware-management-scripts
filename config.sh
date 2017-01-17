@@ -112,7 +112,6 @@ if [ "$result" == "" ]; then
 
 else
     echo "Checking crontab content"
-    echo $result
 
     crontab -u $username -l 2>/dev/null >a.out
 
