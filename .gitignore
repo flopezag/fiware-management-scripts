@@ -90,3 +90,6 @@ ENV/
 
 # IDE
 .idea/
+
+# Stored pikled files
+HelpDesk/store/*.pkl
