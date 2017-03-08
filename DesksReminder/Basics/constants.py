@@ -24,7 +24,7 @@ __author__ = 'fla'
 
 SIGNATURE = '\n\n------------------------' +\
             '\nFernando Lopez' +\
-            '\nFIWARE Scrum Master' +\
+            '\nInterim FIWARE Scrum Master' +\
             '\nSkype: fernandola'
 
 GOOGLE_ACCOUNTS_BASE_URL = 'https://accounts.google.com'

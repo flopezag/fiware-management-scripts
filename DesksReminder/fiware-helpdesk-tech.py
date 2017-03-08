@@ -78,4 +78,4 @@ Kind regards,
     Fernando
 """
 
-emailer.send_adm_msg('Report for Help Desk - Tech Channel', message)
+emailer.send_adm_msg(subject='Report for Help Desk - Tech Channel', intext=message, deliver=deliver)

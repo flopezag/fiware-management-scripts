@@ -76,4 +76,4 @@ Kind regards,
 """
 
 
-emailer.send_adm_msg('Report for Help Desk - Other Channels', message)
+emailer.send_adm_msg(subject='Report for Help Desk - Other Channels', intext=message, deliver=deliver)
