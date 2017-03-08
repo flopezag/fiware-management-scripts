@@ -39,7 +39,7 @@ process is only about the python dependencies, because the python code do not ne
 installation.
 
 1. Clone this repository.
-2. Excute the script 'source config.sh'
+2. Execute the script 'source config.sh'
 3. Define the configuration file in './DesksReminder/Basics/desksreminder.ini'
 4. Define the configuration file in './HelpDesk/Basics/helpdeskreminder.ini'
 
