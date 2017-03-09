@@ -163,25 +163,27 @@ class Emailer:
             if deliver:
                 self.send_msg(item['email'], item['subject'], item['body'])
 
-    def send_msg(self, to, subject, intext):
+    def send_msg(self, to, subject, intext, deliver=True):
         msg = MIMEText(intext + self.signature)
 
         msg['From'] = self._sender
         msg['To'] = to
         msg['Subject'] = subject
 
-        self._deliver(msg)
+        if deliver:
+            self._deliver(msg)
 
-    def send_adm_msg(self, subject, intext):
+    def send_adm_msg(self, subject, intext, deliver=True):
         msg = MIMEText(intext + self.signature)
 
         msg['From'] = self._sender
         msg['To'] = self._sender
         msg['Subject'] = 'FIWARE: Reminders: ' + subject
 
-        self._deliver(msg)
+        if deliver:
+            self._deliver(msg)
 
-    def send_html_adm_msg(self, subject, inmsg):
+    def send_html_adm_msg(self, subject, inmsg, deliver=True):
         msg = MIMEMultipart('alternative')
 
         msg['From'] = self._sender
@@ -194,9 +196,10 @@ class Emailer:
         msg.attach(part1)
         msg.attach(part2)
 
-        self._deliver(msg)
+        if deliver:
+            self._deliver(msg)
 
-    def send_msg_attachment(self, to, subject, intext, infile):
+    def send_msg_attachment(self, to, subject, intext, infile, deliver=True):
         msg = MIMEMultipart()
 
         msg['From'] = self._sender
@@ -209,7 +212,9 @@ class Emailer:
         fp.close()
         filemsg.add_header('Content-Disposition', 'attachment; filename = {}'.format(infile))
         msg.attach(filemsg)
-        self._deliver(msg)
+
+        if deliver:
+            self._deliver(msg)
 
 if __name__ == "__main__":
     pass

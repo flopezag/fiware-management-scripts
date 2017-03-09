@@ -26,13 +26,14 @@ logging.basicConfig(filename=filename,
                     datefmt='%Y-%m-%d %H:%M:%S',
                     level=numeric_level)
 
+deliver = True
 
 desk = DeliveryBoard()
 emailer = Emailer(log_level=DEBUG)
 
 
 messages = desk.upcoming()
-emailer.send(messages, deliver=True)
+emailer.send(messages, deliver=deliver)
 logging.info('Delivery Board: Upcoming {} reminders sent'.format(len(messages)))
 items = getTextMessagesReport(messages)
 
@@ -48,4 +49,4 @@ Kind regards,
     Fernando
 """
 
-emailer.send_adm_msg('Report for Delivery Board', message)
+emailer.send_adm_msg(subject='Report for Delivery Board', intext=message, deliver=deliver)

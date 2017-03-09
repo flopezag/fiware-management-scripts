@@ -61,4 +61,4 @@ Kind regards,
     Fernando
 """
 
-emailer.send_html_adm_msg('Report for Urgent Desk - Upcoming', message)
+emailer.send_adm_msg(subject='Report for Urgent Desk - Upcoming', intext=message, deliver=deliver)

@@ -54,4 +54,4 @@ Kind regards,
     Fernando
 """
 
-emailer.send_html_adm_msg('Report for Urgent Desk -  Overdue & Impeded', message)
+emailer.send_adm_msg(subject='Report for Urgent Desk -  Overdue & Impeded', intext=message, deliver=deliver)

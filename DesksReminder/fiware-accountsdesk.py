@@ -88,4 +88,4 @@ Kind regards,
     Fernando
 """
 
-emailer.send_adm_msg('Report for Accounts Desk', message)
+emailer.send_adm_msg(subject='Report for Accounts Desk', intext=message, deliver=deliver)

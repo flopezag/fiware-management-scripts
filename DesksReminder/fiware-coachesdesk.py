@@ -77,4 +77,4 @@ Kind regards,
     Fernando
 """
 
-emailer.send_adm_msg('Report for Coaches Help Desk', message)
+emailer.send_adm_msg(subject='Report for Coaches Help Desk', intext=message, deliver=deliver)
