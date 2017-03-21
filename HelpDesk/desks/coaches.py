@@ -23,7 +23,8 @@ accelerators_dict = {'Fiware-finodex-coaching': 'FINODEX',
                      'Fiware-impact-coaching': 'IMPACT',
                      'Fiware-smartagrifood-coaching': 'SmartAgriFood2',
                      'Fiware-speedup-coaching': 'SpeedUp Europe',
-                     'Fiware-odine-coaching': 'ODINE'
+                     'Fiware-odine-coaching': 'ODINE',
+                     'Fiware-coaching': 'FIWARE-Coaching'
                      }
 
 

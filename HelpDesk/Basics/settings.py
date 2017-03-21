@@ -91,7 +91,7 @@ if Config.sections():
 
 else:
     msg = '\nERROR: There is not defined HELPDESK_REMINDER_SETTINGS_FILE environment variable ' \
-          '\n       pointing to configuration file or there is no desksreminder.ini file' \
+          '\n       pointing to configuration file or there is no helpdeskreminder.ini file' \
           '\n       in the /etd/init.d directory.' \
           '\n\n       Please correct at least one of them to execute the program.'
     exit(msg)
