@@ -19,7 +19,7 @@
 
 __author__ = 'fla'
 
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 
 from ConfigParser import ConfigParser
 import os.path
