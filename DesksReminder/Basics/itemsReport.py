@@ -12,7 +12,6 @@ def getTextMessagesReport(messages):
     return result
 
 
-
 def getHtmlMessagesReport(messages):
     return '\n'.join('#{0}, <a href="http://jira.fiware.org/browse/{1}">{1}</a>, '
                      '{2}, {3}<br>'.format(n,

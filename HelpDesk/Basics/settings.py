@@ -16,14 +16,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 ##
+from ConfigParser import ConfigParser
+import os.path
 
 __author__ = 'fla'
 
 __version__ = '1.2.0'
-
-from ConfigParser import ConfigParser
-import os.path
-
 
 """
 Default configuration.
@@ -58,8 +56,9 @@ def config_section_map(section):
             dict1[option] = Config.get(section, option)
             if dict1[option] == -1:
                 print("skip: %s" % option)
-        except:
+        except Exception as e:
             print("exception on %s!" % option)
+            print(e)
             dict1[option] = None
     return dict1
 

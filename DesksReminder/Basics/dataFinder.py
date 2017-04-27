@@ -8,46 +8,59 @@ __author__ = 'Manuel Escriche'
 
 class Data:
     def __init__(self):
-        options={'server': 'https://jira.fiware.org', 'verify': False}
+        options = {'server': 'https://jira.fiware.org', 'verify': False}
         self._jira = JIRA(options, basic_auth=(JIRA_USER, JIRA_PASSWORD))
 
     def getUrgentDeskOnDeadline(self):
-        try: trackers = find_all_trackers()
+        try:
+            trackers = find_all_trackers()
         except Exception:
             logging.exception('Not able to find all trackers in web server')
             raise Exception
+
         query = "duedate = 0d  AND status != Closed AND project in ({}) AND assignee is not EMPTY".format(trackers)
         return sorted(self._jira.search_issues(query, maxResults=False), key=lambda item: item.key)
 
     def getUrgentDeskUpcoming(self):
-        try: trackers = find_all_trackers()
+        try:
+            trackers = find_all_trackers()
         except Exception:
             logging.exception('Not able to find all trackers in web server')
             raise Exception
+
         query = "duedate <= 7d  AND status != Closed AND project in ({}) AND assignee is not EMPTY".format(trackers)
         return sorted(self._jira.search_issues(query, maxResults=False), key=lambda item: item.key)
 
     def getUrgentDeskImpeded(self):
-        try: trackers = find_nodesk_trackers()
+        try:
+            trackers = find_nodesk_trackers()
         except Exception:
             logging.exception('Not able to find no-desk trackers in web server')
             raise Exception
+
         query = "status = Impeded AND project in ({}) AND assignee is not EMPTY".format(trackers)
         return sorted(self._jira.search_issues(query, maxResults=False), key=lambda item: item.key)
 
     def getUrgentDeskOverdue(self):
-        try: trackers = find_all_trackers()
+        try:
+            trackers = find_all_trackers()
         except Exception:
             logging.info('Not able to find all trackers in web server')
-            trackers = 'COR,APP,CLD,DATA,MIND,IOT,SEC,WEB,OPS,ACA,CAT,MRK,LAB,COAC,WC,WD,EXPL,PRES,SUS,HELP,HELC,SUPP,FLUA'
-        query = "duedate < now()  AND status not in ( Impeded, Closed )  AND project in ({}) AND assignee is not EMPTY".format(trackers)
+            trackers = 'COR,APP,CLD,DATA,MIND,IOT,SEC,WEB,OPS,ACA,CAT,MRK,LAB,' \
+                       'COAC,WC,WD,EXPL,PRES,SUS,HELP,HELC,SUPP,FLUA'
+
+        query = "duedate < now()  AND status not in ( Impeded, Closed )  " \
+                "AND project in ({}) AND assignee is not EMPTY".format(trackers)
+
         return sorted(self._jira.search_issues(query, maxResults=False), key=lambda item: item.key)
 
     def getDeliveryBoardPending(self):
-        try: book = find_deliveryboard()
+        try:
+            book = find_deliveryboard()
         except Exception:
             logging.exception('Not able to reach Backlog Web Server')
             raise Exception
+
         return {item: self._jira.issue(book[item]) for item in book}
 
     def getTechHelpDeskOpen(self):
@@ -66,7 +79,6 @@ class Data:
         query = 'project = HELP AND status = Answered AND component = FIWARE-TECH-HELP AND assignee is not EMPTY'
         return sorted(self._jira.search_issues(query, maxResults=False), key=lambda item: item.key)
 
-
     def getLabHelpDeskOpen(self):
         query = 'project = HELP AND status = Open AND component = FIWARE-LAB-HELP AND assignee is not EMPTY'
         return sorted(self._jira.search_issues(query, maxResults=False), key=lambda item: item.key)
@@ -82,7 +94,6 @@ class Data:
     def getLabHelpDeskAnswered(self):
         query = 'project = HELP AND status = Answered AND component = FIWARE-LAB-HELP AND assignee is not EMPTY'
         return sorted(self._jira.search_issues(query, maxResults=False), key=lambda item: item.key)
-
 
     def getOthersHelpDeskOpen(self):
         query = 'project = HELP AND status = Open AND component not in (FIWARE-LAB-HELP, FIWARE-TECH-HELP) ' \
@@ -103,7 +114,6 @@ class Data:
         query = 'project = HELP AND status = Answered AND component not in (FIWARE-LAB-HELP, FIWARE-TECH-HELP) ' \
                 'AND assignee is not EMPTY'
         return sorted(self._jira.search_issues(query, maxResults=False), key=lambda item: item.key)
-
 
     def getCoachesHelpDeskOpen(self):
         query = 'project = HELC AND status = Open AND assignee is not EMPTY'
