@@ -1,11 +1,10 @@
+import requests
+from Basics.settings import API_KEY_BACKLOG, API_USER_BACKLOG, URL_BACKLOG
+
 __author__ = 'Manuel Escriche'
 
-import requests
-
-#domain = 'http://127.0.0.1:5000'
-domain = 'http://backlog.fiware.org'
-
-auth = 'api', 'adc842f790105942e095f5f77484ffa8242a2ec3'
+domain = URL_BACKLOG
+auth = API_USER_BACKLOG, API_KEY_BACKLOG
 
 
 def find_deliveryboard():

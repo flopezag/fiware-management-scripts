@@ -1,5 +1,4 @@
 #!/usr/bin/env <PATH_DESKSREMINDER>/env/bin/python
-
 import os
 import logging
 import argparse
@@ -22,6 +21,9 @@ log_level = getattr(logging, args.log.upper(), None)
 if not isinstance(log_level, int):
     print('Invalid log level: {}'.format(args.log))
     exit()
+
+if os.path.exists(LOGHOME) is False:
+    os.mkdir(LOGHOME)
 
 filename = os.path.join(LOGHOME, 'urgentdesk-daily.log')
 logging.basicConfig(filename=filename,

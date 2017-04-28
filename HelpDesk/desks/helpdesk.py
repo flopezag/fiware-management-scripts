@@ -2,7 +2,7 @@ import logging
 import re
 from itertools import ifilterfalse
 from jira import JIRA
-from .resourcesBooks import find_enablersBook, find_nodesBook, find_chaptersBook
+from .resourcesBooks import find_enablersbook, find_nodesbook, find_chaptersbook
 from Basics.emailer import Emailer
 from Basics.settings import JIRA_USER, JIRA_PASSWORD
 from logging import INFO, DEBUG
@@ -50,9 +50,9 @@ class HelpDesk:
         options = {'server': self.base_url, 'verify': False}
         self.jira = JIRA(options=options, basic_auth=(self.user, self.password))
         self.emailer = Emailer(log_level=DEBUG)
-        self.enablersBook = find_enablersBook()
-        self.nodesBook = find_nodesBook()
-        self.chaptersBook = find_chaptersBook()
+        self.enablersBook = find_enablersbook()
+        self.nodesBook = find_nodesbook()
+        self.chaptersBook = find_chaptersbook()
         self.n_assignments = 0
         self.n_channeled = 0
         self.n_removed = 0

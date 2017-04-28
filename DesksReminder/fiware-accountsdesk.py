@@ -23,12 +23,14 @@ if not isinstance(numeric_level, int):
     print('Invalid log level: {}'.format(args.log))
     exit()
 
+if os.path.exists(LOGHOME) is False:
+    os.mkdir(LOGHOME)
+
 filename = os.path.join(LOGHOME, 'accounts-desk.log')
 logging.basicConfig(filename=filename,
                     format='%(asctime)s|%(levelname)s:%(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
                     level=numeric_level)
-
 
 
 desk = AccountsDesk()

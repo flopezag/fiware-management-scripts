@@ -1,5 +1,4 @@
 #!/usr/bin/env <PATH_HELPDESK>/env/bin/python
-
 import sys
 import logging
 import argparse
@@ -23,6 +22,8 @@ if not isinstance(log_level, int):
     print('Invalid log level: {}'.format(args.log))
     exit()
 
+if os.path.exists(LOGHOME) is False:
+    os.mkdir(LOGHOME)
 
 filename = os.path.join(LOGHOME, 'askbot.log')
 logging.basicConfig(filename=filename,

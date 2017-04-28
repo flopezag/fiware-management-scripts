@@ -1,6 +1,4 @@
 #!/usr/bin/env <PATH_DESKSREMINDER>/env/bin/python
-__author__ = 'Manuel Escriche'
-
 import os
 import logging
 import argparse
@@ -10,6 +8,8 @@ from Basics.emailer import Emailer
 from Desks.help_desk import LabHelpDesk
 from Basics.itemsReport import getTextMessagesReport
 from Basics.settings import LOGHOME
+
+__author__ = 'Manuel Escriche'
 
 parser = argparse.ArgumentParser(prog='Main Help Desk - Lab channel Reminders', description='')
 parser.add_argument('-l', '--log',
@@ -21,12 +21,14 @@ if not isinstance(numeric_level, int):
     print('Invalid log level: {}'.format(args.log))
     exit()
 
+if os.path.exists(LOGHOME) is False:
+    os.mkdir(LOGHOME)
+
 filename = os.path.join(LOGHOME, 'helpdesk-lab.log')
 logging.basicConfig(filename=filename,
                     format='%(asctime)s|%(levelname)s:%(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
                     level=numeric_level)
-
 
 
 desk = LabHelpDesk()
