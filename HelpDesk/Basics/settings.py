@@ -87,6 +87,8 @@ if Config.sections():
     # Data from backlog.fiware.org section
     backlog_section = config_section_map("backlog.fiware.org")
     API_KEY_BACKLOG = backlog_section['api_key']
+    API_USER_BACKLOG = backlog_section['api_user']
+    URL_BACKLOG = backlog_section['url']
 
 else:
     msg = '\nERROR: There is not defined HELPDESK_REMINDER_SETTINGS_FILE environment variable ' \

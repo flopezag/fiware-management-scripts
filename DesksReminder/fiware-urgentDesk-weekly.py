@@ -1,11 +1,13 @@
 #!/usr/bin/env <PATH_DESKSREMINDER>/env/bin/python
-__author__ = 'Manuel Escriche'
-
-import os, logging, argparse
+import os
+import logging
+import argparse
 from Desks.urgent_desk import UrgentDesk
 from Basics.emailer import Emailer
 from Basics.itemsReport import getTextMessagesReport
 from Basics.settings import LOGHOME
+
+__author__ = 'Manuel Escriche'
 
 parser = argparse.ArgumentParser(prog='Urgent Desk Reminders', description='')
 parser.add_argument('-l', '--log',
@@ -16,6 +18,9 @@ log_level = getattr(logging, args.log.upper(), None)
 if not isinstance(log_level, int):
     print('Invalid log level: {}'.format(args.log))
     exit()
+
+if os.path.exists(LOGHOME) is False:
+    os.mkdir(LOGHOME)
 
 filename = os.path.join(LOGHOME, 'urgentdesk-weekly.log')
 logging.basicConfig(filename=filename,

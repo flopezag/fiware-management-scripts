@@ -1,15 +1,13 @@
+import requests
+from Basics.settings import API_KEY_BACKLOG, API_USER_BACKLOG, URL_BACKLOG
+
 __author__ = 'Manuel Escriche'
 
-import requests
-from Basics.settings import API_KEY_BACKLOG
-
-#domain = 'http://127.0.0.1:5000'
-domain = 'http://backlog.fiware.org'
-
-auth = 'api', API_KEY_BACKLOG
+domain = URL_BACKLOG
+auth = API_USER_BACKLOG, API_KEY_BACKLOG
 
 
-def find_enablersBook():
+def find_enablersbook():
     url = '{}'.format(domain) + '/api/enablersbook'
     answer = requests.get(url, auth=auth)
 
@@ -19,7 +17,7 @@ def find_enablersBook():
     return answer.json()['book']
 
 
-def find_nodesBook():
+def find_nodesbook():
     url = '{}'.format(domain) + '/api/nodesbook'
     answer = requests.get(url, auth=auth)
 
@@ -29,7 +27,7 @@ def find_nodesBook():
     return answer.json()['book']
 
 
-def find_chaptersBook():
+def find_chaptersbook():
     url = '{}'.format(domain) + '/api/chaptersbook'
     answer = requests.get(url, auth=auth)
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env <PATH_DESKSREMINDER>/env/bin/python
-
-__author__ = 'Manuel Escriche'
-
-import os, logging, argparse
+import os
+import logging
+import argparse
 from Basics.emailer import Emailer
 from Desks.help_desk import OthersHelpDesk
 from Basics.itemsReport import getTextMessagesReport
 from Basics.settings import LOGHOME
+
+__author__ = 'Manuel Escriche'
 
 parser = argparse.ArgumentParser(prog='Main Help Desk - Other channels Reminders', description='')
 parser.add_argument('-l', '--log',
@@ -18,13 +19,14 @@ if not isinstance(log_level, int):
     print('Invalid log level: {}'.format(args.log))
     exit()
 
+if os.path.exists(LOGHOME) is False:
+    os.mkdir(LOGHOME)
+
 filename = os.path.join(LOGHOME, 'helpdesk-otherChannels.log')
 logging.basicConfig(filename=filename,
                     format='%(asctime)s|%(levelname)s:%(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
                     level=log_level)
-
-
 
 desk = OthersHelpDesk()
 emailer = Emailer(log_level=log_level)
