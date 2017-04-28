@@ -100,7 +100,7 @@ class StackExchange(QAPlatform):
         answers = [question.accepted_answer_id for question in questions if question.accepted_answer_id]
         total = len(answers)
         params = {'tagged': 'fiware', 'site': 'stackoverflow'}
-        rounds = ceil(total/100)
+        rounds = ceil(total / 100)
         data = []
         iteration, chunk = 1, 100
         while iteration <= rounds:

@@ -1,6 +1,5 @@
-__author__ = 'Manuel Escriche'
-
-import logging, re
+import logging
+import re
 from itertools import ifilterfalse
 from jira import JIRA
 from .resourcesBooks import find_enablersBook, find_nodesBook, find_chaptersBook
@@ -8,15 +7,17 @@ from Basics.emailer import Emailer
 from Basics.settings import JIRA_USER, JIRA_PASSWORD
 from logging import INFO, DEBUG
 
+__author__ = 'Manuel Escriche'
+
 channels = {'Fiware-smart-cities-req': 'FIWARE-SMART-CITIES-REQ',
             'Fiware-tech-help': 'FIWARE-TECH-HELP',
             'Fiware-general-help': 'FIWARE-GENERAL-HELP',
             'Fiware-open-data-req': 'FIWARE-OPEN-DATA-REQ',
             'Fiware-mundus-req': 'FIWARE-MUNDUS-REQ',
             'Fiware-speakers-req': 'FIWARE-SPEAKERS-REQ',
-            'Fiware-collaboration-req':'FIWARE-COLLABORATION-REQ',
-            'Fiware-feedback':'FIWARE-FEEDBACK',
-            'Fiware-lab-help':'FIWARE-LAB-HELP',
+            'Fiware-collaboration-req': 'FIWARE-COLLABORATION-REQ',
+            'Fiware-feedback': 'FIWARE-FEEDBACK',
+            'Fiware-lab-help': 'FIWARE-LAB-HELP',
             'Fiware-training-req': 'FIWARE-TRAINING-REQ',
             'Fiware-ops-help': 'FIWARE-OPS-HELP',
             'SPAM': 'SPAM'
@@ -64,9 +65,11 @@ class HelpDesk:
         # issues changed to LAB channel when node has been set up
         # HD node    = issue.fields.customfield_11104
         requests = filter(lambda x: x.fields.components[0].name == 'FIWARE-TECH-HELP', inrequests)
-        condition = lambda x: x.fields.customfield_11104 and \
-                              not x.fields.customfield_11103 and not x.fields.customfield_11105 and\
-                              x.fields.customfield_11104.value != 'Unknown'
+        condition = lambda x: x.fields.customfield_11104 and not \
+            x.fields.customfield_11103 and not \
+            x.fields.customfield_11105 and\
+            x.fields.customfield_11104.value != 'Unknown'
+
         for issue in filter(condition, requests):
             enabler = issue.fields.customfield_11105
 
@@ -84,8 +87,9 @@ class HelpDesk:
         # issues changed to TECH channel when enabler or chapter has been set up
         # HD enabler = issue.fields.customfield_11105
         requests = filter(lambda x: x.fields.components[0].name == 'FIWARE-LAB-HELP', inrequests)
-        condition = lambda x: x.fields.customfield_11105 and not x.fields.customfield_11104 and \
-                              x.fields.customfield_11105.value != 'Unknown'
+        condition = lambda x: x.fields.customfield_11105 and not \
+            x.fields.customfield_11104 and \
+            x.fields.customfield_11105.value != 'Unknown'
 
         for issue in filter(condition, requests):
             node = issue.fields.customfield_11104
@@ -97,7 +101,9 @@ class HelpDesk:
             logging.info('update issue= {} - change to TECH channel'.format(issue))
 
         # HD chapter = issue.fields.customfield_11103
-        condition = lambda x: x.fields.customfield_11103 and not x.fields.customfield_11104 and x.fields.customfield_11103.value != 'Unknown'
+        condition = lambda x: x.fields.customfield_11103 and not \
+            x.fields.customfield_11104 and \
+            x.fields.customfield_11103.value != 'Unknown'
 
         for issue in filter(condition, requests):
             node = issue.fields.customfield_11104
@@ -108,10 +114,10 @@ class HelpDesk:
             issue.update(fields={'components': [{'name': 'FIWARE-TECH-HELP'}]})
             logging.info('update issue= {} - change to TECH channel'.format(issue))
 
-
     def _assign_tech_channel(self):
         query = 'project = HELP AND issuetype in (extRequest, Monitor) ' \
                 'AND component = FIWARE-TECH-HELP AND status != Closed AND assignee = EMPTY and updated >= -1d'
+
         requests = sorted(self.jira.search_issues(query, maxResults=25), key=lambda item: item.key)
 
         # HD chapter = issue.fields.customfield_11103
@@ -120,8 +126,8 @@ class HelpDesk:
 
         # make fields visible with value 'Unknown'
         condition = lambda x: not x.fields.customfield_11103 and not \
-                                  x.fields.customfield_11104 and not \
-                                  x.fields.customfield_11105
+            x.fields.customfield_11104 and not \
+            x.fields.customfield_11105
 
         for issue in filter(condition, requests):
             enabler_values = self.jira.editmeta(issue)['fields']['customfield_11105']['allowedValues']
@@ -161,8 +167,8 @@ class HelpDesk:
                              .format(issue, enabler, chapter['value'], assignee))
             else:
                 message = 'Dear Help Desk Caretaker Admin,' +\
-                    "\n\nPlease, have a look at '{}' Enabler because it wasn't found in the Enablers book."\
-                        .format(enabler) +\
+                    "\n\nPlease, have a look at '{}' Enabler " \
+                    "because it wasn't found in the Enablers book.".format(enabler) +\
                     '\n\nThanks in advance for cooperation!!' +\
                     '\n\nKind Regards,' +\
                     '\nFernando'
@@ -187,8 +193,8 @@ class HelpDesk:
                 logging.info('assign issue= {} chapter={} assignee={}'.format(issue, chapter, assignee))
             else:
                 message = 'Dear Help Desk Caretaker Admin,' +\
-                    "\n\nPlease, have a look at {} Chapter because it wasn't found in the Chapters book."\
-                        .format(chapter) +\
+                    "\n\nPlease, have a look at {} Chapter " \
+                    "because it wasn't found in the Chapters book.".format(chapter) +\
                     '\n\nThanks in advance for cooperation!!' +\
                     '\n\nKind Regards,' +\
                     '\nFernando'
@@ -203,9 +209,9 @@ class HelpDesk:
         # HD enabler = issue.fields.customfield_11105
 
         # make issues visible
-        condition = lambda x: not x.fields.customfield_11103 \
-                              and not x.fields.customfield_11104 \
-                              and not x.fields.customfield_11105
+        condition = lambda x: not x.fields.customfield_11103 and not \
+            x.fields.customfield_11104 and not \
+            x.fields.customfield_11105
 
         for issue in filter(condition, requests):
             enabler_values = self.jira.editmeta(issue)['fields']['customfield_11105']['allowedValues']
@@ -288,7 +294,8 @@ class HelpDesk:
         for issue in filter(condition, issues):
             try:
                 issuetype = issuetypedict[issue.fields.issuetype.name]
-            except Exception:
+            except Exception as e:
+                logging.warning(e)
                 issuetype = 'Unknown'
 
             chkeyword = keywords[issue.fields.components[0].name]
@@ -322,7 +329,8 @@ class HelpDesk:
         for issue in filter(condition, issues):
             try:
                 issuetype = issuetypedict[issue.fields.issuetype.name]
-            except Exception:
+            except Exception as e:
+                logging.warning(e)
                 issuetype = 'Unknown'
 
             chunks = issue.fields.summary.strip().split('.')
@@ -339,7 +347,7 @@ class HelpDesk:
                 pattern = r'FIWARE\.{}\.({})\.{}\.'.format(issuetype, _channels, nodeValue)
 
                 if re.match(pattern, issue.fields.summary):
-                    summary = '.'.join(chunks[0:2]) + '.Lab.'+ '.'.join(chunks[3:])
+                    summary = '.'.join(chunks[0:2]) + '.Lab.' + '.'.join(chunks[3:])
                 else:
                     summary = re.sub(r'\[[^\]]+?\]', '', issue.fields.summary).strip()
                     summary = re.sub(r'FIWARE\.(Request|Question)\.\w+\.', '', summary)
@@ -376,7 +384,8 @@ class HelpDesk:
 
             try:
                 issuetype = issuetypedict[issue.fields.issuetype.name]
-            except Exception:
+            except Exception as e:
+                logging.warning(e)
                 issuetype = 'Unknown'
 
             chunks = issue.fields.summary.strip().split('.')
@@ -425,7 +434,7 @@ class HelpDesk:
                     summary = re.sub(r'FIWARE\.(Request|Question)\.\w+\.', '', summary)
                     summary = 'FIWARE.{}.Tech.{}.{}'.format(issuetype, chapter_value, summary)
 
-                issue.update(fields={'summary':summary, 'customfield_11104': None, 'customfield_11105': None})
+                issue.update(fields={'summary': summary, 'customfield_11104': None, 'customfield_11105': None})
 
             else:
                 pattern = r'FIWARE\.{}\.Tech\.'.format(issuetype)

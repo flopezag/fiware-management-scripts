@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'Manuel Escriche'
-
 from nicknamesBook import NickNameBook
 from emailer import Emailer
+
+__author__ = 'Manuel Escriche'
 
 
 class ContactBook:

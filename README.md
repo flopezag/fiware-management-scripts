@@ -1,4 +1,4 @@
-#<a name="top"></a>FIWARE HelpDesk and Desks reminders script
+# <a name="top"></a>FIWARE HelpDesk and Desks reminders script
 [![License badge](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 These scripts were developed in order to facilitate the diary operations of the Jira

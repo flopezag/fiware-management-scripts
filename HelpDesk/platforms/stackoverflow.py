@@ -18,5 +18,3 @@ for question in questions:
     print(q, q.tags, q.is_answered)
 
 print(len(questions))
-
-
