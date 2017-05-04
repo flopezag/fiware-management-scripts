@@ -56,6 +56,10 @@ class Emailer:
         # Log level
         self.log_level = log_level
 
+	# Blacklist
+	# TODO: unhardwire this into configuration file
+	self.blacklist = [ "john.doe@fake.com", "jane.doe@fake.com" ]
+
     def generate_oauth2string(self, username, base64_encode=True):
         """Generates an IMAP OAuth2 authentication string.
 
@@ -164,6 +168,9 @@ class Emailer:
                 self.send_msg(item['email'], item['subject'], item['body'])
 
     def send_msg(self, to, subject, intext):
+	if to in self.blacklist:
+		return
+
         msg = MIMEText(intext + self.signature)
 
         msg['From'] = self._sender
