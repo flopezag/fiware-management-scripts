@@ -35,7 +35,7 @@ __author__ = "Fernando López <fernando.lopez@fiware.org"
 def init_logging():
     """
     Initialize the script and fix the log level.
-    :return: the logging system.
+    :return: Nothing.
     """
     # Tell urlib3 to use the pyOpenSSL
     # urllib3.contrib.pyopenssl.inject_into_urllib3()
@@ -75,8 +75,8 @@ def init_logging():
 
 def get_help_desk():
     """
-    Initialize the HelpDesk and obtain the monitors lists from the pickle file
-    :return: the helpdesk
+    Initialize the HelpDesk and obtain the monitors lists from the pickle file.
+    :return: the helpdesk.
     """
     logging.info("Getting the HelpDesk monitors data")
 
@@ -96,7 +96,7 @@ def get_help_desk():
 def get_stack_monitor(help_desk):
     """
     Get the list of questions in StackOverflow and the relation of questions already monitored in the system.
-    :return: The StackOverflow data
+    :return: The StackOverflow data.
     """
     logging.info("Getting the StackOverflow data")
 
@@ -114,6 +114,13 @@ def get_stack_monitor(help_desk):
 
 
 def questions_with_no_answer(help_desk, initial_list, partition_date):
+    """
+    Get the list of questions in StackOverflow with no response.
+    :param help_desk: The list of Help Desk questions that we have in Jira.
+    :param initial_list: The complete lists of questions in StackOverflow to check.
+    :param partition_date: Date from which we check the new questions.
+    :return: Nothing
+    """
     # Firstly: Get the list of monitored and unmonitored questions with no answer
     logging.info("Obtaining list of questions with no answer")
 
@@ -139,6 +146,13 @@ def questions_with_no_answer(help_desk, initial_list, partition_date):
 
 
 def questions_with_answers(help_desk, initial_list, partition_date):
+    """
+    Get the list of questions with a answer but not reflected in Jira.
+    :param help_desk: The list of Help Desk questions that we have in Jira.
+    :param initial_list: The complete lists of questions in StackOverflow to check.
+    :param partition_date: Date from which we check the new questions.
+    :return: The list of questions that need to be monitored.
+    """
     # Secondly: Get the list of questions answered to check if they are monitored
     logging.info("Obtaining list of questions answers")
 
@@ -164,6 +178,13 @@ def questions_with_answers(help_desk, initial_list, partition_date):
 
 
 def get_answers(sof_questions, help_desk, list_questions):
+    """
+
+    :param sof_questions:
+    :param help_desk:
+    :param list_questions:
+    :return:
+    """
     logging.info("Getting the final list of StackOverflow questions")
 
     try:

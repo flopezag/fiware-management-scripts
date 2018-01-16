@@ -93,3 +93,6 @@ ENV/
 
 # Stored pikled files
 HelpDesk/store/*.pkl
+
+# Certificate file
+HelpDesk/Basics/*.crt
