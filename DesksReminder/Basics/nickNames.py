@@ -35,6 +35,7 @@ class ContactBook:
             print("have a look at {} nickname because it wasn't found in the contact book."
                   .format(name))
 
+
 if __name__ == "__main__":
     tests = ContactBook()
     tests.check_name('Radosław Adamkiewicz')

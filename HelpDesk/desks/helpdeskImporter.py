@@ -1,5 +1,5 @@
 import logging
-from Basics.settings import JIRA_USER, JIRA_PASSWORD
+from Basics.settings import JIRA_USER, JIRA_PASSWORD, CERTIFICATE
 from datetime import datetime
 from jira import JIRA
 from platforms.questions import SOF
@@ -12,7 +12,8 @@ class HelpDeskImporter:
         self.base_url = 'https://{}'.format(domain)
         self.user = JIRA_USER
         self.password = JIRA_PASSWORD
-        options = {'server': self.base_url, 'verify': False}
+        verify_certificate = CERTIFICATE
+        options = {'server': self.base_url, 'verify': verify_certificate}
         self.jira = JIRA(options=options, basic_auth=(self.user, self.password))
         self.monitors = None
         self.n_transitions = 0

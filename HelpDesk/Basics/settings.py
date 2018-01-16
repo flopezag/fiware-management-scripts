@@ -16,7 +16,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 ##
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import os.path
 
 __author__ = 'fla'
@@ -94,7 +94,7 @@ else:
     msg = '\nERROR: There is not defined HELPDESK_REMINDER_SETTINGS_FILE environment variable ' \
           '\n       pointing to configuration file or there is no helpdeskreminder.ini file' \
           '\n       in the /etd/init.d directory.' \
-          '\n\n       Please correct at least one of them to execute the program.'
+          '\n\n       Please correct at least one of them to execute the program.\n\n\n'
     exit(msg)
 
 # Settings file is inside Basics directory, therefore I have to go back to the parent directory
@@ -102,3 +102,14 @@ else:
 CODEHOME = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOGHOME = os.path.join(CODEHOME, 'logs')
 STOREHOME = os.path.join(CODEHOME, 'store')
+
+CERTIFICATE = os.path.join(os.path.join(CODEHOME, 'Basics'), 'jira_fiware_org.crt')
+
+if not os.path.exists(CERTIFICATE):
+    msg = '\nERROR: There is not Certificate to access to the Jira server. ' \
+          '\n       It will produce warnings in the execution of the Jira requests.' \
+          '\n\n       Please correct it if you do not want to see these messages.\n\n\n'
+
+    print(msg)
+
+    CERTIFICATE = False

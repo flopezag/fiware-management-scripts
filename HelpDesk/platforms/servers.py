@@ -5,6 +5,7 @@ from math import ceil
 from datetime import datetime
 import time
 import os
+import re
 import requests
 from platforms.questions import ASK, SOF
 from Basics.settings import STOREHOME
@@ -28,7 +29,7 @@ class QAPlatform(object):
         n_matches = 0
         for question in self.questions:
             for monitor in monitors:
-                if monitor.fields.customfield_11000 == question.url:
+                if self.__comp_urls(monitor.fields.customfield_11000, question.url):
                     question.monitor = monitor
                     n_matches += 1
                     break
@@ -45,6 +46,27 @@ class QAPlatform(object):
             timestamp, questions = pickle.load(f)
         logging.info('loaded questions from file: {}'.format(self.filename))
         return timestamp, questions
+
+    def __comp_urls(self, url1, url2):
+        """
+        Compare two urls discarding the protocol
+        :param url1: The first url to compare
+        :param url2: The second url to compare
+        :return: True if the url1 is equal to url2, discarding the protocol, False otherwise
+        """
+        match1 = re.match(r'http[s]?(.*)', url1, re.M | re.I)
+        match2 = re.match(r'http[s]?(.*)', url2, re.M | re.I)
+
+        result = False
+
+        if match1 and match2:
+            result = match1.group(1) == match2.group(1)
+        else:
+            logging.error("No match with the 2 urls!!!!!")
+            logging.error("url1: {}".format(url1))
+            logging.error("url2: {}".format(url2))
+
+        return result
 
 
 class AskBot(QAPlatform):
@@ -112,9 +134,17 @@ class StackExchange(QAPlatform):
                 params['page'] = page
                 indata = requests.get(url, params=params)
                 indata = json.loads(indata.text)
-                has_more = indata['has_more'] if 'has_more' in indata else False
-                data.extend(indata['items'])
+
+                # Check if we have some error in the call to stackoverflow
+                if 'error_id' in indata:
+                    logging.error('Error in the request to StackOverflow: {}'.format(indata['error_message']))
+                    has_more = False
+                else:
+                    has_more = indata['has_more'] if 'has_more' in indata else False
+                    data.extend(indata['items'])
+
                 page += 1
+
             iteration += 1
 
         for question in questions:
