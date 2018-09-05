@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'Manuel Escriche'
+__author__ = 'Fernando López'
 
 NickNameBook = {
     'Aitor Magán': 'Aitor',
@@ -9,6 +9,7 @@ NickNameBook = {
     'Alex Glikson': 'Alex',
     'Alvaro Alonso': 'Alvaro',
     'Álvaro Arranz': 'Álvaro',
+    'Andres Muñoz': 'Andrés',
     'Angeles Tejado': 'Ángeles',
     'Angelo Giuliana': 'Angelo',
     'Antonio Fuentes Bermejo': 'Antonio',
@@ -35,8 +36,10 @@ NickNameBook = {
     'David Pose': 'David',
     'Davide Dalle Carbonare': 'Davide',
     'Davide Zerbetto': 'Davide',
+    'Dmitrii Demin': 'Dmitrii',
     'Eran Rom': 'Eran',
     'Ezra Silvera': 'Ezra',
+    'Fabiana Fournier': 'Fabiana',
     'Fabio Luciano Mondin': 'Fabio',
     'Federico Cimorelli': 'Federico',
     'Federico Michele Facca': 'Federico',
@@ -58,6 +61,7 @@ NickNameBook = {
     'Henar Muñoz': 'Henar',
     'ilknur chulani': 'Ilknur',
     'Jaime Martin Losa': 'Jaime',
+    'Jason Fox': 'Jason',
     'Javier Díaz': 'Javier',
     'Javier Soriano': 'Javier',
     'Javier Lucio': 'Javier',
@@ -86,6 +90,7 @@ NickNameBook = {
     'Luis López Fernández': 'Luis',
     'Manuel Escriche': 'Manuel',
     'Marco Terrinoni': 'Marco',
+    'Martial Granger': 'Martial',
     'Malena Donato Cohen': 'Malena',
     'MARTEL': 'MARTEL Team',
     'Mauro Pecetti': 'Mauro',
@@ -127,8 +132,10 @@ NickNameBook = {
     'Thomas Michael Bohnert': 'Thomas',
     'Trento Node Team': "Trento's Team",
     'Torsten Spieldenner': 'Torsten',
+    'Ulrich Ahle': 'Ulrich',
     'Uri Shani': 'Uri',
     'Veronika Vlnkova': 'Veronika',
+    'Verus Plotho': 'Verus Plotho',
     'Vicenza Node Support': "Vicenza's Team",
     'Volos Node Helpdesk': 'Volos Team',
     'Yosef Moatti': 'Yosef',
