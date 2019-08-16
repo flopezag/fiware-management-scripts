@@ -1,7 +1,7 @@
 import logging
 from jira.client import JIRA
 from .ServerDataFinder import find_deliveryboard, find_all_trackers, find_nodesk_trackers
-from settings import JIRA_USER, JIRA_PASSWORD
+from DesksReminder.Basics.settings import JIRA_USER, JIRA_PASSWORD
 
 __author__ = 'Manuel Escriche'
 
@@ -13,7 +13,8 @@ class Data:
 
     def getUrgentDeskOnDeadline(self):
         try:
-            trackers = find_all_trackers()
+            # trackers = find_all_trackers()
+            trackers = 'HELP,FLUA'  # The rest of trackers will not be analysed since end of FI-Next project
         except Exception:
             logging.exception('Not able to find all trackers in web server')
             raise Exception
@@ -23,7 +24,8 @@ class Data:
 
     def getUrgentDeskUpcoming(self):
         try:
-            trackers = find_all_trackers()
+            # trackers = find_all_trackers()
+            trackers = 'HELP,FLUA'  # The rest of trackers will not be analysed since end of FI-Next project
         except Exception:
             logging.exception('Not able to find all trackers in web server')
             raise Exception
@@ -33,7 +35,8 @@ class Data:
 
     def getUrgentDeskImpeded(self):
         try:
-            trackers = find_nodesk_trackers()
+            # trackers = find_all_trackers()
+            trackers = 'HELP,FLUA' # The rest of trackers will not be analysed since end of FI-Next project
         except Exception:
             logging.exception('Not able to find no-desk trackers in web server')
             raise Exception
@@ -43,7 +46,8 @@ class Data:
 
     def getUrgentDeskOverdue(self):
         try:
-            trackers = find_all_trackers()
+            # trackers = find_all_trackers()
+            trackers = 'HELP,FLUA' # The rest of trackers will not be analysed since end of FI-Next project
         except Exception:
             logging.info('Not able to find all trackers in web server')
             trackers = 'COR,APP,CLD,DATA,MIND,IOT,SEC,WEB,OPS,ACA,CAT,MRK,LAB,' \
@@ -154,6 +158,7 @@ class Data:
     def getAccountsDeskRejected(self):
         query = 'project = FLUA AND issuetype = UpgradeAccount AND status = Rejected AND assignee is not EMPTY'
         return sorted(self._jira.search_issues(query, maxResults=False), key=lambda item: item.key)
+
 
 if __name__ == "__main__":
     pass

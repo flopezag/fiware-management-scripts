@@ -19,20 +19,21 @@
 import smtplib
 import logging
 import base64
-import urllib
+from urllib.request import urlopen, Request
+from urllib.parse import urlencode
 import json
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-from settings import ACCESS_TOKEN, REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET, SENDER
-from constants import SIGNATURE, GOOGLE_ACCOUNTS_BASE_URL
+from DesksReminder.Basics.settings import ACCESS_TOKEN, REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET, SENDER
+from DesksReminder.Basics.constants import SIGNATURE, GOOGLE_ACCOUNTS_BASE_URL
 from logging import INFO, DEBUG
 
 __author__ = 'fla'
 
 
 class Emailer:
-    def __init__(self, log_level=INFO):
+    def __init__(self, loglevel=INFO):
         self._sender = SENDER
 
         # My OAuth2 access token
@@ -54,7 +55,7 @@ class Emailer:
         self.signature = SIGNATURE
 
         # Log level
-        self.log_level = log_level
+        self.log_level = loglevel
 
     def generate_oauth2string(self, username, base64_encode=True):
         """Generates an IMAP OAuth2 authentication string.
@@ -71,7 +72,7 @@ class Emailer:
         auth_string = 'user=%s\1auth=Bearer %s\1\1' % (username, self.access_token)
 
         if base64_encode:
-            auth_string = base64.b64encode(auth_string)
+            auth_string = base64.b64encode(auth_string.encode())
 
         return auth_string
 
@@ -95,16 +96,21 @@ class Emailer:
             The decoded response from the Google Accounts server, as a dict. Expected
             fields include 'access_token', 'expires_in', and 'refresh_token'.
         """
-        params = dict()
-        params['client_id'] = self.client_id
-        params['client_secret'] = self.client_secret
-        params['refresh_token'] = self.refresh_token
-        params['grant_type'] = 'refresh_token'
+        data = dict()
+        data['client_id'] = self.client_id
+        data['client_secret'] = self.client_secret
+        data['refresh_token'] = self.refresh_token
+        data['grant_type'] = 'refresh_token'
         request_url = self.accounts_url('o/oauth2/token')
 
-        response = urllib.urlopen(request_url, urllib.urlencode(params)).read()
+        data = urlencode(data)
+        data = data.encode('utf-8')  # data should be bytes
+        req = Request(request_url, data)
 
-        self.access_token = json.loads(response)['access_token']
+        resp = urlopen(req)
+        respData = resp.read()
+
+        self.access_token = json.loads(respData)['access_token']
 
     def _deliver(self, msg):
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -122,7 +128,7 @@ class Emailer:
 
             logging.debug("[+] Logging Into Mail Server.")
             oauth_string = self.generate_oauth2string(username=self._sender)
-            (code, message) = server.docmd('AUTH', 'XOAUTH2 ' + oauth_string)
+            (code, message) = server.docmd('AUTH', 'XOAUTH2 ' + oauth_string.decode())
 
             if code == 334:
                 # The token is invalid an should be refresh
@@ -141,7 +147,7 @@ class Emailer:
 
                 logging.debug("[+] Logging Into Mail Server again.")
                 oauth_string = self.generate_oauth2string(username=self._sender)
-                server.docmd('AUTH', 'XOAUTH2 ' + oauth_string)
+                server.docmd('AUTH', 'XOAUTH2 ' + oauth_string.decode())
 
             logging.debug("[+] Sending Mail.")
             server.sendmail(self._sender, msg['To'], msg.as_string())
@@ -215,6 +221,7 @@ class Emailer:
 
         if deliver:
             self._deliver(msg)
+
 
 if __name__ == "__main__":
     pass

@@ -1,8 +1,8 @@
 __author__ = 'Manuel Escriche'
 
 from datetime import date, datetime
-from Basics.dataFinder import Data
-from Basics.nickNames import ContactBook
+from DesksReminder.Basics.dataFinder import Data
+from DesksReminder.Basics.nickNames import ContactBook
 
 
 class AccountsDesk:
@@ -37,6 +37,7 @@ class AccountsDesk:
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
+
             messages.append(dict(issue=issue, summary=summary.encode('utf-8'),
                                  email=emailAddress, nickname=nickName.encode('utf-8'), displayname=displayName,
                                  subject=subject, body=message))
@@ -70,6 +71,7 @@ class AccountsDesk:
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
+
             messages.append(dict(issue=issue, summary=summary.encode('utf-8'),
                                  email=emailAddress, nickname=nickName.encode('utf-8'), displayname=displayName,
                                  subject=subject, body=message))
@@ -103,6 +105,7 @@ class AccountsDesk:
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
+
             messages.append(dict(issue=issue, summary=summary.encode('utf-8'),
                                  email=emailAddress, nickname=nickName.encode('utf-8'), displayname=displayName,
                                  subject=subject, body=message))
@@ -136,6 +139,7 @@ class AccountsDesk:
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
+
             messages.append(dict(issue=issue, summary=summary.encode('utf-8'),
                                  email=emailAddress, nickname=nickName.encode('utf-8'), displayname=displayName,
                                  subject=subject, body=message))
@@ -167,6 +171,7 @@ class AccountsDesk:
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
+
             messages.append(dict(issue=issue, summary=summary.encode('utf-8'),
                                  email=emailAddress, nickname=nickName.encode('utf-8'), displayname=displayName,
                                  subject=subject, body=message))

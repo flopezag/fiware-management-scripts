@@ -1,2 +1,0 @@
-jira==1.0.3
-configparser==3.5.0

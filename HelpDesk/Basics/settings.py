@@ -78,6 +78,7 @@ if Config.sections():
 
     JIRA_USER = jira_section['user']
     JIRA_PASSWORD = jira_section['password']
+    JIRA_VERIFY = jira_section['verify']
 
     # Data from stackoverflow section
     stackoverflow_section = config_section_map("stackoverflow")

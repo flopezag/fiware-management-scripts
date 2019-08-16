@@ -24,8 +24,8 @@ import json
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-from settings import ACCESS_TOKEN, REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET, SENDER
-from constants import SIGNATURE, GOOGLE_ACCOUNTS_BASE_URL
+from HelpDesk.Basics.settings import ACCESS_TOKEN, REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET, SENDER
+from HelpDesk.Basics.constants import SIGNATURE, GOOGLE_ACCOUNTS_BASE_URL
 from logging import INFO, DEBUG
 
 __author__ = 'fla'

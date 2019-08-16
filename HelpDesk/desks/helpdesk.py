@@ -1,10 +1,10 @@
 import logging
 import re
-from itertools import ifilterfalse
+from itertools import filterfalse
 from jira import JIRA
 from .resourcesBooks import find_enablersbook, find_nodesbook, find_chaptersbook
-from Basics.emailer import Emailer
-from Basics.settings import JIRA_USER, JIRA_PASSWORD
+from HelpDesk.Basics.emailer import Emailer
+from HelpDesk.Basics.settings import JIRA_USER, JIRA_PASSWORD
 from logging import INFO, DEBUG
 
 __author__ = 'Manuel Escriche'
@@ -287,7 +287,7 @@ class HelpDesk:
                 logging.info('update issue:{} {}'.format(issue, summary))
 
         # name othen channels than TECH and LAB
-        _channels = '|'.join(ifilterfalse(lambda x: x in ('Tech', 'Lab'), keywords.values()))
+        _channels = '|'.join(filterfalse(lambda x: x in ('Tech', 'Lab'), keywords.values()))
 
         logging.info('====== other channels than Tech and Lab =======')
         condition = lambda x: x.fields.components[0].name in noTechChannels

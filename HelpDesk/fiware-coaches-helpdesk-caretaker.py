@@ -5,8 +5,8 @@ import argparse
 
 import os
 # from settings import settings
-from Basics.settings import LOGHOME
-from desks.coaches import CoachesHelpDesk
+from HelpDesk.Basics.settings import LOGHOME
+from HelpDesk.desks.coaches import CoachesHelpDesk
 
 __author__ = 'Manuel Escriche'
 

@@ -21,7 +21,7 @@ __author__ = 'fla'
 
 __version__ = '1.3.0'
 
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import os.path
 
 
@@ -88,9 +88,10 @@ if Config.sections():
 
 else:
     msg = '\nERROR: There is not defined DESKSREMINDER_SETTINGS_FILE environment variable ' \
-          '\n       pointing to configuration file or there is no desksreminder.ini file' \
-          '\n       in the /etd/init.d directory.' \
-          '\n\n       Please correct at least one of them to execute the program.'
+            '\n       pointing to configuration file or there is no desksreminder.ini file' \
+            '\n       in the /etd/init.d directory.' \
+            '\n\n       Please correct at least one of them to execute the program.'
+
     exit(msg)
 
 # Settings file is inside Basics directory, therefore I have to go back to the parent directory

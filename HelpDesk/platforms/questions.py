@@ -66,5 +66,6 @@ class SOF(Question):
     def qid(self):
         return self._id
 
+
 if __name__ == "__main__":
     pass

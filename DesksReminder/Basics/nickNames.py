@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from nicknamesBook import NickNameBook
-from emailer import Emailer
+from DesksReminder.Basics.nicknamesBook import NickNameBook
+from DesksReminder.Basics.emailer import Emailer
 
 __author__ = 'Manuel Escriche'
 

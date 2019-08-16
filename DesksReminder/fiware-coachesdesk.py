@@ -3,10 +3,10 @@ import os
 import logging
 import argparse
 from logging import DEBUG
-from Basics.emailer import Emailer
-from Desks.coaches_desk import CoachesHelpDesk
-from Basics.itemsReport import getTextMessagesReport
-from Basics.settings import LOGHOME
+from DesksReminder.Basics.emailer import Emailer
+from DesksReminder.Desks.coaches_desk import CoachesHelpDesk
+from DesksReminder.Basics.itemsReport import getTextMessagesReport
+from DesksReminder.Basics.settings import LOGHOME
 
 __author__ = 'Manuel Escriche'
 

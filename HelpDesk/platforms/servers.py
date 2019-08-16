@@ -7,9 +7,9 @@ import time
 import os
 import re
 import requests
-from platforms.questions import ASK, SOF
-from Basics.settings import STOREHOME
-from Basics.settings import API_KEY_STACKOVERFLOW
+from HelpDesk.platforms.questions import ASK, SOF
+from HelpDesk.Basics.settings import STOREHOME
+from HelpDesk.Basics.settings import API_KEY_STACKOVERFLOW
 
 __author__ = 'Manuel Escriche'
 

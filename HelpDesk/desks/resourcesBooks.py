@@ -1,5 +1,5 @@
 import requests
-from Basics.settings import API_KEY_BACKLOG, API_USER_BACKLOG, URL_BACKLOG
+from HelpDesk.Basics.settings import API_KEY_BACKLOG, API_USER_BACKLOG, URL_BACKLOG
 
 __author__ = 'Manuel Escriche'
 

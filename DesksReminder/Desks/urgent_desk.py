@@ -1,6 +1,6 @@
 from datetime import date, datetime
-from Basics.dataFinder import Data
-from Basics.nickNames import ContactBook
+from DesksReminder.Basics.dataFinder import Data
+from DesksReminder.Basics.nickNames import ContactBook
 
 __author__ = 'Manuel Escriche'
 

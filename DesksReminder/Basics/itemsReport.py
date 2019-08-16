@@ -4,7 +4,7 @@ __author__ = 'Manuel Escriche'
 def getTextMessagesReport(messages):
     if len(messages):
         result = ''.join(
-            map(lambda x: '\n\t* {}, {}, {}'.format(x['issue'].key, x['displayname'].encode('utf-8'), x['summary']),
+            map(lambda x: '\n\t\t* {}, {}, {}'.format(x['issue'].key, x['displayname'].encode('utf-8'), x['summary']),
                 messages))
     else:
         result = '>>>> No issues found to be reminded of.'
