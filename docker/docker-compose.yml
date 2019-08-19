@@ -1,0 +1,12 @@
+# use image if you have a dedicated build step:
+#   docker build --rm --build-arg BRANCH=develop -t docker-jira-mgmt .
+# image: docker-jira-mgmt
+# use build path to Dockerfile if docker-compose should build the image
+version: '3.7'
+services:
+  docker-jira-mgmt:
+    image: docker-jira-mgmt:latest
+    labels:
+      - docker-jira-mgmt
+    volumes:
+      - ./management.ini:/home/management/fiware-management-scripts/Config/management.ini

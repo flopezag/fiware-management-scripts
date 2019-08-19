@@ -96,3 +96,6 @@ HelpDesk/store/*.pkl
 
 # Certificate file
 HelpDesk/Basics/*.crt
+
+# Configuration files in docker folder
+./docker/management.ini
