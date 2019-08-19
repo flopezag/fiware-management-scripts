@@ -1,5 +1,5 @@
 import logging
-from HelpDesk.Basics.settings import JIRA_USER, JIRA_PASSWORD, JIRA_VERIFY, CERTIFICATE
+from Config.settings import JIRA_USER, JIRA_PASSWORD, JIRA_VERIFY, CERTIFICATE
 from datetime import datetime
 from jira import JIRA
 from HelpDesk.platforms.questions import SOF

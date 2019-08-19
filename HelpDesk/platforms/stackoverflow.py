@@ -1,6 +1,6 @@
 import stackexchange
 from HelpDesk.platforms.questions import SOF
-from HelpDesk.Basics.settings import API_KEY_STACKOVERFLOW
+from Config.settings import API_KEY_STACKOVERFLOW
 
 __author__ = 'Manuel Escriche'
 

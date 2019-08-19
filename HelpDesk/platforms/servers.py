@@ -8,8 +8,7 @@ import os
 import re
 import requests
 from HelpDesk.platforms.questions import ASK, SOF
-from HelpDesk.Basics.settings import STOREHOME
-from HelpDesk.Basics.settings import API_KEY_STACKOVERFLOW
+from Config.settings import STOREHOME, API_KEY_STACKOVERFLOW
 
 __author__ = 'Manuel Escriche'
 

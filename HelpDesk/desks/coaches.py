@@ -2,8 +2,7 @@
 import re
 import logging
 from jira import JIRA
-# from settings import settings
-from HelpDesk.Basics.settings import JIRA_USER, JIRA_PASSWORD
+from Config.settings import JIRA_USER, JIRA_PASSWORD
 
 __author__ = 'Manuel Escriche'
 

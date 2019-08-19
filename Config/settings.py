@@ -23,22 +23,22 @@ __author__ = 'fla'
 
 __version__ = '1.3.0'
 
+
 """
 Default configuration.
 
 The configuration `cfg_defaults` are loaded from `cfg_filename`, if file exists in
-/etc/fiware.d/helpdeskreminder.ini
+/etc/fiware.d/management.ini
 
-Optionally, user can specify the file location manually using an Environment variable
-called HELPDESK_REMINDER_SETTINGS_FILE.
+Optionally, user can specify the file location manually using an Environment variable called CONFIG_FILE.
 """
 
-name = 'helpdeskreminder'
+name = 'Jira Management Scripts'
 
 cfg_dir = "/etc/fiware.d"
 
-if os.environ.get("HELPDESK_REMINDER_SETTINGS_FILE"):
-    cfg_filename = os.environ.get("HELPDESK_REMINDER_SETTINGS_FILE")
+if os.environ.get("CONFIG_FILE"):
+    cfg_filename = os.environ.get("CONFIG_FILE")
 
 else:
     cfg_filename = os.path.join(cfg_dir, '%s.ini' % name)
@@ -51,6 +51,7 @@ Config.read(cfg_filename)
 def config_section_map(section):
     dict1 = {}
     options = Config.options(section)
+
     for option in options:
         try:
             dict1[option] = Config.get(section, option)
@@ -60,13 +61,13 @@ def config_section_map(section):
             print("exception on %s!" % option)
             print(e)
             dict1[option] = None
+
     return dict1
 
 
 if Config.sections():
     # Data from oauth2 section
     oauth_section = config_section_map("oauth2")
-
     ACCESS_TOKEN = oauth_section['access_token']
     REFRESH_TOKEN = oauth_section['refresh_token']
     CLIENT_ID = oauth_section['client_id']
@@ -75,14 +76,12 @@ if Config.sections():
 
     # Data from jira section
     jira_section = config_section_map("jira")
-
     JIRA_USER = jira_section['user']
     JIRA_PASSWORD = jira_section['password']
     JIRA_VERIFY = jira_section['verify']
 
     # Data from stackoverflow section
     stackoverflow_section = config_section_map("stackoverflow")
-
     API_KEY_STACKOVERFLOW = stackoverflow_section['api_key']
 
     # Data from backlog.fiware.org section
@@ -92,19 +91,20 @@ if Config.sections():
     URL_BACKLOG = backlog_section['url']
 
 else:
-    msg = '\nERROR: There is not defined HELPDESK_REMINDER_SETTINGS_FILE environment variable ' \
-          '\n       pointing to configuration file or there is no helpdeskreminder.ini file' \
-          '\n       in the /etd/init.d directory.' \
-          '\n\n       Please correct at least one of them to execute the program.\n\n\n'
+    msg = '\nERROR: There is not defined CONFIG_FILE environment variable ' \
+            '\n       pointing to configuration file or there is no management.ini file' \
+            '\n       in the /etd/init.d directory.' \
+            '\n\n       Please correct at least one of them to execute the program.\n\n\n'
+
     exit(msg)
 
 # Settings file is inside Basics directory, therefore I have to go back to the parent directory
 # to have the Code Home directory
 CODEHOME = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOGHOME = os.path.join(CODEHOME, 'logs')
-STOREHOME = os.path.join(CODEHOME, 'store')
+STOREHOME = os.path.join(os.path.join(CODEHOME, 'HelpDesk'), 'store')
 
-CERTIFICATE = os.path.join(os.path.join(CODEHOME, 'Basics'), 'jira_fiware_org.crt')
+CERTIFICATE = os.path.join(os.path.join(CODEHOME, 'Config'), 'jira_fiware_org.crt')
 
 if not os.path.exists(CERTIFICATE):
     msg = '\nERROR: There is not Certificate to access to the Jira server. ' \

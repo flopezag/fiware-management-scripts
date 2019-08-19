@@ -3,8 +3,8 @@ import re
 from itertools import filterfalse
 from jira import JIRA
 from .resourcesBooks import find_enablersbook, find_nodesbook, find_chaptersbook
-from HelpDesk.Basics.emailer import Emailer
-from HelpDesk.Basics.settings import JIRA_USER, JIRA_PASSWORD
+from Util.emailer import Emailer
+from Config.settings import JIRA_USER, JIRA_PASSWORD
 from logging import INFO, DEBUG
 
 __author__ = 'Manuel Escriche'
@@ -49,7 +49,7 @@ class HelpDesk:
         self.password = JIRA_PASSWORD
         options = {'server': self.base_url, 'verify': False}
         self.jira = JIRA(options=options, basic_auth=(self.user, self.password))
-        self.emailer = Emailer(log_level=DEBUG)
+        self.emailer = Emailer(loglevel=DEBUG)
         self.enablersBook = find_enablersbook()
         self.nodesBook = find_nodesbook()
         self.chaptersBook = find_chaptersbook()

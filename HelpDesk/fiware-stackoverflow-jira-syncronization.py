@@ -25,7 +25,7 @@ import random
 
 from datetime import datetime
 from HelpDesk.platforms.servers import StackExchange
-from HelpDesk.Basics.settings import LOGHOME
+from Config.settings import LOGHOME
 from HelpDesk.desks.helpdeskImporter import HelpDeskImporter
 
 

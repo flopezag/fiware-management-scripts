@@ -21,7 +21,7 @@ import logging
 import argparse
 import os
 
-from HelpDesk.Basics.settings import LOGHOME
+from Config.settings import LOGHOME
 from HelpDesk.desks.helpdeskImporter import HelpDeskImporter
 from HelpDesk.desks.helpdesk import HelpDesk
 from HelpDesk.platforms.servers import AskBot
@@ -53,7 +53,6 @@ class AskbotSync:
 
     def process(self):
         def get_status(q):
-            # pq = lambda q: q.monitor.fields.status if q.monitor else 'None'
             if q.monitor:
                 result = q.monitor.fields.status
             else:
@@ -129,10 +128,8 @@ if __name__ == "__main__":
         print('Invalid log level: {}'.format(args.log))
         exit()
 
-
     accountReminder = AskbotSync(loglevel=log_level)
     accountReminder.process()
-
 
     helpdeskCaretaker = HelpDeskCaretaker(loglevel=log_level)
     helpdeskCaretaker.process()

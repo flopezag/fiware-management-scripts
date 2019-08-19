@@ -1,7 +1,7 @@
 import logging
 from jira.client import JIRA
-from .ServerDataFinder import find_deliveryboard, find_all_trackers, find_nodesk_trackers
-from DesksReminder.Basics.settings import JIRA_USER, JIRA_PASSWORD
+from DesksReminder.Basics.ServerDataFinder import find_deliveryboard, find_all_trackers, find_nodesk_trackers
+from Config.settings import JIRA_USER, JIRA_PASSWORD
 
 __author__ = 'Manuel Escriche'
 

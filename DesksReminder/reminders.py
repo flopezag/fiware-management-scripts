@@ -19,10 +19,10 @@
 import os
 import logging
 import argparse
-from DesksReminder.Basics.emailer import Emailer
+from Util.emailer import Emailer
 from DesksReminder.Desks.help_desk import TechHelpDesk, LabHelpDesk, OthersHelpDesk
 from DesksReminder.Basics.itemsReport import getTextMessagesReport
-from DesksReminder.Basics.settings import LOGHOME
+from Config.settings import LOGHOME
 from DesksReminder.Desks.urgent_desk import UrgentDesk
 from DesksReminder.Desks.accounts_desk import AccountsDesk
 
@@ -234,7 +234,7 @@ class AccountsDeskReminder:
         if os.path.exists(LOGHOME) is False:
             os.mkdir(LOGHOME)
 
-        filename = os.path.join(LOGHOME, 'urgentdesk.log')
+        filename = os.path.join(LOGHOME, 'accounts.log')
         logging.basicConfig(filename=filename,
                             format='%(asctime)s|%(levelname)s:%(message)s',
                             datefmt='%Y-%m-%d %H:%M:%S',
@@ -295,6 +295,9 @@ class AccountsDeskReminder:
 
         self.mailer.send_adm_msg(subject='Report for Accounts Desk', intext=message, deliver=self.deliver)
 
+        log = logging.getLogger()
+        log.handlers.clear()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog='Main Help Desk - Channel Reminders', description='')
@@ -311,7 +314,6 @@ if __name__ == "__main__":
 
     mailer = Emailer(loglevel=log_level)
 
-    '''
     techReminder = HelpDeskTechReminder(loglevel=log_level, mailer=mailer)
     techReminder.process()
 
@@ -327,3 +329,4 @@ if __name__ == "__main__":
 
     accountReminder = AccountsDeskReminder(loglevel=log_level, mailer=mailer)
     accountReminder.process()
+    '''
