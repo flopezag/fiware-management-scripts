@@ -180,7 +180,21 @@ class StackOverflowSync:
     def get_questions(self):
         return len(self.stack.questions)
 
-    def close_log_file(self):
+    def process(self, year, month, day):
+        self.get_stack_monitor()
+
+        dividing_day = datetime(year=year, month=month, day=day)
+
+        self.questions_with_no_answer(partition_date=dividing_day)
+        self.questions_with_answers(partition_date=dividing_day)
+
+        self.get_answers()
+
+        logging.info('helpdesk: # issues created = {}'.format(self.get_number_issues_created()))
+        logging.info('helpdesk: # issues transitions = {}'.format(self.get_number_transitions()))
+        logging.info('helpdesk: # issues assignments = {}'.format(self.get_number_assignments()))
+        logging.info('stackoverflow questions= {}'.format(self.get_questions()))
+
         log = logging.getLogger()
         log.handlers.clear()
 
@@ -207,20 +221,4 @@ if __name__ == "__main__":
         exit()
 
     stackoverflowSync = StackOverflowSync()
-
-    stackoverflowSync.get_stack_monitor()
-
-    dividing_day = datetime(year=2015, month=9, day=21)
-
-    stackoverflowSync.questions_with_no_answer(partition_date=dividing_day)
-    stackoverflowSync.questions_with_answers(partition_date=dividing_day)
-
-    stackoverflowSync.get_answers()
-
-    logging.info('helpdesk: # issues created = {}'.format(stackoverflowSync.get_number_issues_created()))
-    logging.info('helpdesk: # issues transitions = {}'.format(stackoverflowSync.get_number_transitions()))
-    logging.info('helpdesk: # issues assignments = {}'.format(stackoverflowSync.get_number_assignments()))
-    logging.info('stackoverflow questions= {}'.format(stackoverflowSync.get_questions()))
-
-    stackoverflowSync.close_log_file()
-
+    stackoverflowSync.process(year=2015, month=9, day=21)

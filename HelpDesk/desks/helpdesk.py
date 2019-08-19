@@ -3,7 +3,7 @@ import re
 from itertools import filterfalse
 from jira import JIRA
 from .resourcesBooks import find_enablersbook, find_nodesbook, find_chaptersbook
-from Util.emailer import Emailer
+from Common.emailer import Emailer
 from Config.settings import JIRA_USER, JIRA_PASSWORD
 from logging import INFO, DEBUG
 

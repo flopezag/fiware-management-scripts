@@ -3,7 +3,7 @@ import os
 import logging
 import argparse
 from logging import DEBUG
-from Util.emailer import Emailer
+from Common.emailer import Emailer
 from DesksReminder.Desks.delivery_board import DeliveryBoard
 from DesksReminder.Basics.itemsReport import getTextMessagesReport
 from Config.settings import LOGHOME

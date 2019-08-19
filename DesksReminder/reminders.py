@@ -19,7 +19,7 @@
 import os
 import logging
 import argparse
-from Util.emailer import Emailer
+from Common.emailer import Emailer
 from DesksReminder.Desks.help_desk import TechHelpDesk, LabHelpDesk, OthersHelpDesk
 from DesksReminder.Basics.itemsReport import getTextMessagesReport
 from Config.settings import LOGHOME

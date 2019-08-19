@@ -1,12 +1,15 @@
-import os
 import logging
 import argparse
-from Util.emailer import Emailer
+from Common.emailer import Emailer
+from DesksReminder.reminders import HelpDeskTechReminder, HelpDeskLabReminder, HelpDeskOtherReminder, UrgentDeskReminder, AccountsDeskReminder
+from HelpDesk.synchronization import AskbotSync, HelpDeskCaretaker
+from HelpDesk.stackoverflowsync import StackOverflowSync
 
 __author__ = 'Fernando López'
+__version__ = "1.3.0"
 
 
-def init(¡):
+def init():
     parser = argparse.ArgumentParser(prog='Jira Management Scripts', description='')
     parser.add_argument('-l', '--log',
                         default='INFO',
@@ -15,63 +18,7 @@ def init(¡):
     args = parser.parse_args()
     loglevel = getattr(logging, args.log.upper(), None)
 
-    if not isinstance(log_level, int):
-        print('Invalid log level: {}'.format(args.log))
-        exit()
-
-    return loglevel
-
-
-if __name__ == "__main__":
-    loglevel = init()
-
-    mailer = Emailer(loglevel=loglevel)
-
-    techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
-    techReminder.process()
-
-    labReminder = HelpDeskLabReminder(loglevel=loglevel, mailer=mailer)
-    labReminder.process()
-
-    otherReminder = HelpDeskOtherReminder(loglevel=loglevel, mailer=mailer)
-    otherReminder.process()
-
-    urgentReminder = UrgentDeskReminder(loglevel=loglevel, mailer=mailer)
-    urgentReminder.process()
-    '''
-
-    accountReminder = AccountsDeskReminder(loglevel=log_level, mailer=mailer)
-    accountReminder.process()
-    '''
-
-    parser = argparse.ArgumentParser(prog='Askbot', description='Synchronising scripts')
-    parser.add_argument('-l', '--log',
-                        default='INFO',
-                        help='The logging level to be used.')
-
-    args = parser.parse_args()
-    log_level = getattr(logging, args.log.upper(), None)
-
-    if not isinstance(log_level, int):
-        print('Invalid log level: {}'.format(args.log))
-        exit()
-
-    accountReminder = AskbotSync(loglevel=log_level)
-    accountReminder.process()
-
-    helpdeskCaretaker = HelpDeskCaretaker(loglevel=log_level)
-    helpdeskCaretaker.process()
-
-
-    parser = argparse.ArgumentParser(prog='StackOverflow', description='StackOverflow synchronising script')
-    parser.add_argument('-l', '--log',
-                        default='INFO',
-                        help='The logging level to be used.')
-
-    args = parser.parse_args()
-
-    log_level = getattr(logging, args.log.upper(), None)
-    if not isinstance(log_level, int):
+    if not isinstance(loglevel, int):
         print('Invalid log level: {}'.format(args.log))
         print('Please use one of the following values:')
         print('   * CRITICAL')
@@ -82,20 +29,37 @@ if __name__ == "__main__":
         print('   * NOTSET')
         exit()
 
-    stackoverflowSync = StackOverflowSync()
+    return loglevel
 
-    stackoverflowSync.get_stack_monitor()
 
-    dividing_day = datetime(year=2015, month=9, day=21)
+if __name__ == "__main__":
+    loglevel = init()
 
-    stackoverflowSync.questions_with_no_answer(partition_date=dividing_day)
-    stackoverflowSync.questions_with_answers(partition_date=dividing_day)
+    mailer = Emailer(loglevel=loglevel)
 
-    stackoverflowSync.get_answers()
+    # Send reminder of pending JIRA tickets
+    #techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
+    #techReminder.process()
 
-    logging.info('helpdesk: # issues created = {}'.format(stackoverflowSync.get_number_issues_created()))
-    logging.info('helpdesk: # issues transitions = {}'.format(stackoverflowSync.get_number_transitions()))
-    logging.info('helpdesk: # issues assignments = {}'.format(stackoverflowSync.get_number_assignments()))
-    logging.info('stackoverflow questions= {}'.format(stackoverflowSync.get_questions()))
+    #labReminder = HelpDeskLabReminder(loglevel=loglevel, mailer=mailer)
+    #labReminder.process()
 
-    stackoverflowSync.close_log_file()
+    #otherReminder = HelpDeskOtherReminder(loglevel=loglevel, mailer=mailer)
+    #otherReminder.process()
+
+    #urgentReminder = UrgentDeskReminder(loglevel=loglevel, mailer=mailer)
+    #urgentReminder.process()
+
+    accountReminder = AccountsDeskReminder(loglevel=loglevel, mailer=mailer)
+    accountReminder.process()
+
+    # Askbot synchronization and Jira caretaker actions
+    #accountReminder = AskbotSync(loglevel=loglevel)
+    #accountReminder.process()
+
+    #helpdeskCaretaker = HelpDeskCaretaker(loglevel=loglevel)
+    #helpdeskCaretaker.process()
+
+    # StackoverFlow synchronization
+    #stackoverflowSync = StackOverflowSync()
+    #stackoverflowSync.process(year=2015, month=9, day=21)
