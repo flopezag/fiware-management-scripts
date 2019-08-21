@@ -1,4 +1,4 @@
-import requests
+from requests import get
 from Config.settings import API_KEY_BACKLOG, API_USER_BACKLOG, URL_BACKLOG
 
 __author__ = 'Manuel Escriche'
@@ -9,7 +9,7 @@ auth = API_USER_BACKLOG, API_KEY_BACKLOG
 
 def find_deliveryboard():
     url = '{}'.format(domain) + '/api/deliveryboard/pending'
-    answer = requests.get(url, auth=auth)
+    answer = get(url, auth=auth)
 
     if not answer.ok:
         raise Exception
@@ -19,7 +19,7 @@ def find_deliveryboard():
 
 def find_all_trackers():
     url = '{}'.format(domain) + '/api/trackersbook/all'
-    answer = requests.get(url, auth=auth)
+    answer = get(url, auth=auth)
 
     if not answer.ok:
         raise Exception
@@ -29,7 +29,7 @@ def find_all_trackers():
 
 def find_nodesk_trackers():
     url = '{}'.format(domain) + '/api/trackersbook/nodesk'
-    answer = requests.get(url, auth=auth)
+    answer = get(url, auth=auth)
 
     if not answer.ok:
         raise Exception

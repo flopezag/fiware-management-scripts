@@ -1,8 +1,9 @@
 #!/usr/bin/env <PATH_DESKSREMINDER>/env/bin/python
-import os
-import logging
-import argparse
-from logging import DEBUG
+from os.path import join, exists
+from os import mkdir
+from logging import _nameToLevel as nameToLevel
+from logging import basicConfig, DEBUG, info
+from argparse import ArgumentParser
 from Common.emailer import Emailer
 from DesksReminder.Desks.delivery_board import DeliveryBoard
 from DesksReminder.Basics.itemsReport import getTextMessagesReport
@@ -10,25 +11,35 @@ from Config.settings import LOGHOME
 
 __author__ = 'Manuel Escriche'
 
-parser = argparse.ArgumentParser(prog='Delivery Board Reminders', description='')
+parser = ArgumentParser(prog='Delivery Board Reminders', description='')
+
 parser.add_argument('-l', '--log',
                     default='INFO',
                     help='The logging level to be used.')
 
 args = parser.parse_args()
-numeric_level = getattr(logging, args.log.upper(), None)
-if not isinstance(numeric_level, int):
+
+try:
+    loglevel = nameToLevel[args.log.upper()]
+except Exception as e:
     print('Invalid log level: {}'.format(args.log))
+    print('Please use one of the following values:')
+    print('   * CRITICAL')
+    print('   * ERROR')
+    print('   * WARNING')
+    print('   * INFO')
+    print('   * DEBUG')
+    print('   * NOTSET')
     exit()
 
-if os.path.exists(LOGHOME) is False:
-    os.mkdir(LOGHOME)
+if exists(LOGHOME) is False:
+    mkdir(LOGHOME)
 
-filename = os.path.join(LOGHOME, 'delivery-board.log')
-logging.basicConfig(filename=filename,
+filename = join(LOGHOME, 'delivery-board.log')
+basicConfig(filename=filename,
                     format='%(asctime)s|%(levelname)s:%(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
-                    level=numeric_level)
+                    level=loglevel)
 
 deliver = True
 
@@ -38,7 +49,7 @@ emailer = Emailer(loglevel=DEBUG)
 
 messages = desk.upcoming()
 emailer.send(messages, deliver=deliver)
-logging.info('Delivery Board: Upcoming {} reminders sent'.format(len(messages)))
+info('Delivery Board: Upcoming {} reminders sent'.format(len(messages)))
 items = getTextMessagesReport(messages)
 
 

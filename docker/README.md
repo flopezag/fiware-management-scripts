@@ -26,13 +26,14 @@
 
 # What is JIRA Management Script Server?
 
-This README will guide you through running Jira Management Script Server with Docker Containers.
-
-[Couchbase Server](http://www.couchbase.com/nosql-databases/couchbase-server) is a NoSQL document database with a distributed architecture for performance, scalability, and availability. It enables developers to build applications easier and faster by leveraging the power of SQL with the flexibility of JSON.
+This README will guide you through running Jira Management Script Server with Docker Containers. This script was 
+developed in order to facilitate the diary operations of the Jira and the synchronization with different tools. The 
+Purpose is to check if there are issues open and send reminder to the owners in order to resolve them and synchronize 
+Jira issues with the data from Askbot and StackOverFlow.
 
 # QuickStart with JIRA Management Script Server and Docker
 
-Here is how to get a single node Couchbase Server cluster running on Docker containers:
+Here is how to get a JIRA Management Script Server running on Docker containers:
 
 **Step - 1 :** Make a copy of the example [configuration file](https://github.com/flopezag/fiware-management-scripts/blob/develop/Config/management.ini) and complete the information. Keep in mind that the docker compose use this local file to mount a volume in order to proper configure the server.
 
@@ -45,7 +46,7 @@ Here is how to get a single node Couchbase Server cluster running on Docker cont
 In order to create the corresponding docker image, you can execute the command:
 
 ```console
-docker build --rm --build-arg -t docker-jira-mgmt .
+docker build --rm -t docker-jira-mgmt .
 ```
 
 It will create the corresponding image based on the last version of master. Nevertheless if you want to create a image

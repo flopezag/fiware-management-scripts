@@ -1,8 +1,9 @@
 #!/usr/bin/env <PATH_DESKSREMINDER>/env/bin/python
-import os
-import logging
-import argparse
-from logging import DEBUG
+from os.path import exists, join
+from os import mkdir
+from argparse import ArgumentParser
+from logging import DEBUG, info, basicConfig
+from logging import _nameToLevel as nameToLevel
 from Common.emailer import Emailer
 from DesksReminder.Desks.coaches_desk import CoachesHelpDesk
 from DesksReminder.Basics.itemsReport import getTextMessagesReport
@@ -10,24 +11,34 @@ from Config.settings import LOGHOME
 
 __author__ = 'Manuel Escriche'
 
-parser = argparse.ArgumentParser(prog='Coaches Desk Reminders', description='')
+parser = ArgumentParser(prog='Coaches Desk Reminders', description='')
 parser.add_argument('-l', '--log',
                     default='INFO',
                     help='The logging level to be used.')
+
 args = parser.parse_args()
-numeric_level = getattr(logging, args.log.upper(), None)
-if not isinstance(numeric_level, int):
+
+try:
+    loglevel = nameToLevel[args.log.upper()]
+except Exception as e:
     print('Invalid log level: {}'.format(args.log))
+    print('Please use one of the following values:')
+    print('   * CRITICAL')
+    print('   * ERROR')
+    print('   * WARNING')
+    print('   * INFO')
+    print('   * DEBUG')
+    print('   * NOTSET')
     exit()
 
-if os.path.exists(LOGHOME) is False:
-    os.mkdir(LOGHOME)
+if exists(LOGHOME) is False:
+    mkdir(LOGHOME)
 
-filename = os.path.join(LOGHOME, 'coaches-helpdesk.log')
-logging.basicConfig(filename=filename,
-                    format='%(asctime)s|%(levelname)s:%(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S',
-                    level=numeric_level)
+filename = join(LOGHOME, 'coaches-helpdesk.log')
+basicConfig(filename=filename,
+            format='%(asctime)s|%(levelname)s:%(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S',
+            level=loglevel)
 
 
 desk = CoachesHelpDesk()
@@ -37,22 +48,22 @@ deliver = True
 
 messages = desk.open()
 emailer.send(messages, deliver=deliver)
-logging.info('Coaches Help desk: Open {} reminders sent'.format(len(messages)))
+info('Coaches Help desk: Open {} reminders sent'.format(len(messages)))
 items0 = getTextMessagesReport(messages)
 
 messages = desk.inProgress()
 emailer.send(messages, deliver=deliver)
-logging.info('Coaches Help desk: In Progress {} reminders sent'.format(len(messages)))
+info('Coaches Help desk: In Progress {} reminders sent'.format(len(messages)))
 items1 = getTextMessagesReport(messages)
 
 messages = desk.answered()
 emailer.send(messages, deliver=deliver)
-logging.info('Coaches Help desk: Answered {} reminders sent'.format(len(messages)))
+info('Coaches Help desk: Answered {} reminders sent'.format(len(messages)))
 items2 = getTextMessagesReport(messages)
 
 messages = desk.impeded()
 emailer.send(messages, deliver=deliver)
-logging.info('Coaches Help desk: Impeded {} reminders sent'.format(len(messages)))
+info('Coaches Help desk: Impeded {} reminders sent'.format(len(messages)))
 items3 = getTextMessagesReport(messages)
 
 

@@ -17,7 +17,8 @@
 # under the License.
 ##
 from configparser import ConfigParser
-import os.path
+from os.path import join, exists, dirname, abspath
+from os import environ
 
 __author__ = 'fla'
 
@@ -37,11 +38,11 @@ name = 'Jira Management Scripts'
 
 cfg_dir = "/etc/fiware.d"
 
-if os.environ.get("CONFIG_FILE"):
-    cfg_filename = os.environ.get("CONFIG_FILE")
+if environ.get("CONFIG_FILE"):
+    cfg_filename = environ.get("CONFIG_FILE")
 
 else:
-    cfg_filename = os.path.join(cfg_dir, '%s.ini' % name)
+    cfg_filename = join(cfg_dir, '%s.ini' % name)
 
 Config = ConfigParser()
 
@@ -100,13 +101,13 @@ else:
 
 # Settings file is inside Basics directory, therefore I have to go back to the parent directory
 # to have the Code Home directory
-CODEHOME = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LOGHOME = os.path.join(CODEHOME, 'logs')
-STOREHOME = os.path.join(os.path.join(CODEHOME, 'HelpDesk'), 'store')
+CODEHOME = dirname(dirname(abspath(__file__)))
+LOGHOME = join(CODEHOME, 'logs')
+STOREHOME = join(join(CODEHOME, 'HelpDesk'), 'store')
 
-CERTIFICATE = os.path.join(os.path.join(CODEHOME, 'Config'), 'jira_fiware_org.crt')
+CERTIFICATE = join(join(CODEHOME, 'Config'), 'jira_fiware_org.crt')
 
-if not os.path.exists(CERTIFICATE):
+if not exists(CERTIFICATE):
     msg = '\nERROR: There is not Certificate to access to the Jira server. ' \
           '\n       It will produce warnings in the execution of the Jira requests.' \
           '\n\n       Please correct it if you do not want to see these messages.\n\n\n'

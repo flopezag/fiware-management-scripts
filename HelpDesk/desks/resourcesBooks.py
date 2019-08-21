@@ -1,6 +1,5 @@
-import requests
 from Config.settings import API_KEY_BACKLOG, API_USER_BACKLOG, URL_BACKLOG
-
+from requests import get
 __author__ = 'Manuel Escriche'
 
 domain = URL_BACKLOG
@@ -9,7 +8,7 @@ auth = API_USER_BACKLOG, API_KEY_BACKLOG
 
 def find_enablersbook():
     url = '{}'.format(domain) + '/api/enablersbook'
-    answer = requests.get(url, auth=auth)
+    answer = get(url, auth=auth)
 
     if not answer.ok:
         raise Exception
@@ -19,7 +18,7 @@ def find_enablersbook():
 
 def find_nodesbook():
     url = '{}'.format(domain) + '/api/nodesbook'
-    answer = requests.get(url, auth=auth)
+    answer = get(url, auth=auth)
 
     if not answer.ok:
         raise Exception
@@ -29,7 +28,7 @@ def find_nodesbook():
 
 def find_chaptersbook():
     url = '{}'.format(domain) + '/api/chaptersbook'
-    answer = requests.get(url, auth=auth)
+    answer = get(url, auth=auth)
 
     if not answer.ok:
         raise Exception

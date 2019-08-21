@@ -1,47 +1,57 @@
 #!/usr/bin/env <PATH_HELPDESK>/env/bin/python
-import sys
-import logging
-import argparse
-
-import os
-# from settings import settings
 from Config.settings import LOGHOME
 from HelpDesk.desks.coaches import CoachesHelpDesk
+from logging import error, exception, info, basicConfig
+from logging import _nameToLevel as nameToLevel
+from argparse import ArgumentParser
+from sys import exc_info
+from os.path import exists, join
+from os import mkdir
 
 __author__ = 'Manuel Escriche'
 
-parser = argparse.ArgumentParser(prog='Coaches Help Desk caretaker', description='Coaches updating script')
+parser = ArgumentParser(prog='Coaches Help Desk caretaker', description='Coaches updating script')
 parser.add_argument('-l', '--log',
                     default='INFO',
                     help='The logging level to be used.')
 
 args = parser.parse_args()
-log_level = getattr(logging, args.log.upper(), None)
-if not isinstance(log_level, int):
+loglevel = None
+
+try:
+    loglevel = nameToLevel[args.log.upper()]
+except Exception as e:
     print('Invalid log level: {}'.format(args.log))
+    print('Please use one of the following values:')
+    print('   * CRITICAL')
+    print('   * ERROR')
+    print('   * WARNING')
+    print('   * INFO')
+    print('   * DEBUG')
+    print('   * NOTSET')
     exit()
 
-if os.path.exists(LOGHOME) is False:
-    os.mkdir(LOGHOME)
+if exists(LOGHOME) is False:
+    mkdir(LOGHOME)
 
-filename = os.path.join(LOGHOME, 'coaches.log')
-logging.basicConfig(filename=filename,
-                    format='%(asctime)s|%(levelname)s:%(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S',
-                    level=log_level)
+filename = join(LOGHOME, 'coaches.log')
+basicConfig(filename=filename,
+            format='%(asctime)s|%(levelname)s:%(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S',
+            level=loglevel)
 
 
 try:
     coaches = CoachesHelpDesk()
+
+    coaches.assign_request()
+    coaches.clone_to_main()
+    coaches.naming()
+
+    info('coaches helpdesk: # issues updated = {}'.format(coaches.n_assignment))
+    info('coaches helpdesk: # cloned issues = {}'.format(coaches.n_clones))
+    info('coaches helpdesk: # renamed issues = {}'.format(coaches.n_renamed))
 except Exception as e:
-    logging.error(e)
-    logging.exception("Unexpected error: {}".format(sys.exc_info()[0]))
+    error(e)
+    exception("Unexpected error: {}".format(exc_info()[0]))
     exit()
-
-coaches.assign_request()
-coaches.clone_to_main()
-coaches.naming()
-
-logging.info('coaches helpdesk: # issues updated = {}'.format(coaches.n_assignment))
-logging.info('coaches helpdesk: # cloned issues = {}'.format(coaches.n_clones))
-logging.info('coaches helpdesk: # renamed issues = {}'.format(coaches.n_renamed))

@@ -1,6 +1,5 @@
-
-import re
-import logging
+from re import search, sub, match
+from logging import info
 from jira import JIRA
 from Config.settings import JIRA_USER, JIRA_PASSWORD
 
@@ -43,12 +42,12 @@ class CoachesHelpDesk:
         requests = sorted(self.jira.search_issues(query, maxResults=False), key=lambda item: item.key)
         for request in requests:
             summary = request.fields.summary
-            if re.search(r'\[SPAM\]', summary):
+            if search(r'\[SPAM\]', summary):
                 request.update(fields={'components': [{'name': 'SPAM'}]})
                 continue
-            match = re.search(r'\[[^\]]+?\]', summary)
-            if match:
-                accelerator = match.group(0)[1:-1]
+            matching = search(r'\[[^\]]+?\]', summary)
+            if matching:
+                accelerator = matching.group(0)[1:-1]
                 if accelerator in accelerators_dict:
                     components = {'name': accelerators_dict[accelerator]}
                     # request.update(fields={'components':[components]}, assignee={'name': '-1'})
@@ -58,7 +57,7 @@ class CoachesHelpDesk:
                         self.jira.assign_issue(request, '-1')
 
                     self.n_assignment += 1
-                    logging.info('updated request {}, accelerator= {}'.format(request, accelerator))
+                    info('updated request {}, accelerator= {}'.format(request, accelerator))
 
     def clone_to_main(self):
         self._clone_tech()
@@ -89,7 +88,7 @@ class CoachesHelpDesk:
             request.update(fields={'components': components})
 
             # self.jira.add_watcher(new_issue, request.fields.assignee.name)
-            logging.info('CREATED TECH ISSUE: {} from {}'.format(new_issue, request))
+            info('CREATED TECH ISSUE: {} from {}'.format(new_issue, request))
             self.n_clones += 1
 
     def _clone_lab(self):
@@ -116,7 +115,7 @@ class CoachesHelpDesk:
             components = [{'name': comp.name} for comp in request.fields.components if comp.name != '_LAB_']
             request.update(fields={'components': components})
 
-            logging.info('CREATED LAB ISSUE: {} from {}'.format(new_issue, request))
+            info('CREATED LAB ISSUE: {} from {}'.format(new_issue, request))
             self.n_clones += 1
 
     def naming(self):
@@ -126,11 +125,11 @@ class CoachesHelpDesk:
             component = request.fields.components[0].name
             summary = request.fields.summary
 
-            if re.match(r'FIWARE.Request.Coach.{}'.format(component), summary):
+            if match(r'FIWARE.Request.Coach.{}'.format(component), summary):
                 continue
 
-            summary = re.sub(r'\[[^\]]+?\]', '', summary)
+            summary = sub(r'\[[^\]]+?\]', '', summary)
             summary = 'FIWARE.Request.Coach.{}.{}'.format(component, summary.strip())
             request.update(summary=summary)
-            logging.info('{} {} {} {}'.format(request, request.fields.status, component, summary))
+            info('{} {} {} {}'.format(request, request.fields.status, component, summary))
             self.n_renamed += 1

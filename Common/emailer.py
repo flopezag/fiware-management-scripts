@@ -16,12 +16,12 @@
 # under the License.
 ##
 
-import smtplib
-import logging
-import base64
+from smtplib import SMTP
+from logging import info, debug, exception
+from base64 import b64encode
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode
-import json
+from json import loads
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
@@ -72,7 +72,7 @@ class Emailer:
         auth_string = 'user=%s\1auth=Bearer %s\1\1' % (username, self.access_token)
 
         if base64_encode:
-            auth_string = base64.b64encode(auth_string.encode())
+            auth_string = b64encode(auth_string.encode())
 
         return auth_string
 
@@ -108,63 +108,69 @@ class Emailer:
         req = Request(request_url, data)
 
         resp = urlopen(req)
-        respData = resp.read()
+        respdata = resp.read()
 
-        self.access_token = json.loads(respData)['access_token']
+        self.access_token = loads(respdata)['access_token']
 
     def _deliver(self, msg):
-        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server = SMTP('smtp.gmail.com', 587)
         try:
-            logging.info("[+] Connecting To Mail Server.")
+            info("[+] Connecting To Mail Server.")
 
             if self.log_level == DEBUG:
-                server.set_debuglevel(True)
+                server.set_debuglevel(2)
+            else:
+                server.set_debuglevel(0)
 
             server.ehlo()
 
-            logging.debug("[+] Starting Encrypted Session.")
+            debug("[+] Starting Encrypted Session.")
             server.ehlo()
             server.starttls()
 
-            logging.debug("[+] Logging Into Mail Server.")
+            debug("[+] Logging Into Mail Server.")
             oauth_string = self.generate_oauth2string(username=self._sender)
             (code, message) = server.docmd('AUTH', 'XOAUTH2 ' + oauth_string.decode())
 
             if code == 334:
                 # The token is invalid an should be refresh
-                logging.debug("[+] oAuth2 access token expired, refreshing it.")
+                debug("[+] oAuth2 access token expired, refreshing it.")
                 self.refresh_old_token()
 
                 server.close()
-                server = smtplib.SMTP('smtp.gmail.com', 587)
+                server = SMTP('smtp.gmail.com', 587)
 
-                server.set_debuglevel(True)
+                if self.log_level == DEBUG:
+                    server.set_debuglevel(2)
+                else:
+                    server.set_debuglevel(0)
+
                 server.ehlo()
 
-                logging.debug("[+] Starting Encrypted Session.")
+                debug("[+] Starting Encrypted Session.")
                 server.ehlo()
                 server.starttls()
 
-                logging.debug("[+] Logging Into Mail Server again.")
+                debug("[+] Logging Into Mail Server again.")
                 oauth_string = self.generate_oauth2string(username=self._sender)
                 server.docmd('AUTH', 'XOAUTH2 ' + oauth_string.decode())
 
-            logging.debug("[+] Sending Mail.")
+            debug("[+] Sending Mail.")
             server.sendmail(self._sender, msg['To'], msg.as_string())
 
             server.close()
-            logging.info("[+] Mail Sent Successfully.")
+            info("[+] Mail Sent Successfully to {}.".format(msg['To']))
 
         except Exception as e:
-            logging.exception(e)
-            logging.exception("[-] Sending Mail Failed.")
+            exception(e)
+            exception("[-] Sending Mail Failed.")
 
     def send(self, messages, deliver=False):
         for n, item in enumerate(messages):
-            logging.info('#{}, Key:{}, To:{}, Summary:{}'
-                         .format(n, item['issue'].key, item['displayname'].encode('utf-8'), item['summary']))
+            info('#{}, Key:{}, To:{}, Summary:{}'
+                 .format(n, item['issue'].key, item['displayname'].encode('utf-8'), item['summary']))
 
-            logging.debug('{} \n {}'.format(item['subject'], item['body']))
+            debug('{} \n {}'.format(item['subject'], item['body']))
 
             if deliver:
                 self.send_msg(item['email'], item['subject'], item['body'])

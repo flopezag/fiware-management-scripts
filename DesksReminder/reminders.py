@@ -16,21 +16,23 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 ##
-import os
-import logging
-import argparse
+from logging import info
+from logging import _nameToLevel as nameToLevel
+from argparse import ArgumentParser
 from Common.emailer import Emailer
 from DesksReminder.Desks.help_desk import TechHelpDesk, LabHelpDesk, OthersHelpDesk
 from DesksReminder.Basics.itemsReport import getTextMessagesReport
-from Config.settings import LOGHOME
 from DesksReminder.Desks.urgent_desk import UrgentDesk
 from DesksReminder.Desks.accounts_desk import AccountsDesk
+from Common.logging_conf import LoggingConf
 
 __author__ = 'Fernando López'
 
 
-class HelpDeskReminder:
-    def __init__(self, logginglevel, channel, mailer=None, deliver=True):
+class HelpDeskReminder(LoggingConf):
+    def __init__(self, logginglevel, channel, mailer=None, deliver=True, log_file='log_file'):
+        super(HelpDeskReminder, self).__init__(loglevel=logginglevel, log_file=log_file)
+
         if mailer is None:
             self.mailer = Emailer(loglevel=logginglevel)
         else:
@@ -50,22 +52,22 @@ class HelpDeskReminder:
     def process(self):
         messages = self.channel.open()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('Help desk - Tech channel: Open {} reminders sent'.format(len(messages)))
+        info('Help desk - Tech channel: Open {} reminders sent'.format(len(messages)))
         items0 = getTextMessagesReport(messages)
 
         messages = self.channel.inProgress()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('Help desk - Tech channel: In Progress {} reminders sent'.format(len(messages)))
+        info('Help desk - Tech channel: In Progress {} reminders sent'.format(len(messages)))
         items1 = getTextMessagesReport(messages)
 
         messages = self.channel.answered()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('Help desk - Tech channel: Answered {} reminders sent'.format(len(messages)))
+        info('Help desk - Tech channel: Answered {} reminders sent'.format(len(messages)))
         items2 = getTextMessagesReport(messages)
 
         messages = self.channel.impeded()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('Help desk - Tech channel: Impeded {} reminders sent'.format(len(messages)))
+        info('Help desk - Tech channel: Impeded {} reminders sent'.format(len(messages)))
         items3 = getTextMessagesReport(messages)
 
         message = """
@@ -97,66 +99,41 @@ class HelpDeskReminder:
 
 class HelpDeskTechReminder(HelpDeskReminder):
     def __init__(self, loglevel, mailer=None):
-        super(HelpDeskTechReminder, self).__init__(logginglevel=loglevel, channel=TechHelpDesk(), mailer=mailer)
-
-        if os.path.exists(LOGHOME) is False:
-            os.mkdir(LOGHOME)
-
-        filename = os.path.join(LOGHOME, 'helpdesk-tech.log')
-        logging.basicConfig(filename=filename,
-                            format='%(asctime)s|%(levelname)s:%(message)s',
-                            datefmt='%Y-%m-%d %H:%M:%S',
-                            level=loglevel)
+        super(HelpDeskTechReminder, self).\
+            __init__(logginglevel=loglevel, channel=TechHelpDesk(), mailer=mailer, log_file='helpdesk-tech.log')
 
     def process(self, deliver=True):
         super(HelpDeskTechReminder, self).process()
 
-        log = logging.getLogger()
-        log.handlers.clear()
+        self.close()
 
 
 class HelpDeskLabReminder(HelpDeskReminder):
     def __init__(self, loglevel, mailer=None):
-        super(HelpDeskLabReminder, self).__init__(logginglevel=loglevel, channel=LabHelpDesk(), mailer=mailer)
-
-        if os.path.exists(LOGHOME) is False:
-            os.mkdir(LOGHOME)
-
-        filename = os.path.join(LOGHOME, 'helpdesk-lab.log')
-        logging.basicConfig(filename=filename,
-                            format='%(asctime)s|%(levelname)s:%(message)s',
-                            datefmt='%Y-%m-%d %H:%M:%S',
-                            level=loglevel)
+        super(HelpDeskLabReminder, self).\
+            __init__(logginglevel=loglevel, channel=LabHelpDesk(), mailer=mailer, log_file='helpdesk-lab.log')
 
     def process(self, deliver=True):
         super(HelpDeskLabReminder, self).process()
 
-        log = logging.getLogger()
-        log.handlers.clear()
+        self.close()
 
 
 class HelpDeskOtherReminder(HelpDeskReminder):
     def __init__(self, loglevel, mailer=None):
-        super(HelpDeskOtherReminder, self).__init__(logginglevel=loglevel, channel=OthersHelpDesk(), mailer=mailer)
-
-        if os.path.exists(LOGHOME) is False:
-            os.mkdir(LOGHOME)
-
-        filename = os.path.join(LOGHOME, 'helpdesk-other.log')
-        logging.basicConfig(filename=filename,
-                            format='%(asctime)s|%(levelname)s:%(message)s',
-                            datefmt='%Y-%m-%d %H:%M:%S',
-                            level=loglevel)
+        super(HelpDeskOtherReminder, self).\
+            __init__(logginglevel=loglevel, channel=OthersHelpDesk(), mailer=mailer, log_file='helpdesk-other.log')
 
     def process(self, deliver=True):
         super(HelpDeskOtherReminder, self).process()
 
-        log = logging.getLogger()
-        log.handlers.clear()
+        self.close()
 
 
-class UrgentDeskReminder:
+class UrgentDeskReminder(LoggingConf):
     def __init__(self, loglevel, mailer=None, deliver=True):
+        super(UrgentDeskReminder, self).__init__(loglevel=loglevel, log_file='urgentdesk.log')
+
         if mailer is None:
             self.mailer = Emailer(loglevel=loglevel)
         else:
@@ -165,34 +142,25 @@ class UrgentDeskReminder:
         self.desk = UrgentDesk()
         self.deliver = deliver
 
-        if os.path.exists(LOGHOME) is False:
-            os.mkdir(LOGHOME)
-
-        filename = os.path.join(LOGHOME, 'urgentdesk.log')
-        logging.basicConfig(filename=filename,
-                            format='%(asctime)s|%(levelname)s:%(message)s',
-                            datefmt='%Y-%m-%d %H:%M:%S',
-                            level=loglevel)
-
     def process(self):
         messages = self.desk.onDeadline()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('urgent desk: on deadline {} reminders sent'.format(len(messages)))
+        info('urgent desk: on deadline {} reminders sent'.format(len(messages)))
         items0 = getTextMessagesReport(messages)
 
         messages = self.desk.upcoming()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('urgent desk: upcoming {} reminders sent'.format(len(messages)))
+        info('urgent desk: upcoming {} reminders sent'.format(len(messages)))
         items1 = getTextMessagesReport(messages)
 
         messages = self.desk.impeded()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('urgent desk: impeded {} reminders sent'.format(len(messages)))
+        info('urgent desk: impeded {} reminders sent'.format(len(messages)))
         items2 = getTextMessagesReport(messages)
 
         messages = self.desk.overdue()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('urgent desk: overdue {} reminders sent'.format(len(messages)))
+        info('urgent desk: overdue {} reminders sent'.format(len(messages)))
         items3 = getTextMessagesReport(messages)
 
         message = """
@@ -217,12 +185,13 @@ class UrgentDeskReminder:
 
         self.mailer.send_adm_msg(subject='Report for Urgent Desk - Upcoming', intext=message, deliver=self.deliver)
 
-        log = logging.getLogger()
-        log.handlers.clear()
+        self.close()
 
 
-class AccountsDeskReminder:
+class AccountsDeskReminder(LoggingConf):
     def __init__(self, loglevel, mailer=None, deliver=True):
+        super(AccountsDeskReminder, self).__init__(loglevel=loglevel, log_file='accounts.log')
+
         if mailer is None:
             self.mailer = Emailer(loglevel=loglevel)
         else:
@@ -231,39 +200,30 @@ class AccountsDeskReminder:
         self.desk = AccountsDesk()
         self.deliver = deliver
 
-        if os.path.exists(LOGHOME) is False:
-            os.mkdir(LOGHOME)
-
-        filename = os.path.join(LOGHOME, 'accounts.log')
-        logging.basicConfig(filename=filename,
-                            format='%(asctime)s|%(levelname)s:%(message)s',
-                            datefmt='%Y-%m-%d %H:%M:%S',
-                            level=loglevel)
-
     def process(self):
         messages = self.desk.open()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('Accounts desk: Open {} reminders sent'.format(len(messages)))
+        info('Accounts desk: Open {} reminders sent'.format(len(messages)))
         items0 = getTextMessagesReport(messages)
 
         messages = self.desk.inProgress()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('Accounts desk: In Progress {} reminders sent'.format(len(messages)))
+        info('Accounts desk: In Progress {} reminders sent'.format(len(messages)))
         items1 = getTextMessagesReport(messages)
 
         messages = self.desk.scheduled()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('Accounts desk: Scheduled {} reminders sent'.format(len(messages)))
+        info('Accounts desk: Scheduled {} reminders sent'.format(len(messages)))
         items2 = getTextMessagesReport(messages)
 
         messages = self.desk.answered()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('Accounts desk: Answered {} reminders sent'.format(len(messages)))
+        info('Accounts desk: Answered {} reminders sent'.format(len(messages)))
         items3 = getTextMessagesReport(messages)
 
         messages = self.desk.rejected()
         #self.mailer.send(messages, deliver=self.deliver)
-        logging.info('Accounts desk: Rejected {} reminders sent'.format(len(messages)))
+        info('Accounts desk: Rejected {} reminders sent'.format(len(messages)))
         items4 = getTextMessagesReport(messages)
 
         message = """
@@ -295,25 +255,34 @@ class AccountsDeskReminder:
 
         self.mailer.send_adm_msg(subject='Report for Accounts Desk', intext=message, deliver=self.deliver)
 
-        log = logging.getLogger()
-        log.handlers.clear()
+        self.close()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(prog='Main Help Desk - Channel Reminders', description='')
+    parser = ArgumentParser(prog='Main Help Desk - Channel Reminders', description='')
     parser.add_argument('-l', '--log',
                         default='INFO',
                         help='The logging level to be used.')
 
     args = parser.parse_args()
-    log_level = getattr(logging, args.log.upper(), None)
+    loglevel = None
 
-    if not isinstance(log_level, int):
+    try:
+        loglevel = nameToLevel[args.log.upper()]
+    except Exception as e:
         print('Invalid log level: {}'.format(args.log))
+        print('Please use one of the following values:')
+        print('   * CRITICAL')
+        print('   * ERROR')
+        print('   * WARNING')
+        print('   * INFO')
+        print('   * DEBUG')
+        print('   * NOTSET')
         exit()
 
-    mailer = Emailer(loglevel=log_level)
+    mailer = Emailer(loglevel=loglevel)
 
+    '''
     techReminder = HelpDeskTechReminder(loglevel=log_level, mailer=mailer)
     techReminder.process()
 
@@ -327,6 +296,5 @@ if __name__ == "__main__":
     urgentReminder.process()
     '''
 
-    accountReminder = AccountsDeskReminder(loglevel=log_level, mailer=mailer)
+    accountReminder = AccountsDeskReminder(loglevel=loglevel, mailer=mailer)
     accountReminder.process()
-    '''

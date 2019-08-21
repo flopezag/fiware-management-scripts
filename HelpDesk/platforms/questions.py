@@ -1,7 +1,6 @@
-import datetime
-import re
-import logging
-# import pprint
+from logging import debug
+from datetime import datetime
+from re import sub
 
 __author__ = 'Manuel Escriche'
 
@@ -28,15 +27,15 @@ class ASK(Question):
         super(self.__class__, self).__init__(**kwargs)
         self.id = 'ASK-{}'.format(kwargs['id'])
         self.summary = kwargs['title']
-        self.description = re.sub(r'<[^<]+?>', '', kwargs['summary'])
+        self.description = sub(r'<[^<]+?>', '', kwargs['summary'])
         self.author = kwargs['author']
         self.url = kwargs['url']
 
         self.is_answered = True if kwargs['accepted_answer_id'] is not None else False
 
         # print(self.id, kwargs['accepted_answer_id'] , self.is_answered, self.url)
-        self.added_at = datetime.datetime.fromtimestamp(int(kwargs['added_at']))
-        self.last_activity_at = datetime.datetime.fromtimestamp(int(kwargs['last_activity_at']))
+        self.added_at = datetime.fromtimestamp(int(kwargs['added_at']))
+        self.last_activity_at = datetime.fromtimestamp(int(kwargs['last_activity_at']))
 
 
 class SOF(Question):
@@ -46,9 +45,9 @@ class SOF(Question):
         super(self.__class__, self).__init__(**kwargs)
         self._id = str(kwargs['question_id'])
         self.id = 'SOF-{}'.format(kwargs['question_id'])
-        logging.debug('key = {}'.format(self.id))
+        debug('key = {}'.format(self.id))
         self.summary = kwargs['title']
-        self.description = re.sub(r'<[^<]+?>', '', kwargs['body'])
+        self.description = sub(r'<[^<]+?>', '', kwargs['body'])
         self.author = kwargs['owner']
         self.url = kwargs['link']
         self.is_answered = kwargs['is_answered']
@@ -56,11 +55,11 @@ class SOF(Question):
         self.accepted_answer_id = str(kwargs['accepted_answer_id']) if 'accepted_answer_id' in kwargs else None
 
         self.answer_date = \
-            datetime.datetime.fromtimestamp(int(kwargs['last_edit_date'])) if 'last_edit_date' in kwargs else None
+            datetime.fromtimestamp(int(kwargs['last_edit_date'])) if 'last_edit_date' in kwargs else None
 
         # print(self, 'accepted_answer_id =', self.accepted_answer_id)
-        self.added_at = datetime.datetime.fromtimestamp(int(kwargs['creation_date']))
-        self.last_activity_at = datetime.datetime.fromtimestamp(int(kwargs['last_activity_date']))
+        self.added_at = datetime.fromtimestamp(int(kwargs['creation_date']))
+        self.last_activity_at = datetime.fromtimestamp(int(kwargs['last_activity_date']))
 
     @property
     def qid(self):

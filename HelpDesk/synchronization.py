@@ -16,37 +16,29 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 ##
-import sys
-import logging
-import argparse
-import os
-
-from Config.settings import LOGHOME
 from HelpDesk.desks.helpdeskImporter import HelpDeskImporter
 from HelpDesk.desks.helpdesk import HelpDesk
 from HelpDesk.platforms.servers import AskBot
+from logging import error, exception, info, debug
+from logging import _nameToLevel as nameToLevel
+from argparse import ArgumentParser
+from sys import exc_info
+from Common.logging_conf import LoggingConf
 
 __author__ = 'Fernando López'
 
 
-class AskbotSync:
+class AskbotSync(LoggingConf):
     def __init__(self, loglevel):
-        if os.path.exists(LOGHOME) is False:
-            os.mkdir(LOGHOME)
-
-        filename = os.path.join(LOGHOME, 'askbot.log')
-        logging.basicConfig(filename=filename,
-                            format='%(asctime)s|%(levelname)s:%(message)s',
-                            datefmt='%Y-%m-%d %H:%M:%S',
-                            level=loglevel)
+        super(AskbotSync, self).__init__(loglevel=loglevel, log_file='askbot.log')
 
         try:
             self.helpdesk = HelpDeskImporter()
             self.helpdesk.get_monitors()
         except Exception as e:
-            logging.error(e)
-            logging.error('No connection to JIRA https://jira.fiware.org')
-            logging.error("Unexpected error: {}".format(sys.exc_info()[0]))
+            error(e)
+            error('No connection to JIRA https://jira.fiware.org')
+            error("Unexpected error: {}".format(exc_info()[0]))
             exit()
 
         self.askbot = AskBot()
@@ -63,41 +55,33 @@ class AskbotSync:
         try:
             self.askbot.get_questions()
         except Exception as e:
-            logging.error(e)
-            logging.error('Failed to get questions from server')
+            error(e)
+            error('Failed to get questions from server')
         finally:
             self.askbot.match(self.helpdesk.monitors)
 
         for question in self.askbot.questions:
-            logging.debug('{}, monitor={}, monitor status={}, question url={}'
-                          .format(question, question.monitor, get_status(q=question), question.url))
+            debug('{}, monitor={}, monitor status={}, question url={}'
+                  .format(question, question.monitor, get_status(q=question), question.url))
 
         self.helpdesk.update_with(self.askbot.questions)
 
-        logging.info('helpdesk: # issues created = {}'.format(self.helpdesk.n_monitors))
-        logging.info('helpdesk: # issues transitions = {}'.format(self.helpdesk.n_transitions))
-        logging.info('askbot questions = {}'.format(len(self.askbot.questions)))
+        info('helpdesk: # issues created = {}'.format(self.helpdesk.n_monitors))
+        info('helpdesk: # issues transitions = {}'.format(self.helpdesk.n_transitions))
+        info('askbot questions = {}'.format(len(self.askbot.questions)))
 
-        log = logging.getLogger()
-        log.handlers.clear()
+        self.close()
 
 
-class HelpDeskCaretaker:
+class HelpDeskCaretaker(LoggingConf):
     def __init__(self, loglevel):
-        if os.path.exists(LOGHOME) is False:
-            os.mkdir(LOGHOME)
-
-        filename = os.path.join(LOGHOME, 'mainhelpdesk.log')
-        logging.basicConfig(filename=filename,
-                            format='%(asctime)s|%(levelname)s:%(message)s',
-                            datefmt='%Y-%m-%d %H:%M:%S',
-                            level=loglevel)
+        super(HelpDeskCaretaker, self).__init__(loglevel=loglevel, log_file='mainhelpdesk.log')
 
         try:
             self.helpdesk = HelpDesk()
         except Exception as e:
-            logging.error(e)
-            logging.exception("Unexpected error: {}".format(sys.exc_info()[0]))
+            error(e)
+            exception("Unexpected error: {}".format(exc_info()[0]))
             exit()
 
     def process(self):
@@ -106,30 +90,38 @@ class HelpDeskCaretaker:
         self.helpdesk.remove_spam()
         self.helpdesk.naming()
 
-        logging.info('main helpdesk: # issues assigned = {}'.format(self.helpdesk.n_assignments))
-        logging.info('main helpdesk: # issues channeled = {}'.format(self.helpdesk.n_channeled))
-        logging.info('main helpdesk: # issues deleted = {}'.format(self.helpdesk.n_removed))
-        logging.info('main helpdesk: # issues renamed = {}'.format(self.helpdesk.n_renamed))
+        info('main helpdesk: # issues assigned = {}'.format(self.helpdesk.n_assignments))
+        info('main helpdesk: # issues channeled = {}'.format(self.helpdesk.n_channeled))
+        info('main helpdesk: # issues deleted = {}'.format(self.helpdesk.n_removed))
+        info('main helpdesk: # issues renamed = {}'.format(self.helpdesk.n_renamed))
 
-        log = logging.getLogger()
-        log.handlers.clear()
+        self.close()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(prog='Askbot', description='Synchronising scripts')
+    parser = ArgumentParser(prog='Askbot', description='Synchronising scripts')
     parser.add_argument('-l', '--log',
                         default='INFO',
                         help='The logging level to be used.')
 
     args = parser.parse_args()
-    log_level = getattr(logging, args.log.upper(), None)
+    loglevel = None
 
-    if not isinstance(log_level, int):
+    try:
+        loglevel = nameToLevel[args.log.upper()]
+    except Exception as e1:
         print('Invalid log level: {}'.format(args.log))
+        print('Please use one of the following values:')
+        print('   * CRITICAL')
+        print('   * ERROR')
+        print('   * WARNING')
+        print('   * INFO')
+        print('   * DEBUG')
+        print('   * NOTSET')
         exit()
 
-    accountReminder = AskbotSync(loglevel=log_level)
-    accountReminder.process()
+    askbotSync = AskbotSync(loglevel=loglevel)
+    askbotSync.process()
 
-    helpdeskCaretaker = HelpDeskCaretaker(loglevel=log_level)
+    helpdeskCaretaker = HelpDeskCaretaker(loglevel=loglevel)
     helpdeskCaretaker.process()

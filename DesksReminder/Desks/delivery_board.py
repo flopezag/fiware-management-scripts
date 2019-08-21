@@ -1,4 +1,4 @@
-import logging
+from logging import info
 from datetime import date, datetime
 from DesksReminder.Basics.dataFinder import Data
 from DesksReminder.Basics.nickNames import ContactBook
@@ -12,38 +12,38 @@ class DeliveryBoard:
 
     def upcoming(self):
         book = Data().getDeliveryBoardPending()
-        delbook = {str(book[item]): item for item in book}
+        del_book = {str(book[item]): item for item in book}
         data = list()
         for issue in book.values():
             try:
-                duedate = datetime.strptime(issue.fields.duedate[:10], '%Y-%m-%d').date()
+                due_date = datetime.strptime(issue.fields.duedate[:10], '%Y-%m-%d').date()
                 # assignee = issue.fields.assignee
             except:
-                logging.info('issue {} has not duedate or assignee field'.format(issue))
+                info('issue {} has not duedate or assignee field'.format(issue))
                 continue
-            targetslot = (duedate - date.today()).days
+            target_slot = (due_date - date.today()).days
             status = issue.fields.status.name
 
-            if targetslot >= 10 and targetslot <= 30 and status != 'Closed':
+            if target_slot >= 10 and target_slot <= 30 and status != 'Closed':
                 data.append(issue)
 
         messages = list()
         for issue in data:
             url = 'http://jira.fiware.org/browse/{}'.format(issue)
-            duedate = datetime.strptime(issue.fields.duedate[:10], '%Y-%m-%d').date()
-            targetslot = (duedate - date.today()).days
+            due_date = datetime.strptime(issue.fields.duedate[:10], '%Y-%m-%d').date()
+            target_slot = (due_date - date.today()).days
             summary = issue.fields.summary
-            displayName = issue.fields.assignee.displayName.strip()
-            nickName = self.contactBook.getNickName(displayName)
-            emailAddress = issue.fields.assignee.emailAddress
+            display_name = issue.fields.assignee.displayName.strip()
+            nick_name = self.contactBook.getNickName(display_name)
+            email_address = issue.fields.assignee.emailAddress
 
-            deliverable = delbook[str(issue)]
+            deliverable = del_book[str(issue)]
 
             subject = 'FIWARE: Delivery Board : Coming deadline'
 
-            message = 'Dear {},'.format(nickName.encode('utf-8')) +\
+            message = 'Dear {},'.format(nick_name.encode('utf-8')) +\
                 "\n\nLet me remind you of deliverable {} associated with issue {} " \
-                "whose deadline is met in {} days.".format(deliverable, issue, targetslot) +\
+                "whose deadline is met in {} days.".format(deliverable, issue, target_slot) +\
                 "\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
                 "\n\nThe Deliverable dashboard is available at\n\thttp://backlog.fiware.org/delivery/dashboard" +\
@@ -53,7 +53,7 @@ class DeliveryBoard:
                 '\nFernando'
 
             messages.append(dict(issue=issue, summary=summary.encode('utf-8'),
-                                 email=emailAddress, nickname=nickName.encode('utf-8'), displayname=displayName,
+                                 email=email_address, nickname=nick_name.encode('utf-8'), displayname=display_name,
                                  subject=subject, body=message))
         return messages
 

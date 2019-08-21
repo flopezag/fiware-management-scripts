@@ -1,8 +1,8 @@
-import logging
 from Config.settings import JIRA_USER, JIRA_PASSWORD, JIRA_VERIFY, CERTIFICATE
 from datetime import datetime
 from jira import JIRA
 from HelpDesk.platforms.questions import SOF
+from logging import info, debug
 
 __author__ = 'Manuel Escriche'
 
@@ -78,26 +78,26 @@ class HelpDeskImporter:
             .format(stamp, question.answer_count, question.is_answered)
 
         self.jira.add_comment(question.monitor, comment)
-        logging.info('--> CREATED ISSUE: {} for question: {}'.format(question.monitor, question))
+        info('--> CREATED ISSUE: {} for question: {}'.format(question.monitor, question))
 
     def _update_monitor(self, question):
         if not question.monitor:
             return
 
         stamp = datetime.now().strftime('%Y-%m-%d %H:%M')
-        logging.debug('>>>>>> Updating no time question:{} monitor:{} q-url:{}'
-                      .format(question, question.monitor, question.url))
+        debug('>>>>>> Updating no time question:{} monitor:{} q-url:{}'
+              .format(question, question.monitor, question.url))
 
         status = question.monitor.fields.status.name
         transition = None
         if question.is_answered and status != 'Closed':
-            logging.debug('accepted_answer')
+            debug('accepted_answer')
             if status == 'Open':
                 transition = 'Answer'
             elif status in ('Answered', 'In Progress'):
                 transition = 'Finish'
         elif question.answer_count > 0 and status != 'Closed':
-            logging.debug('answer_count = {}'.format(question.answer_count))
+            debug('answer_count = {}'.format(question.answer_count))
             if status == 'Open':
                 transition = 'Answer'
             elif status == 'In Progress':
@@ -107,13 +107,13 @@ class HelpDeskImporter:
                 # awaiting = datetime.now() - question.last_activity_at
                 # transition = 'Finish' if awaiting.days >= 2 else None
         elif not question.answer_count and status == 'Closed':
-            logging.debug('>>>>> Closed issue with no answer: {}, {}, {}'
-                          .format(question, question.monitor, question.url))
+            debug('>>>>> Closed issue with no answer: {}, {}, {}'
+                  .format(question, question.monitor, question.url))
 
-        logging.debug('transition to={}'.format(transition))
+        debug('transition to={}'.format(transition))
         if transition:
             transitions = self.jira.transitions(question.monitor)
-            logging.debug('Available transitions: {}'.format([(t['id'], t['name']) for t in transitions]))
+            debug('Available transitions: {}'.format([(t['id'], t['name']) for t in transitions]))
             self.jira.transition_issue(question.monitor, transition)
 
             comment = '{}|UPDATED status: transition {}| # answers= {}, accepted answer= {}'\
@@ -121,51 +121,50 @@ class HelpDeskImporter:
 
             self.jira.add_comment(question.monitor, comment)
             self.n_transitions += 1
-            logging.info('--> UPDATE: {} {} from status={} transition={}'
+            info('--> UPDATE: {} {} from status={} transition={}'
                          .format(question, question.monitor, status, transition))
 
     def _update_monitor_with_time(self, question):
         if not question.monitor:
             return
 
-        logging.debug('>>>>>> Updating with time question:{} monitor:{} q-url:{}'
-                      .format(question, question.monitor, question.url))
+        debug('>>>>>> Updating with time question:{} monitor:{} q-url:{}'
+              .format(question, question.monitor, question.url))
 
         status = question.monitor.fields.status.name
         transition = None
         created, now = datetime.strptime(question.monitor.fields.created[:19], '%Y-%m-%dT%H:%M:%S'), datetime.now()
-        logging.debug('Status = {}, created = {}, now = {}'.format(status, created, now))
-        logging.debug('Is answered = {}, # answers = {}'.format(question.is_answered, question.answer_count))
+        debug('Status = {}, created = {}, now = {}'.format(status, created, now))
+        debug('Is answered = {}, # answers = {}'.format(question.is_answered, question.answer_count))
 
         if question.is_answered and status != 'Closed':
-            logging.debug('->accepted_answer, date= {}'.format(question.answer_date))
+            debug('->accepted_answer, date= {}'.format(question.answer_date))
             if status == 'Open':
                 transition = 'Answer'
             elif status == 'In Progress':
                 transition = 'Answered'
             elif status == 'Answered' and question.answer_date:
-                logging.debug('answer_date = {}, added_at = {}'.format(question.answer_date, question.added_at))
+                debug('answer_date = {}, added_at = {}'.format(question.answer_date, question.added_at))
                 transition = 'Finish' if now - created >= question.answer_date - question.added_at else None
         elif question.answer_count > 0 and status != 'Closed':
-            logging.debug('->answer_count = {}'.format(question.answer_count))
+            debug('->answer_count = {}'.format(question.answer_count))
             if status == 'Open':
                 transition = 'Answer'
             elif status == 'In Progress':
                 transition = 'Answered'
             elif status == 'Answered':
                 pass
-                # logging.debug('last_activity_at = {}, added_at {}'
+                # debug('last_activity_at = {}, added_at {}'
                 #                .format(question.last_activity_at, question.added_at))
                 # transition = 'Finish' if now - created >= question.last_activity_at - question.added_at  else None
         elif not question.answer_count and status == 'Closed':
-            logging.debug('>>>>> Closed issue with no answer: {}, {}, {}'
-                          .format(question, question.monitor, question.url))
+            debug('>>>>> Closed issue with no answer: {}, {}, {}'.format(question, question.monitor, question.url))
 
-        logging.debug('transition to={}'.format(transition))
+        debug('transition to={}'.format(transition))
         stamp = datetime.now().strftime('%Y-%m-%d %H:%M')
         if transition:
             transitions = self.jira.transitions(question.monitor)
-            logging.debug('Available transitions: {}'.format([(t['id'], t['name']) for t in transitions]))
+            debug('Available transitions: {}'.format([(t['id'], t['name']) for t in transitions]))
             self.jira.transition_issue(question.monitor, transition)
 
             comment = '{}|UPDATED status: transition {}| # answers= {}, accepted answer= {}'\
@@ -173,8 +172,8 @@ class HelpDeskImporter:
 
             self.jira.add_comment(question.monitor, comment)
             self.n_transitions += 1
-            logging.info('--> UPDATE: {} {} from status={} transition={}'
-                         .format(question, question.monitor, status, transition))
+            info('--> UPDATE: {} {} from status={} transition={}'
+                 .format(question, question.monitor, status, transition))
 
     def _assign_monitor(self, question):
         if isinstance(question, SOF):
@@ -188,4 +187,4 @@ class HelpDeskImporter:
 
         issue = str(question.monitor)
         question.monitor.delete()
-        logging.info('Removed {}'.format(issue))
+        info('Removed {}'.format(issue))
