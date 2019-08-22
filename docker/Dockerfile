@@ -26,7 +26,7 @@ WORKDIR /home/mgmt
 RUN git clone -b $BRANCH https://github.com/flopezag/fiware-management-scripts.git && \
     apk del git && \
     rm -f /var/cache/apk/* && \
-    chown -R mgmt:mgmt fiware-tsc-dashboard/
+    chown -R mgmt:mgmt fiware-management-scripts/
 
 # Tell docker that all future commands should run as the appuser user
 USER mgmt

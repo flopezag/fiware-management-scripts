@@ -1,7 +1,7 @@
 # <a name="top"></a>FIWARE HelpDesk and Desks reminders script
 [![License badge](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-These scripts were developed in order to facilitate the diary operations of the Jira
+This script was developed in order to facilitate the diary operations of the Jira
 and the synchronization with different tools. The Purpose is to check if there are issues
 open and send reminder to the owners in order to resolve them and synchronize Jira issues 
 with the data from Askbot and StackOverFlow.

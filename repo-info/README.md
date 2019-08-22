@@ -1,6 +1,6 @@
 # `fiware-management-scripts` repo-info
 
-This directory contains additional information about the published artifacts of [the `fiware-management-scripts` official image](https://hub.docker.com/r/flopez/...).
+This directory contains additional information about the published artifacts of [the `fiware-management-scripts` official image](https://cloud.docker.com/repository/registry-1.docker.io/flopez/fiware-management-scripts).
 
 -	[the `remote` directory](remote/):
 
