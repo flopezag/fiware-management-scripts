@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from DesksReminder.Basics.dataFinder import Data
 from DesksReminder.Basics.nickNames import ContactBook
+from Config.settings import JIRA_URL
 
 __author__ = 'Manuel Escriche'
 
@@ -24,7 +25,7 @@ class TechHelpDesk:
             email_address = issue.fields.assignee.emailAddress
 
             # status = issue.fields.status.name
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - Tech Channel : Open Issue'
 
             message = 'Dear {},'.format(nickname) +\
@@ -63,7 +64,7 @@ class TechHelpDesk:
             nickname = self.contactBook.getNickName(display_name)
             email_address = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - Tech Channel : stalled Issue?'
 
             message = 'Dear {},'.format(nickname) +\
@@ -105,7 +106,7 @@ class TechHelpDesk:
             nickname = self.contactBook.getNickName(display_name)
             email_address = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - Tech Channel : Closed Issue?'
 
             message = 'Dear {},'.format(nickname) +\
@@ -147,7 +148,7 @@ class TechHelpDesk:
             nickname = self.contactBook.getNickName(display_name)
             email_address = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - Tech Channel : Impeded Issue?'
 
             message = 'Dear {},'.format(nickname) +\
@@ -193,7 +194,7 @@ class LabHelpDesk:
             nickname = self.contactBook.getNickName(display_name)
             email_address = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - Lab Channel : Open Issue'
 
             message = 'Dear {},'.format(nickname) +\
@@ -232,7 +233,7 @@ class LabHelpDesk:
             nickname = self.contactBook.getNickName(display_name)
             email_address = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - Lab Channel : stalled Issue?'
 
             message = 'Dear {},'.format(nickname) +\
@@ -275,7 +276,7 @@ class LabHelpDesk:
             email_address = issue.fields.assignee.emailAddress
 
             # status = issue.fields.status.name
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - Lab Channel : Closed Issue?'
 
             message = 'Dear {},'.format(nickname) +\
@@ -317,7 +318,7 @@ class LabHelpDesk:
             nickname = self.contactBook.getNickName(display_name)
             email_address = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - Lab Channel : Impeded Issue?'
 
             message = 'Dear {},'.format(nickname) +\
@@ -374,7 +375,7 @@ class OthersHelpDesk:
             channel = self.channels[issue.fields.components[0].name]
 
             # status = issue.fields.status.name
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - {} Channel : Open Issue'.format(channel)
 
             message = 'Dear {},'.format(nickname) +\
@@ -414,7 +415,7 @@ class OthersHelpDesk:
             email_address = issue.fields.assignee.emailAddress
             channel = self.channels[issue.fields.components[0].name]
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - {} Channel : stalled Issue?'.format(channel)
 
             message = 'Dear {},'.format(nickname) +\
@@ -457,7 +458,7 @@ class OthersHelpDesk:
             email_address = issue.fields.assignee.emailAddress
             channel = self.channels[issue.fields.components[0].name]
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - {} Channel : Closed Issue?'.format(channel)
 
             message = 'Dear {},'.format(nickname) +\
@@ -500,7 +501,7 @@ class OthersHelpDesk:
             email_address = issue.fields.assignee.emailAddress
             channel = self.channels[issue.fields.components[0].name]
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Help Desk - {} Channel : Impeded Issue?'.format(channel)
 
             message = 'Dear {},'.format(nickname) +\

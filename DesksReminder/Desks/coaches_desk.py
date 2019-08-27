@@ -1,8 +1,9 @@
-__author__ = 'Manuel Escriche'
-
 from datetime import date, datetime
 from DesksReminder.Basics.dataFinder import Data
 from DesksReminder.Basics.nickNames import ContactBook
+from Config.settings import JIRA_URL
+
+__author__ = 'Manuel Escriche'
 
 
 class CoachesHelpDesk:
@@ -24,7 +25,7 @@ class CoachesHelpDesk:
             emailAddress = issue.fields.assignee.emailAddress
 
             # status = issue.fields.status.name
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Coaches Help Desk : Open Issue'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -57,7 +58,7 @@ class CoachesHelpDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Coaches Help Desk: stalled Issue?'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -93,7 +94,7 @@ class CoachesHelpDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Coaches Help Desk: Closed Issue?'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -129,7 +130,7 @@ class CoachesHelpDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Coaches Help Desk: Impeded Issue?'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\

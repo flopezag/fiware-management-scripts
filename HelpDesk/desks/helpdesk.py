@@ -2,7 +2,7 @@ from itertools import filterfalse
 from jira import JIRA
 from .resourcesBooks import find_enablersbook, find_nodesbook, find_chaptersbook
 from Common.emailer import Emailer
-from Config.settings import JIRA_USER, JIRA_PASSWORD
+from Config.settings import JIRA_USER, JIRA_PASSWORD, JIRA_URL
 from logging import DEBUG, info, warning, exception
 from re import search, match, sub
 
@@ -42,7 +42,7 @@ issuetypedict = {'Monitor': 'Question', 'extRequest': 'Request'}
 
 
 class HelpDesk:
-    def __init__(self, domain='jira.fiware.org'):
+    def __init__(self, domain=JIRA_URL):
         self.base_url = 'https://{}'.format(domain)
         self.user = JIRA_USER
         self.password = JIRA_PASSWORD

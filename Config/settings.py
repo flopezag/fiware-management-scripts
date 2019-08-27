@@ -77,6 +77,7 @@ if Config.sections():
 
     # Data from jira section
     jira_section = config_section_map("jira")
+    JIRA_URL = jira_section['url']
     JIRA_USER = jira_section['user']
     JIRA_PASSWORD = jira_section['password']
     JIRA_VERIFY = jira_section['verify']

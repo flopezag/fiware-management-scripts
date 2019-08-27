@@ -2,6 +2,7 @@ from logging import info
 from datetime import date, datetime
 from DesksReminder.Basics.dataFinder import Data
 from DesksReminder.Basics.nickNames import ContactBook
+from Config.settings import JIRA_URL
 
 __author__ = 'Manuel Escriche'
 
@@ -29,7 +30,7 @@ class DeliveryBoard:
 
         messages = list()
         for issue in data:
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             due_date = datetime.strptime(issue.fields.duedate[:10], '%Y-%m-%d').date()
             target_slot = (due_date - date.today()).days
             summary = issue.fields.summary

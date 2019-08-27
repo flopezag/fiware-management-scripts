@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from DesksReminder.Basics.dataFinder import Data
 from DesksReminder.Basics.nickNames import ContactBook
+from Config.settings import JIRA_URL
 
 __author__ = 'Manuel Escriche'
 
@@ -21,7 +22,7 @@ class UrgentDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Urgent Desk : Deadline = TODAY'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -53,7 +54,7 @@ class UrgentDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Urgent Desk : Deadline is Approaching'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -90,7 +91,7 @@ class UrgentDesk:
             emailAddress = issue.fields.assignee.emailAddress
 
             status = issue.fields.status.name
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Urgent Desk : Overdue Issue'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -122,7 +123,7 @@ class UrgentDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Urgent Desk : Impeded Issue'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\

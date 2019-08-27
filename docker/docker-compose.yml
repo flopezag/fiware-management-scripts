@@ -9,4 +9,4 @@ services:
     labels:
       - docker-jira-mgmt
     volumes:
-      - ./management.ini:/home/management/fiware-management-scripts/Config/management.ini
+      - ./management.ini:/home/mgmt/fiware-management-scripts/Config/management.ini

@@ -1,7 +1,7 @@
 from re import search, sub, match
 from logging import info
 from jira import JIRA
-from Config.settings import JIRA_USER, JIRA_PASSWORD
+from Config.settings import JIRA_USER, JIRA_PASSWORD, JIRA_URL
 
 __author__ = 'Manuel Escriche'
 
@@ -27,7 +27,7 @@ accelerators_dict = {'Fiware-finodex-coaching': 'FINODEX',
 
 
 class CoachesHelpDesk:
-    def __init__(self, domain='jira.fiware.org'):
+    def __init__(self, domain=JIRA_URL):
         self.base_url = 'https://{}'.format(domain)
         self.user = JIRA_USER
         self.password = JIRA_PASSWORD

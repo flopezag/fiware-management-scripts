@@ -24,6 +24,7 @@ from logging import _nameToLevel as nameToLevel
 from argparse import ArgumentParser
 from sys import exc_info
 from Common.logging_conf import LoggingConf
+from Config.settings import JIRA_URL
 
 __author__ = 'Fernando López'
 
@@ -37,7 +38,7 @@ class AskbotSync(LoggingConf):
             self.helpdesk.get_monitors()
         except Exception as e:
             error(e)
-            error('No connection to JIRA https://jira.fiware.org')
+            error('No connection to JIRA https://{}'.format(JIRA_URL))
             error("Unexpected error: {}".format(exc_info()[0]))
             exit()
 

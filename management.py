@@ -8,8 +8,6 @@ from HelpDesk.stackoverflowsync import StackOverflowSync
 from urllib3 import disable_warnings
 from urllib3.exceptions import InsecureRequestWarning
 
-from logging import info, error, warning
-
 __author__ = 'Fernando López'
 __version__ = "1.3.0"
 
@@ -46,27 +44,7 @@ if __name__ == "__main__":
 
     disable_warnings(InsecureRequestWarning)
 
-    techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
-    for i in range(1, 1000):
-        info("Caracol, caracol, ssca tus cuernos al sol")
-
-    for i in range(1, 10):
-        warning("No nos podemos quejar")
-
-    for i in range(1, 3):
-        error("Apocalipsos molon")
-
-    for i in range(1, 1000):
-        info("Caracol, caracol, ssca tus cuernos al sol")
-
-    for i in range(1, 10):
-        warning("No nos podemos quejar")
-
-    for i in range(1, 3):
-        error("Apocalipsos molon")
-
     # Send reminder of pending JIRA tickets
-    '''
     techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
     techReminder.process()
 
@@ -92,4 +70,3 @@ if __name__ == "__main__":
     # StackoverFlow synchronization
     stackoverflowSync = StackOverflowSync(loglevel=loglevel)
     stackoverflowSync.process(year=2015, month=9, day=21)
-    '''

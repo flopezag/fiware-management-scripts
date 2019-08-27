@@ -22,8 +22,6 @@ class Question(object):
 
 class ASK(Question):
     def __init__(self, **kwargs):
-        # pprint.pprint(kwargs)
-        # super().__init__(**kwargs)
         super(self.__class__, self).__init__(**kwargs)
         self.id = 'ASK-{}'.format(kwargs['id'])
         self.summary = kwargs['title']
@@ -33,15 +31,12 @@ class ASK(Question):
 
         self.is_answered = True if kwargs['accepted_answer_id'] is not None else False
 
-        # print(self.id, kwargs['accepted_answer_id'] , self.is_answered, self.url)
         self.added_at = datetime.fromtimestamp(int(kwargs['added_at']))
         self.last_activity_at = datetime.fromtimestamp(int(kwargs['last_activity_at']))
 
 
 class SOF(Question):
     def __init__(self, **kwargs):
-        # pprint.pprint(kwargs)
-        # super().__init__(**kwargs)
         super(self.__class__, self).__init__(**kwargs)
         self._id = str(kwargs['question_id'])
         self.id = 'SOF-{}'.format(kwargs['question_id'])
@@ -57,7 +52,6 @@ class SOF(Question):
         self.answer_date = \
             datetime.fromtimestamp(int(kwargs['last_edit_date'])) if 'last_edit_date' in kwargs else None
 
-        # print(self, 'accepted_answer_id =', self.accepted_answer_id)
         self.added_at = datetime.fromtimestamp(int(kwargs['creation_date']))
         self.last_activity_at = datetime.fromtimestamp(int(kwargs['last_activity_date']))
 

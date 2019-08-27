@@ -51,22 +51,22 @@ class HelpDeskReminder(LoggingConf):
 
     def process(self):
         messages = self.channel.open()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('Help desk - Tech channel: Open {} reminders sent'.format(len(messages)))
         items0 = getTextMessagesReport(messages)
 
         messages = self.channel.inProgress()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('Help desk - Tech channel: In Progress {} reminders sent'.format(len(messages)))
         items1 = getTextMessagesReport(messages)
 
         messages = self.channel.answered()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('Help desk - Tech channel: Answered {} reminders sent'.format(len(messages)))
         items2 = getTextMessagesReport(messages)
 
         messages = self.channel.impeded()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('Help desk - Tech channel: Impeded {} reminders sent'.format(len(messages)))
         items3 = getTextMessagesReport(messages)
 
@@ -144,22 +144,22 @@ class UrgentDeskReminder(LoggingConf):
 
     def process(self):
         messages = self.desk.onDeadline()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('urgent desk: on deadline {} reminders sent'.format(len(messages)))
         items0 = getTextMessagesReport(messages)
 
         messages = self.desk.upcoming()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('urgent desk: upcoming {} reminders sent'.format(len(messages)))
         items1 = getTextMessagesReport(messages)
 
         messages = self.desk.impeded()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('urgent desk: impeded {} reminders sent'.format(len(messages)))
         items2 = getTextMessagesReport(messages)
 
         messages = self.desk.overdue()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('urgent desk: overdue {} reminders sent'.format(len(messages)))
         items3 = getTextMessagesReport(messages)
 
@@ -202,27 +202,27 @@ class AccountsDeskReminder(LoggingConf):
 
     def process(self):
         messages = self.desk.open()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('Accounts desk: Open {} reminders sent'.format(len(messages)))
         items0 = getTextMessagesReport(messages)
 
         messages = self.desk.inProgress()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('Accounts desk: In Progress {} reminders sent'.format(len(messages)))
         items1 = getTextMessagesReport(messages)
 
         messages = self.desk.scheduled()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('Accounts desk: Scheduled {} reminders sent'.format(len(messages)))
         items2 = getTextMessagesReport(messages)
 
         messages = self.desk.answered()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('Accounts desk: Answered {} reminders sent'.format(len(messages)))
         items3 = getTextMessagesReport(messages)
 
         messages = self.desk.rejected()
-        #self.mailer.send(messages, deliver=self.deliver)
+        self.mailer.send(messages, deliver=self.deliver)
         info('Accounts desk: Rejected {} reminders sent'.format(len(messages)))
         items4 = getTextMessagesReport(messages)
 
@@ -282,19 +282,17 @@ if __name__ == "__main__":
 
     mailer = Emailer(loglevel=loglevel)
 
-    '''
-    techReminder = HelpDeskTechReminder(loglevel=log_level, mailer=mailer)
+    techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
     techReminder.process()
 
-    labReminder = HelpDeskLabReminder(loglevel=log_level, mailer=mailer)
+    labReminder = HelpDeskLabReminder(loglevel=loglevel, mailer=mailer)
     labReminder.process()
 
-    otherReminder = HelpDeskOtherReminder(loglevel=log_level, mailer=mailer)
+    otherReminder = HelpDeskOtherReminder(loglevel=loglevel, mailer=mailer)
     otherReminder.process()
     
-    urgentReminder = UrgentDeskReminder(loglevel=log_level, mailer=mailer)
+    urgentReminder = UrgentDeskReminder(loglevel=loglevel, mailer=mailer)
     urgentReminder.process()
-    '''
 
     accountReminder = AccountsDeskReminder(loglevel=loglevel, mailer=mailer)
     accountReminder.process()

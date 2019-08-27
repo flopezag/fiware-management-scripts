@@ -1,4 +1,4 @@
-from Config.settings import JIRA_USER, JIRA_PASSWORD, JIRA_VERIFY, CERTIFICATE
+from Config.settings import JIRA_USER, JIRA_PASSWORD, JIRA_VERIFY, JIRA_URL, CERTIFICATE
 from datetime import datetime
 from jira import JIRA
 from HelpDesk.platforms.questions import SOF
@@ -8,7 +8,7 @@ __author__ = 'Manuel Escriche'
 
 
 class HelpDeskImporter:
-    def __init__(self, domain='jira.fiware.org'):
+    def __init__(self, domain=JIRA_URL):
         self.base_url = 'https://{}'.format(domain)
         self.user = JIRA_USER
         self.password = JIRA_PASSWORD

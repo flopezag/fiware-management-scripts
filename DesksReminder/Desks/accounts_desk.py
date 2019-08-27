@@ -1,8 +1,9 @@
-__author__ = 'Manuel Escriche'
-
 from datetime import date, datetime
 from DesksReminder.Basics.dataFinder import Data
 from DesksReminder.Basics.nickNames import ContactBook
+from Config.settings import JIRA_URL
+
+__author__ = 'Manuel Escriche'
 
 
 class AccountsDesk:
@@ -23,7 +24,7 @@ class AccountsDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Accounts Desk : Open Issue'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -57,7 +58,7 @@ class AccountsDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Accounts Desk: stalled Issue?'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -91,7 +92,7 @@ class AccountsDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Accounts Desk: stalled Issue?'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -125,7 +126,7 @@ class AccountsDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Accounts Desk: Closed Issue?'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
@@ -159,7 +160,7 @@ class AccountsDesk:
             nickName = self.contactBook.getNickName(displayName)
             emailAddress = issue.fields.assignee.emailAddress
 
-            url = 'http://jira.fiware.org/browse/{}'.format(issue)
+            url = 'http://{}/browse/{}'.format(JIRA_URL, issue)
             subject = 'FIWARE: Accounts Desk: Close the procedure'
 
             message = 'Dear {},'.format(nickName.encode('utf-8')) +\
