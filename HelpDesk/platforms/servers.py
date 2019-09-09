@@ -2,8 +2,9 @@ from math import ceil
 from datetime import datetime
 from HelpDesk.platforms.questions import ASK, SOF
 from Config.settings import STOREHOME, API_KEY_STACKOVERFLOW
-from logging import info, debug, error
-from os.path import join
+from logging import info, debug, error, warning
+from os.path import join, exists
+from os import makedirs
 from pickle import dump, load, HIGHEST_PROTOCOL
 from re import match, M, I
 from requests import get
@@ -45,8 +46,18 @@ class QAPlatform:
         info('saved questions to file: {}'.format(self.filename))
 
     def load(self):
-        with open(join(STOREHOME, self.filename), 'rb') as f:
-            timestamp, questions = load(f)
+        timestamp = 0.0
+        questions = list()
+        filename = join(STOREHOME, self.filename)
+
+        if not exists(STOREHOME):
+            warning("WARNING, the store dictionary did not exist, creating it...")
+            makedirs(STOREHOME)
+        elif not exists(filename):
+            warning("WARNING, {} file does not exits. It will be generated in the next steps".format(self.filename))
+        else:
+            with open(filename, 'rb') as f:
+                timestamp, questions = load(f)
 
         info('loaded questions from file: {}'.format(self.filename))
         return timestamp, questions
@@ -80,7 +91,6 @@ class AskBot(QAPlatform):
         self.questions_url = self.base_url + '/api/v1/questions/'
 
     def get_questions(self):
-        # self.timestamp = datetime.now().timestamp()
         self.timestamp = time()
         self.questions = []
         params = {'scope': 'all', 'sort': 'age-asc'}

@@ -2,11 +2,17 @@
 #   docker build --rm --build-arg BRANCH=develop -t docker-jira-mgmt .
 # image: docker-jira-mgmt
 # use build path to Dockerfile if docker-compose should build the image
-version: '3.7'
+version: '3'
 services:
   docker-jira-mgmt:
+    container_name: management-service
+    hostname: management-service
     image: docker-jira-mgmt:latest
     labels:
-      - docker-jira-mgmt
+      - management-service
     volumes:
       - ./management.ini:/home/mgmt/fiware-management-scripts/Config/management.ini
+    logging:
+        options:
+            max-size: "100m"
+            max-file: "5"
