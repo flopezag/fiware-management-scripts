@@ -35,11 +35,15 @@ Jira issues with the data from Askbot and StackOverFlow.
 
 Here is how to get a JIRA Management Script Server running on Docker containers:
 
-**Step - 1 :** Make a copy of the example [configuration file](https://github.com/flopezag/fiware-management-scripts/blob/develop/Config/management.ini) and complete the information. Keep in mind that the docker compose use this local file to mount a volume in order to proper configure the server.
+**Step - 1 :** Make a copy of the example [configuration file](https://github.com/flopezag/fiware-management-scripts/blob/develop/Config/management.ini) 
+and complete the information. Keep in mind that the docker compose use this local file to mount a volume in order to 
+proper configure the server.
 
-**Step - 2 :** Run Jira Management Script docker container through Docker Compose
+**Step - 2 :** Run Jira Management Script docker container through Docker Compose:
 
-`docker-compose up`
+```console
+docker-compose up
+``
 
 # Creation of docker images
 

@@ -34,8 +34,6 @@ class TechHelpDesk:
                 "\nI would appreciate you spent a minute to reply to this request and to evolve its status." +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - Tech Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/tech" +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -71,13 +69,11 @@ class TechHelpDesk:
                 "\n\nI noticed issue {} is In Progress but no update happened in the last {} days."\
                 .format(issue, noupdated) +\
                 "\nI would appreciate you spent a minute to update it by reporting its progress in a comment" \
-                "\n\tor if there were a blocking condition, please, report it in a comment and evolve " \
+                "\nor if there were a blocking condition, please, report it in a comment and evolve " \
                 "its status to Impeded." +\
-                "\n\tor if it was answered, please, evolve its status." +\
+                "\nor if it was answered, please, evolve its status." +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - Tech Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/tech" +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -113,13 +109,11 @@ class TechHelpDesk:
                 "\n\nI noticed issue {} has been Answered but no update happened in the last {} days."\
                 .format(issue, noupdated) +\
                 "\nI would appreciate you spent a minute to close it" \
-                "\n\tor if the exchange continues, please, update its progress in a comment" \
-                "\n\tor if there were a blocking condition, please, report it in a comment " \
+                "\nor if the exchange continues, please, update its progress in a comment" \
+                "\nor if there were a blocking condition, please, report it in a comment " \
                 "and evolve its status to Impeded." +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - Tech Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/tech" +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -155,12 +149,10 @@ class TechHelpDesk:
                 "\n\nI noticed issue {} is Impeded but no update happened in the last {} days."\
                 .format(issue, noupdated) +\
                 "\nI would appreciate you spent a minute to check its blocking condition persist:" \
-                "\n\tif so, please, add a comment stating it" \
-                "\n\tif not, please, get it back to In Progress, and address it" +\
+                "\nif so, please, add a comment stating it" \
+                "\nif not, please, get it back to In Progress, and address it" +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - Tech Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/tech" +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -203,8 +195,6 @@ class LabHelpDesk:
                 "\nI would appreciate you spent a minute to reply to this request and to evolve its status." +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - Lab Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/lab" +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -240,13 +230,11 @@ class LabHelpDesk:
                 "\n\nI noticed issue {} is In Progress but no update happened in the last {} days."\
                 .format(issue, noupdated) +\
                 "\nI would appreciate you spent a minute to update it by reporting its progress in a comment" \
-                "\n\tor if there were a blocking condition, please, report it in a comment " \
+                "\nor if there were a blocking condition, please, report it in a comment " \
                 "and evolve its status to Impeded." +\
-                "\n\tor if it was answered, please, progress its status." +\
+                "\nor if it was answered, please, progress its status." +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - Lab Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/lab" +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -283,13 +271,11 @@ class LabHelpDesk:
                 "\n\nI noticed issue {} has been Answered but no update happened in the last {} days."\
                 .format(issue, noupdated) +\
                 "\nI would appreciate you spent a minute to close it" \
-                "\n\tor if the exchange continues, please, update its progress in a comment" \
-                "\n\tor if there were a blocking condition, please, report it in a comment " \
+                "\nor if the exchange continues, please, update its progress in a comment" \
+                "\nor if there were a blocking condition, please, report it in a comment " \
                 "and evolve its status to Impeded." +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - Lab Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/lab" +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -325,12 +311,10 @@ class LabHelpDesk:
                 "\n\nI noticed issue {} is Impeded but no update happened in the last {} days."\
                 .format(issue, noupdated) +\
                 "\nI would appreciate you spent a minute to check its blocking condition persist:" \
-                "\n\tif so, please, add a comment stating it" \
-                "\n\tif not, please, get it back to In Progress, and address it" +\
+                "\nif so, please, add a comment stating it" \
+                "\nif not, please, get it back to In Progress, and address it" +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - Lab Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/lab" +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -384,8 +368,6 @@ class OthersHelpDesk:
                 "\nI would appreciate you spent a minute to reply to this request and to evolve its status." +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - {0} Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/channel/{0}".format(channel) +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -422,13 +404,11 @@ class OthersHelpDesk:
                 "\n\nI noticed issue {} is In Progress but no update happened in the last {} days."\
                 .format(issue, noupdated) +\
                 "\nI would appreciate you spent a minute to update it by reporting its progress in a comment" \
-                "\n\tor if there were a blocking condition, please, report it in a comment and " \
+                "\nor if there were a blocking condition, please, report it in a comment and " \
                 "evolve its status to Impeded." +\
-                "\n\tor if it was answered, please, evolve its status." +\
+                "\nor if it was answered, please, evolve its status." +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - {0} Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/channel/{0}".format(channel) +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -465,13 +445,11 @@ class OthersHelpDesk:
                 "\n\nI noticed issue {} has been Answered but no update happened in the last {} days."\
                 .format(issue, noupdated) +\
                 "\nI would appreciate you spent a minute to close it" \
-                "\n\tor if the exchange continues, please, update its progress in a comment" \
-                "\n\tor if there were a blocking condition, please, report it in a comment " \
+                "\nor if the exchange continues, please, update its progress in a comment" \
+                "\nor if there were a blocking condition, please, report it in a comment " \
                 "and evolve its status to Impeded." +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - {0} Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/channel/{0}".format(channel) +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'
@@ -508,12 +486,10 @@ class OthersHelpDesk:
                 "\n\nI noticed issue {} is Impeded but no update happened in the last {} days."\
                 .format(issue, noupdated) +\
                 "\nI would appreciate you spent a minute to check its blocking condition persist:" \
-                "\n\tif so, please, add a comment stating it" \
-                "\n\tif not, please, get it back to In Progress, and address it" +\
+                "\nif so, please, add a comment stating it" \
+                "\nif not, please, get it back to In Progress, and address it" +\
                 "\n\nIssue Summary: {}".format(summary.encode('utf-8')) +\
                 "\nYou can access it at {}".format(url) +\
-                "\n\nIssues in the Help Desk - {0} Channel are available " \
-                "at\n\thttp://backlog.fiware.org/helpdesk/channel/{0}".format(channel) +\
                 '\n\nThanks in advance for cooperation!!' +\
                 '\n\nKind Regards,' +\
                 '\nFernando'

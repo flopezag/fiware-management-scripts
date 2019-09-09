@@ -82,6 +82,14 @@ if Config.sections():
     JIRA_PASSWORD = jira_section['password']
     JIRA_VERIFY = jira_section['verify']
 
+    if JIRA_VERIFY == 'True':
+        JIRA_VERIFY = True
+    elif JIRA_VERIFY == 'False':
+        JIRA_VERIFY = False
+    else:
+        message = 'ERROR, verify attribute in \'management.ini\' file must be either \'True\' or \'False\', found: {}'
+        print(message.format(JIRA_VERIFY))
+
     # Data from stackoverflow section
     stackoverflow_section = config_section_map("stackoverflow")
     API_KEY_STACKOVERFLOW = stackoverflow_section['api_key']

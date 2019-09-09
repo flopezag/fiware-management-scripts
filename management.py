@@ -7,6 +7,7 @@ from HelpDesk.synchronization import AskbotSync, HelpDeskCaretaker
 from HelpDesk.stackoverflowsync import StackOverflowSync
 from urllib3 import disable_warnings
 from urllib3.exceptions import InsecureRequestWarning
+from datetime import datetime
 
 __author__ = 'Fernando López'
 __version__ = "1.3.0"
@@ -14,7 +15,8 @@ __version__ = "1.3.0"
 
 def init():
     parser = ArgumentParser(prog='Jira Management Scripts', description='')
-    parser.add_argument('-l', '--log',
+    parser.add_argument('-l',
+                        '--log',
                         default='INFO',
                         help='The logging level to be used.')
 
@@ -44,29 +46,33 @@ if __name__ == "__main__":
 
     disable_warnings(InsecureRequestWarning)
 
-    # Send reminder of pending JIRA tickets
-    techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
-    techReminder.process()
+    today = datetime.today().weekday()
 
-    labReminder = HelpDeskLabReminder(loglevel=loglevel, mailer=mailer)
-    labReminder.process()
+    if today == 0:
+        # Send reminder of pending JIRA tickets, only every Mondays
+        techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
+        techReminder.process()
 
-    otherReminder = HelpDeskOtherReminder(loglevel=loglevel, mailer=mailer)
-    otherReminder.process()
+        labReminder = HelpDeskLabReminder(loglevel=loglevel, mailer=mailer)
+        labReminder.process()
 
-    urgentReminder = UrgentDeskReminder(loglevel=loglevel, mailer=mailer)
-    urgentReminder.process()
+        otherReminder = HelpDeskOtherReminder(loglevel=loglevel, mailer=mailer)
+        otherReminder.process()
 
-    accountReminder = AccountsDeskReminder(loglevel=loglevel, mailer=mailer)
-    accountReminder.process()
+        urgentReminder = UrgentDeskReminder(loglevel=loglevel, mailer=mailer)
+        urgentReminder.process()
 
-    # Askbot synchronization and Jira caretaker actions
+        accountReminder = AccountsDeskReminder(loglevel=loglevel, mailer=mailer)
+        accountReminder.process()
+
+    # Askbot synchronization and Jira caretaker actions, every day
     askbotSync = AskbotSync(loglevel=loglevel)
     askbotSync.process()
-    
+
+    # Automatic reassign tickets to owners based on some extracted information, every day
     helpdeskCaretaker = HelpDeskCaretaker(loglevel=loglevel)
     helpdeskCaretaker.process()
 
-    # StackoverFlow synchronization
+    # StackoverFlow synchronization, every day
     stackoverflowSync = StackOverflowSync(loglevel=loglevel)
     stackoverflowSync.process(year=2015, month=9, day=21)
