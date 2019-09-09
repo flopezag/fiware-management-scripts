@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     today = datetime.today().weekday()
 
-    if today == 2:
+    if today == 0:
         # Send reminder of pending JIRA tickets, only every Mondays
         techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
         techReminder.process()
