@@ -172,7 +172,7 @@ def format_url_params(params):
       A URL query string version of the given parameters.
     """
     param_fragments = list()
-    for param in sorted(params.iteritems(), key=lambda x: x[0]):
+    for param in sorted(params.items(), key=lambda x: x[0]):
         param_fragments.append('%s=%s' % (param[0], url_escape(param[1])))
     return '&'.join(param_fragments)
 
@@ -221,11 +221,11 @@ def authorize_tokens(client_id, client_secret, authorization_code):
     params['grant_type'] = 'authorization_code'
     request_url = accounts_url('o/oauth2/token')
 
-    response = urlopen(request_url, urlencode(params)).read()
+    response = urlopen(request_url, urlencode(params).encode("utf-8")).read()
     return loads(response)
 
 
-def refresh_token(client_id, client_secret, refresh_token):
+def refresh_token(client_id, client_secret, new_token):
     """Obtains a new token given a refresh token.
 
     See https://developers.google.com/accounts/docs/OAuth2InstalledApp#refresh
@@ -233,7 +233,7 @@ def refresh_token(client_id, client_secret, refresh_token):
     Args:
       client_id: Client ID obtained by registering your app.
       client_secret: Client secret obtained by registering your app.
-      refresh_token: A previously-obtained refresh token.
+      new_token: A previously-obtained refresh token.
     Returns:
       The decoded response from the Google Accounts server, as a dict. Expected
       fields include 'access_token', 'expires_in', and 'refresh_token'.
@@ -241,7 +241,7 @@ def refresh_token(client_id, client_secret, refresh_token):
     params = dict()
     params['client_id'] = client_id
     params['client_secret'] = client_secret
-    params['refresh_token'] = refresh_token
+    params['refresh_token'] = new_token
     params['grant_type'] = 'refresh_token'
     request_url = accounts_url('o/oauth2/token')
 
@@ -274,7 +274,6 @@ def test_imap_authentication(auth_string):
     Prints a debug trace of the attempted IMAP connection.
 
     Args:
-      user: The Gmail username (full email address)
       auth_string: A valid OAuth2 string, as returned by GenerateOAuth2String.
           Must not be base64-encoded, since imaplib does its own base64-encoding.
     """
@@ -338,12 +337,10 @@ def main():
         print('Access Token Expiration Seconds: %s' % response['expires_in'])
     elif options.test_imap_authentication:
         require_options(options, 'user', 'access_token')
-        test_imap_authentication(options.user,
-                                 generate_oauth2string(options.user, options.access_token, base64_encode=False))
+        test_imap_authentication(options.user)
     elif options.test_smtp_authentication:
         require_options(options, 'user', 'access_token')
-        test_smtp_authentication(options.user,
-                                 generate_oauth2string(options.user, options.access_token, base64_encode=False))
+        test_smtp_authentication(options.user)
     else:
         options_parser.print_help()
         print('Nothing to do, exiting.')
