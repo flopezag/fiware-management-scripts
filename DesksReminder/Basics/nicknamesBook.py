@@ -4,11 +4,13 @@ __author__ = 'Fernando López'
 
 NickNameBook = {
     'Aitor Magán': 'Aitor',
+    'Alberto Abella': 'Alberto',
     'Alberto Martín': 'Alberto',
     'Alessandro Portosa': 'Alessandro',
     'Alex Glikson': 'Alex',
     'Alvaro Alonso': 'Alvaro',
     'Álvaro Arranz': 'Álvaro',
+    'Andrea Kather': 'Andrea',
     'Andres Muñoz': 'Andrés',
     'Angeles Tejado': 'Ángeles',
     'Angelo Giuliana': 'Angelo',
@@ -116,6 +118,7 @@ NickNameBook = {
     'PiraeusU Node Helpdesk': 'PireausU Team',
     'Poznan Node Helpdesk': 'Poznan Team',
     'Prague Node Helpdesk': 'Prague Team',
+    'Phuong Quy Le': 'Quy',
     'Radosław Adamkiewicz': 'Radosław',
     'Rafael Fernández': 'Rafael Fernández',
     'Roberto Antonini': 'Roberto',

@@ -67,6 +67,7 @@ from optparse import OptionParser
 from smtplib import SMTP
 from urllib.parse import quote, unquote, urlencode
 from urllib.request import urlopen
+import ssl
 
 
 def setup_option_parser():
@@ -174,6 +175,7 @@ def format_url_params(params):
     param_fragments = list()
     for param in sorted(params.items(), key=lambda x: x[0]):
         param_fragments.append('%s=%s' % (param[0], url_escape(param[1])))
+
     return '&'.join(param_fragments)
 
 
@@ -194,6 +196,7 @@ def generate_permission_url(client_id, scope='https://mail.google.com/'):
     params['redirect_uri'] = REDIRECT_URI
     params['scope'] = scope
     params['response_type'] = 'code'
+
     return '%s?%s' % (accounts_url('o/oauth2/auth'),
                       format_url_params(params))
 
@@ -221,7 +224,10 @@ def authorize_tokens(client_id, client_secret, authorization_code):
     params['grant_type'] = 'authorization_code'
     request_url = accounts_url('o/oauth2/token')
 
-    response = urlopen(request_url, urlencode(params).encode("utf-8")).read()
+    data = urlencode(params).encode("utf-8")
+
+    response = urlopen(url=request_url, data=data).read()
+
     return loads(response)
 
 
@@ -245,7 +251,9 @@ def refresh_token(client_id, client_secret, new_token):
     params['grant_type'] = 'refresh_token'
     request_url = accounts_url('o/oauth2/token')
 
-    response = urlopen(request_url, urlencode(params)).read()
+    data = urlencode(params).encode("utf-8")
+
+    response = urlopen(url=request_url, data=data).read()
     return loads(response)
 
 
@@ -307,6 +315,8 @@ def require_options(options, *args):
 
 
 def main():
+    ssl._create_default_https_context = ssl._create_unverified_context
+
     options_parser = setup_option_parser()
     (options, args) = options_parser.parse_args()
     if options.refresh_token:

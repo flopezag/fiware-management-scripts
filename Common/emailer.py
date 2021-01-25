@@ -16,10 +16,11 @@
 # under the License.
 ##
 
-from smtplib import SMTP
+from smtplib import SMTP, SMTP_SSL
 from logging import info, debug, exception
 from base64 import b64encode
 from urllib.request import urlopen, Request
+from urllib.error import URLError
 from urllib.parse import urlencode
 from json import loads
 from email.mime.text import MIMEText
@@ -28,6 +29,7 @@ from email.mime.application import MIMEApplication
 from Config.settings import ACCESS_TOKEN, REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET, SENDER
 from Config.constants import SIGNATURE, GOOGLE_ACCOUNTS_BASE_URL
 from logging import INFO, DEBUG
+import ssl
 
 __author__ = 'fla'
 
@@ -56,6 +58,68 @@ class Emailer:
 
         # Log level
         self.log_level = loglevel
+
+        # Allow unverified SSL Context
+        ssl._create_default_https_context = ssl._create_unverified_context
+
+        # Creating SMTP Client
+        self.server = 0
+        self.__open__()
+
+    # Deleting (Calling destructor)
+    def __del__(self):
+        if self.server != 0:
+            info("[+] Destructor called, SMTP Client deleted.")
+
+            # server.close()
+            self.server.quit()
+
+    def __open__(self):
+        self.server = SMTP_SSL('smtp.gmail.com', 465)
+        try:
+            info("[+] Connecting To Mail Server.")
+
+            if self.log_level == DEBUG:
+                self.server.set_debuglevel(2)
+            else:
+                self.server.set_debuglevel(0)
+
+            self.server.ehlo()
+
+            debug("[+] Starting Encrypted Session.")
+            self.server.ehlo()
+            # server.starttls()
+
+            debug("[+] Logging Into Mail Server.")
+            oauth_string = self.generate_oauth2string(username=self._sender)
+            (code, message) = self.server.docmd('AUTH', 'XOAUTH2 ' + oauth_string.decode())
+
+            if code == 334:
+                # The token is invalid an should be refresh
+                debug("[+] oAuth2 access token expired, refreshing it.")
+                self.refresh_old_token()
+
+                # server.close()
+                self.server.quit()
+                self.server = SMTP_SSL('smtp.gmail.com', 465)
+
+                if self.log_level == DEBUG:
+                    self.server.set_debuglevel(2)
+                else:
+                    self.server.set_debuglevel(0)
+
+                self.server.ehlo()
+
+                debug("[+] Starting Encrypted Session.")
+                self.server.ehlo()
+                # server.starttls()
+
+                debug("[+] Logging Into Mail Server again.")
+                oauth_string = self.generate_oauth2string(username=self._sender)
+                self.server.docmd('AUTH', 'XOAUTH2 ' + oauth_string.decode())
+        except Exception as e:
+            exception(e)
+            exception("[-] Sending Mail Failed.")
 
     def generate_oauth2string(self, username, base64_encode=True):
         """Generates an IMAP OAuth2 authentication string.
@@ -107,63 +171,13 @@ class Emailer:
         data = data.encode('utf-8')  # data should be bytes
         req = Request(request_url, data)
 
-        resp = urlopen(req)
-        respdata = resp.read()
-
-        self.access_token = loads(respdata)['access_token']
-
-    def _deliver(self, msg):
-        server = SMTP('smtp.gmail.com', 587)
         try:
-            info("[+] Connecting To Mail Server.")
+            resp = urlopen(req)
+            respdata = resp.read()
 
-            if self.log_level == DEBUG:
-                server.set_debuglevel(2)
-            else:
-                server.set_debuglevel(0)
-
-            server.ehlo()
-
-            debug("[+] Starting Encrypted Session.")
-            server.ehlo()
-            server.starttls()
-
-            debug("[+] Logging Into Mail Server.")
-            oauth_string = self.generate_oauth2string(username=self._sender)
-            (code, message) = server.docmd('AUTH', 'XOAUTH2 ' + oauth_string.decode())
-
-            if code == 334:
-                # The token is invalid an should be refresh
-                debug("[+] oAuth2 access token expired, refreshing it.")
-                self.refresh_old_token()
-
-                server.close()
-                server = SMTP('smtp.gmail.com', 587)
-
-                if self.log_level == DEBUG:
-                    server.set_debuglevel(2)
-                else:
-                    server.set_debuglevel(0)
-
-                server.ehlo()
-
-                debug("[+] Starting Encrypted Session.")
-                server.ehlo()
-                server.starttls()
-
-                debug("[+] Logging Into Mail Server again.")
-                oauth_string = self.generate_oauth2string(username=self._sender)
-                server.docmd('AUTH', 'XOAUTH2 ' + oauth_string.decode())
-
-            debug("[+] Sending Mail.")
-            server.sendmail(self._sender, msg['To'], msg.as_string())
-
-            server.close()
-            info("[+] Mail Sent Successfully to {}.".format(msg['To']))
-
-        except Exception as e:
-            exception(e)
-            exception("[-] Sending Mail Failed.")
+            self.access_token = loads(respdata)['access_token']
+        except URLError:
+            debug("Unable to get a new refreshed token ...")
 
     def send(self, messages, deliver=False):
         for n, item in enumerate(messages):
@@ -183,7 +197,9 @@ class Emailer:
         msg['Subject'] = subject
 
         if deliver:
-            self._deliver(msg)
+            debug("[+] Sending Mail.")
+            self.server.sendmail(self._sender, msg['To'], msg.as_string())
+            info("[+] Mail Sent Successfully to {}.".format(msg['To']))
 
     def send_adm_msg(self, subject, intext, deliver=True):
         msg = MIMEText(intext + self.signature)
@@ -193,7 +209,9 @@ class Emailer:
         msg['Subject'] = 'FIWARE: Reminders: ' + subject
 
         if deliver:
-            self._deliver(msg)
+            debug("[+] Sending Mail.")
+            self.server.sendmail(self._sender, msg['To'], msg.as_string())
+            info("[+] Mail Sent Successfully to {}.".format(msg['To']))
 
     def send_html_adm_msg(self, subject, inmsg, deliver=True):
         msg = MIMEMultipart('alternative')
@@ -209,7 +227,9 @@ class Emailer:
         msg.attach(part2)
 
         if deliver:
-            self._deliver(msg)
+            debug("[+] Sending Mail.")
+            self.server.sendmail(self._sender, msg['To'], msg.as_string())
+            info("[+] Mail Sent Successfully to {}.".format(msg['To']))
 
     def send_msg_attachment(self, to, subject, intext, infile, deliver=True):
         msg = MIMEMultipart()
@@ -226,7 +246,9 @@ class Emailer:
         msg.attach(filemsg)
 
         if deliver:
-            self._deliver(msg)
+            debug("[+] Sending Mail.")
+            self.server.sendmail(self._sender, msg['To'], msg.as_string())
+            debug("[+] Mail Sent Successfully to {}.".format(msg['To']))
 
 
 if __name__ == "__main__":

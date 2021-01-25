@@ -58,7 +58,9 @@ case that you need to access to the created image, execute the following command
 docker run -it <Docker Image ID> sh
 ```
 
-## Troubleshooting with Google Credentials
+## Troubleshooting 
+
+### Problems with Google Credentials
 
 It is natural that the Google Access Token and Google Refresh Token expires after a while. If it is the Access Token
 the one that it expires the system can regenerate automatically a new Access Token using the Refresh Token. Nevertheless,

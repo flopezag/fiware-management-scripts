@@ -13,7 +13,7 @@ class HelpDeskImporter:
         self.user = JIRA_USER
         self.password = JIRA_PASSWORD
 
-        if JIRA_VERIFY is 'False':
+        if JIRA_VERIFY == 'False':
             verify_certificate = CERTIFICATE
         else:
             verify_certificate = False
