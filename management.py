@@ -9,6 +9,8 @@ from urllib3 import disable_warnings
 from urllib3.exceptions import InsecureRequestWarning
 from datetime import datetime
 
+import socket
+
 __author__ = 'Fernando López'
 __version__ = "1.3.0"
 
@@ -36,6 +38,11 @@ def init():
         print('   * NOTSET')
         exit()
 
+    # Set the default socket timeout to a value that prevents connections
+    # to our SMTP server from timing out, due to sendmail's greeting pause
+    # feature.
+    socket.setdefaulttimeout(10)
+
     return loglevel
 
 
@@ -47,6 +54,7 @@ if __name__ == "__main__":
     disable_warnings(InsecureRequestWarning)
 
     today = datetime.today().weekday()
+    # today = 1
 
     if today == 0:
         # Send reminder of pending JIRA tickets, only every Mondays

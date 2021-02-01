@@ -33,6 +33,8 @@ class AskbotSync(LoggingConf):
     def __init__(self, loglevel):
         super(AskbotSync, self).__init__(loglevel=loglevel, log_file='askbot.log')
 
+        info('\n\n---- Askbot Synchronization----\n')
+
         try:
             self.helpdesk = HelpDeskImporter()
             self.helpdesk.get_monitors()
@@ -77,6 +79,8 @@ class AskbotSync(LoggingConf):
 class HelpDeskCaretaker(LoggingConf):
     def __init__(self, loglevel):
         super(HelpDeskCaretaker, self).__init__(loglevel=loglevel, log_file='mainhelpdesk.log')
+
+        info('\n\n---- HELP-DESK Caretakers----\n')
 
         try:
             self.helpdesk = HelpDesk()

@@ -40,6 +40,8 @@ class StackOverflowSync(LoggingConf):
         """
         super(StackOverflowSync, self).__init__(loglevel=loglevel, log_file='stackoverflow.log')
 
+        info('\n\n---- StackOverflow Synchronization----\n')
+
         # Tell urlib3 to use the pyOpenSSL
         # urllib3.contrib.pyopenssl.inject_into_urllib3()
 

@@ -16,7 +16,7 @@
 # under the License.
 ##
 
-from smtplib import SMTP, SMTP_SSL
+from smtplib import SMTP, SMTP_SSL, SMTPServerDisconnected, SMTPException
 from logging import info, debug, exception
 from base64 import b64encode
 from urllib.request import urlopen, Request
@@ -30,6 +30,7 @@ from Config.settings import ACCESS_TOKEN, REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRE
 from Config.constants import SIGNATURE, GOOGLE_ACCOUNTS_BASE_URL
 from logging import INFO, DEBUG
 import ssl
+from ssl import SSLError
 
 __author__ = 'fla'
 
@@ -68,11 +69,25 @@ class Emailer:
 
     # Deleting (Calling destructor)
     def __del__(self):
-        if self.server != 0:
-            info("[+] Destructor called, SMTP Client deleted.")
+        info("[+] Destructor called, SMTP Client deleted.")
 
-            # server.close()
-            self.server.quit()
+        if self.server is None:
+            return
+        else:
+            try:
+                try:
+                    self.server.quit()
+                except (SSLError, SMTPServerDisconnected):
+                    # This happens when calling quit() on a TLS connection
+                    # sometimes, or when the connection was already disconnected
+                    # by the server.
+                    self.server.close()
+                except SMTPException:
+                    if self.fail_silently:
+                        return
+                    raise
+            finally:
+                self.server = None
 
     def __open__(self):
         self.server = SMTP_SSL('smtp.gmail.com', 465)

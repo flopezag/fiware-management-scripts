@@ -102,6 +102,8 @@ class HelpDeskTechReminder(HelpDeskReminder):
         super(HelpDeskTechReminder, self).\
             __init__(logginglevel=loglevel, channel=TechHelpDesk(), mailer=mailer, log_file='helpdesk-tech.log')
 
+        info('\n\n---- HELP-DESK Tech Reminders----\n')
+
     def process(self, deliver=True):
         super(HelpDeskTechReminder, self).process()
 
@@ -112,6 +114,8 @@ class HelpDeskLabReminder(HelpDeskReminder):
     def __init__(self, loglevel, mailer=None):
         super(HelpDeskLabReminder, self).\
             __init__(logginglevel=loglevel, channel=LabHelpDesk(), mailer=mailer, log_file='helpdesk-lab.log')
+
+        info('\n\n---- HELP-DESK Lab Reminders----\n')
 
     def process(self, deliver=True):
         super(HelpDeskLabReminder, self).process()
@@ -124,6 +128,8 @@ class HelpDeskOtherReminder(HelpDeskReminder):
         super(HelpDeskOtherReminder, self).\
             __init__(logginglevel=loglevel, channel=OthersHelpDesk(), mailer=mailer, log_file='helpdesk-other.log')
 
+        info('\n\n---- HELP-DESK Others Reminders----\n')
+
     def process(self, deliver=True):
         super(HelpDeskOtherReminder, self).process()
 
@@ -133,6 +139,8 @@ class HelpDeskOtherReminder(HelpDeskReminder):
 class UrgentDeskReminder(LoggingConf):
     def __init__(self, loglevel, mailer=None, deliver=True):
         super(UrgentDeskReminder, self).__init__(loglevel=loglevel, log_file='urgentdesk.log')
+
+        info('\n\n---- HELP-DESK Urgent Reminders----\n')
 
         if mailer is None:
             self.mailer = Emailer(loglevel=loglevel)
@@ -191,6 +199,8 @@ class UrgentDeskReminder(LoggingConf):
 class AccountsDeskReminder(LoggingConf):
     def __init__(self, loglevel, mailer=None, deliver=True):
         super(AccountsDeskReminder, self).__init__(loglevel=loglevel, log_file='accounts.log')
+
+        info('\n\n---- FIWARE Lab Accounts Reminders----\n')
 
         if mailer is None:
             self.mailer = Emailer(loglevel=loglevel)

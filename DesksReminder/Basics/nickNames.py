@@ -42,30 +42,6 @@ class ContactBook:
 
 if __name__ == "__main__":
     tests = ContactBook()
-    print(tests.check_name('Radosław Adamkiewicz'))
-
-    '''
-    b'Charlotte Kotterman'
-    b'Juanjo Hierro'
-    b'Stefano De Panfilis'
-    b'Andrea Kather'
-    b'Ulrich Ahle'
-    b'Francisco de la Vega'
-    b'Jason Fox'
-    b'Angeles Tejado'
-    b'Phuong Quy Le'
-    b'\xc3\x81lvaro Arranz'
-    b'Poznan Node Helpdesk'
-    b'Alvaro Alonso'
-    b'Ferm\xc3\xadn Gal\xc3\xa1n'
-    b'Roberto Castillo'
-    b'Andres Mu\xc3\xb1oz'
-    b'Alberto Abella'
-    b'Mexico Node Support'
-    b'Tarek Elsaleh'
-    '''
-
-    print(tests.check_name(b'Andrea Kather'))
-    print(tests.check_name(b'Phuong Quy Le'))
-    print(tests.check_name(b'Alberto Abella'))
+    print(tests.check_name('Foo Foo'))
+    print(tests.check_name(b'Foo Foo'))
 
