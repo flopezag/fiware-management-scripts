@@ -1,4 +1,4 @@
 # Project executed with Python3.8
-# Use virtualenv -p python3.8 env
-configparser==5.0.0
+# Use virtualenv -p python3.8 .env
+configparser==5.0.1
 jira==2.0.0
