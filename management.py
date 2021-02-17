@@ -8,6 +8,7 @@ from HelpDesk.stackoverflowsync import StackOverflowSync
 from urllib3 import disable_warnings
 from urllib3.exceptions import InsecureRequestWarning
 from datetime import datetime
+from time import time
 
 import socket
 
@@ -17,10 +18,19 @@ __version__ = "1.3.0"
 
 def init():
     parser = ArgumentParser(prog='Jira Management Scripts', description='')
+
     parser.add_argument('-l',
                         '--log',
                         default='INFO',
                         help='The logging level to be used.')
+
+    parser.add_argument('-a',
+                        '--analysis',
+                        dest='analysis',
+                        type=str,
+                        choices=['Tech', 'Lab', 'Other', 'Urgent', 'Accounts', 'Askbot', 'Stackoverflow', 'Caretaker'],
+                        required=True,
+                        help='The type of analysis of jira to develop.')
 
     args = parser.parse_args()
     loglevel = None
@@ -43,44 +53,49 @@ def init():
     # feature.
     socket.setdefaulttimeout(10)
 
-    return loglevel
+    return loglevel, args.analysis
 
 
 if __name__ == "__main__":
-    loglevel = init()
+    start_time = time()
+
+    loglevel, option = init()
 
     mailer = Emailer(loglevel=loglevel)
 
     disable_warnings(InsecureRequestWarning)
 
     today = datetime.today().weekday()
-    # today = 1
 
     if today == 0:
-        # Send reminder of pending JIRA tickets, only every Mondays
-        techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
-        techReminder.process()
+        if option == 'Tech':
+            # Send reminder of pending JIRA tickets, only every Mondays
+            techReminder = HelpDeskTechReminder(loglevel=loglevel, mailer=mailer)
+            techReminder.process()
+        elif option == 'Lab':
+            labReminder = HelpDeskLabReminder(loglevel=loglevel, mailer=mailer)
+            labReminder.process()
+        elif option == 'Other':
+            otherReminder = HelpDeskOtherReminder(loglevel=loglevel, mailer=mailer)
+            otherReminder.process()
+        elif option == 'Urgent':
+            urgentReminder = UrgentDeskReminder(loglevel=loglevel, mailer=mailer)
+            urgentReminder.process()
+        elif option == 'Accounts':
+            accountReminder = AccountsDeskReminder(loglevel=loglevel, mailer=mailer)
+            accountReminder.process()
 
-        labReminder = HelpDeskLabReminder(loglevel=loglevel, mailer=mailer)
-        labReminder.process()
+    if option == 'Askbot':
+        # Askbot synchronization and Jira caretaker actions, every day
+        askbotSync = AskbotSync(loglevel=loglevel)
+        askbotSync.process()
+    elif option == 'Caretaker':
+        # Automatic reassign tickets to owners based on some extracted information, every day
+        helpdeskCaretaker = HelpDeskCaretaker(loglevel=loglevel)
+        helpdeskCaretaker.process()
+    elif option == 'Stackoverflow':
+        # StackoverFlow synchronization, every day
+        stackoverflowSync = StackOverflowSync(loglevel=loglevel)
+        stackoverflowSync.process(year=2015, month=9, day=21)
 
-        otherReminder = HelpDeskOtherReminder(loglevel=loglevel, mailer=mailer)
-        otherReminder.process()
-
-        urgentReminder = UrgentDeskReminder(loglevel=loglevel, mailer=mailer)
-        urgentReminder.process()
-
-        accountReminder = AccountsDeskReminder(loglevel=loglevel, mailer=mailer)
-        accountReminder.process()
-
-    # Askbot synchronization and Jira caretaker actions, every day
-    askbotSync = AskbotSync(loglevel=loglevel)
-    askbotSync.process()
-
-    # Automatic reassign tickets to owners based on some extracted information, every day
-    helpdeskCaretaker = HelpDeskCaretaker(loglevel=loglevel)
-    helpdeskCaretaker.process()
-
-    # StackoverFlow synchronization, every day
-    stackoverflowSync = StackOverflowSync(loglevel=loglevel)
-    stackoverflowSync.process(year=2015, month=9, day=21)
+    print("--- %s seconds ---" % (time.time() - start_time))
