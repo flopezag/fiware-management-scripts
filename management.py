@@ -98,4 +98,4 @@ if __name__ == "__main__":
         stackoverflowSync = StackOverflowSync(loglevel=loglevel)
         stackoverflowSync.process(year=2015, month=9, day=21)
 
-    print("--- %s seconds ---" % (time.time() - start_time))
+    print("--- %s seconds ---" % (time() - start_time))
