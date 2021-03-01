@@ -34,7 +34,7 @@ The configuration `cfg_defaults` are loaded from `cfg_filename`, if file exists 
 Optionally, user can specify the file location manually using an Environment variable called CONFIG_FILE.
 """
 
-name = 'Jira Management Scripts'
+name = 'management'
 
 cfg_dir = "/etc/fiware.d"
 
@@ -103,7 +103,7 @@ if Config.sections():
 else:
     msg = '\nERROR: There is not defined CONFIG_FILE environment variable ' \
             '\n       pointing to configuration file or there is no management.ini file' \
-            '\n       in the /etd/init.d directory.' \
+            '\n       in the /etc/init.d directory.' \
             '\n\n       Please correct at least one of them to execute the program.\n\n\n'
 
     exit(msg)

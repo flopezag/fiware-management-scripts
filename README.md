@@ -45,16 +45,39 @@ The scripts are searching the configuration parameters or in the '/etc/fiware.d'
 directory or in the environment variables. It tries to find if there is defined an environment
 variable whose name is 'CONFIG_FILE' to the 'management.ini' file. 
 If the scripts cannot get this environment variable, it tries to find this file in 
-'/etc/init.d'. In any oder case, the scripts will give you an error.
+'/etc/init.d'. In any other case, the scripts will give you an error.
+
+One possible solution might be to provide a soft link in the `/etc/fiware.d` to the `management.ini`
+file in the corresponding `./Config` folder, excuting the command:
+
+```bash
+ln -s /home/ubuntu/fiware-management-scripts/Config/management.ini management.ini
+```
+
+Last but not least, it is possible to create a cronjob to automatically execute the tests, just execute
+the following commands:
+
+```bash
+echo "# FIWARE Management Script" | crontab -
+( crontab -l ; echo "00 2 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Tech" ) | crontab -
+( crontab -l ; echo "30 2 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Lab" ) | crontab - 
+( crontab -l ; echo "00 3 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Other" ) | crontab - 
+( crontab -l ; echo "30 3 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Urgent" ) | crontab -
+( crontab -l ; echo "00 4 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Accounts" ) | crontab -
+
+( crontab -l ; echo "30 4 * * * /home/ubuntu/fiware-management-scripts/management.py -a Askbot" ) | crontab -
+( crontab -l ; echo "00 5 * * * /home/ubuntu/fiware-management-scripts/management.py -a Caretaker" ) | crontab -
+( crontab -l ; echo "30 5 * * * /home/ubuntu/fiware-management-scripts/management.py -a Stackoverflow" ) | crontab -
+```
 
 [Top](#top)
 
 ## Docker and Docker Compose
 
-For more details about the docker version of the service, take a look to the [README](.docker/README.md) content. In
-case that you need to access to the created image, execute the following command:
+For more details about the docker version of the service, take a look to the [README](./docker/README.md) content.
+In case that you need to access to the created image, execute the following command:
 
-```console
+```bash
 docker run -it <Docker Image ID> sh
 ```
 
@@ -67,7 +90,7 @@ the one that it expires the system can regenerate automatically a new Access Tok
 if the Refresh Token is expired too, you need to request new Access Token and Refresh Token using the Client ID and 
 Client Secret. You can use the script [oauth2.py](./Common/oauth2.py) to generate and authorize an OAuth2 token.
 
-```console
+```bash
   oauth2 --user=xxx@yyy.zzz \
     --client_id=1038[...].apps.googleusercontent.com \
     --client_secret=[...] \
