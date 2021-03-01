@@ -91,7 +91,8 @@ if __name__ == "__main__":
         askbotSync.process()
     elif option == 'Caretaker':
         # Automatic reassign tickets to owners based on some extracted information, every day
-        helpdeskCaretaker = HelpDeskCaretaker(loglevel=loglevel)
+        # TODO: use mailer and not create a new one, it is not using loglevel
+        helpdeskCaretaker = HelpDeskCaretaker(loglevel=loglevel, mailer=mailer)
         helpdeskCaretaker.process()
     elif option == 'Stackoverflow':
         # StackoverFlow synchronization, every day

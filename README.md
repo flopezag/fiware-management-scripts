@@ -17,7 +17,7 @@ is maintained by me.
 
 The following software must be installed:
 
-- Python 3.8
+- Python 3.9
 - pip
 - virtualenv
 
@@ -30,7 +30,7 @@ installation.
 
 1. Clone this repository.
 2. Define the configuration file: `./Config/management.ini`
-3. Create the virtualenv: `virtualenv -ppython3.8 env`
+3. Create the virtualenv: `virtualenv -ppython3.9 env`
 4. Activate the python environment: `source ./env/bin/activate`
 5. Install the requirements: `pip install -r requirements.txt
 
@@ -74,7 +74,7 @@ Client Secret. You can use the script [oauth2.py](./Common/oauth2.py) to generat
     --generate_oauth2_token
 ```
 
-More more details, take a look to the [README](./Common/README.md) content.
+More details, take a look to the [README](./Common/README.md) content.
 
 ## License
 

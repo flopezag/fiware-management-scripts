@@ -25,6 +25,7 @@ NickNameBook = {
     'Britanny Node Support': "Britanny's Team",
     'Budapest Node Helpdesk': 'Budapest Team',
     'Carlos Ralli Ucendo': 'Carlos',
+    'Chandra Challagonda': 'Chandra',
     'Charlotte Kotterman': 'Charlotte',
     'Christian Schlinkmann': 'Christian',
     'Clara Pezuela': 'Clara',

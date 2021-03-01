@@ -42,13 +42,16 @@ issuetypedict = {'Monitor': 'Question', 'extRequest': 'Request'}
 
 
 class HelpDesk:
-    def __init__(self, domain=JIRA_URL):
+    def __init__(self, loglevel, mailer, domain=JIRA_URL):
         self.base_url = 'https://{}'.format(domain)
         self.user = JIRA_USER
         self.password = JIRA_PASSWORD
         options = {'server': self.base_url, 'verify': False}
         self.jira = JIRA(options=options, basic_auth=(self.user, self.password))
-        self.emailer = Emailer(loglevel=DEBUG)
+
+        if mailer == '':
+            self.emailer = Emailer(loglevel=loglevel)
+
         self.enablersBook = find_enablersbook()
         self.nodesBook = find_nodesbook()
         self.chaptersBook = find_chaptersbook()
