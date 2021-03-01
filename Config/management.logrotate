@@ -1,0 +1,79 @@
+/logs/accounts.log {
+        size 1k
+        copytruncate
+        create 664 ubuntu ubuntu
+        dateext
+        rotate 4
+        compress
+        missingok
+}
+
+/logs/askbot.log {
+        size 1k
+        copytruncate
+        create 664 ubuntu ubuntu
+        dateext
+        rotate 4
+        compress
+        missingok
+}
+
+/logs/helpdesk-lab.log {
+        size 1k
+        copytruncate
+        create 664 ubuntu ubuntu
+        dateext
+        rotate 4
+        compress
+        missingok
+}
+
+/logs/helpdesk-other.log {
+        size 1k
+        copytruncate
+        create 664 ubuntu ubuntu
+        dateext
+        rotate 4
+        compress
+        missingok
+}
+
+/logs/helpdesk-tech.log {
+        size 1k
+        copytruncate
+        create 664 ubuntu ubuntu
+        dateext
+        rotate 4
+        compress
+        missingok
+}
+
+/logs/stackoverflow.log {
+        size 1k
+        copytruncate
+        create 664 ubuntu ubuntu
+        dateext
+        rotate 4
+        compress
+        missingok
+}
+
+/logs/urgentdesk.log {
+        size 1k
+        copytruncate
+        create 664 ubuntu ubuntu
+        dateext
+        rotate 4
+        compress
+        missingok
+}
+
+/logs/mainhelpdesk.log {
+        size 1k
+        copytruncate
+        create 664 ubuntu ubuntu
+        dateext
+        rotate 4
+        compress
+        missingok
+}
