@@ -3,10 +3,10 @@
 
 This script was developed in order to facilitate the diary operations of the Jira
 and the synchronization with different tools. The Purpose is to check if there are issues
-open and send reminder to the owners in order to resolve them and synchronize Jira issues 
+open and send reminders to the owners in order to resolve them and synchronize Jira issues 
 with the data from Askbot and StackOverFlow.
 
-These scripts were originally develop by Manuel Escriche from Telefónica I+D and now 
+These scripts were originally developed by Manuel Escriche from Telefónica I+D and now 
 is maintained by me.
 
 [Top](#top)
@@ -17,20 +17,20 @@ is maintained by me.
 
 The following software must be installed:
 
-- Python 3.7
+- Python 3.8
 - pip
 - virtualenv
 
 
 ### Installation
 
-The recommend installation method is using a virtualenv. Actually, the installation 
+The recommended installation method is using a virtualenv. Actually, the installation 
 process is only about the python dependencies, because the python code do not need 
 installation.
 
 1. Clone this repository.
 2. Define the configuration file: `./Config/management.ini`
-3. Create the virtualenv: `virtualenv -ppython2.7 env`
+3. Create the virtualenv: `virtualenv -ppython3.8 env`
 4. Activate the python environment: `source ./env/bin/activate`
 5. Install the requirements: `pip install -r requirements.txt
 
