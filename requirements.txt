@@ -2,4 +2,3 @@
 # Use virtualenv -p python3.9 .env
 configparser==5.0.2
 jira==2.0.0
-
