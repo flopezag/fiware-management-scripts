@@ -100,6 +100,11 @@ if Config.sections():
     API_USER_BACKLOG = backlog_section['api_user']
     URL_BACKLOG = backlog_section['url']
 
+    # FLUAs assignee list
+    fluas_section = config_section_map("fluas")
+    assignees = fluas_section['assignee']
+    ASSIGNEES = assignees.replace(' ', '').split(',')
+
 else:
     msg = '\nERROR: There is not defined CONFIG_FILE environment variable ' \
             '\n       pointing to configuration file or there is no management.ini file' \

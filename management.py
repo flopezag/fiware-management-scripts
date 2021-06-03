@@ -27,6 +27,7 @@ from urllib3 import disable_warnings
 from urllib3.exceptions import InsecureRequestWarning
 from datetime import datetime
 from time import time
+from HelpDesk.fluas import FLUAsCaretaker
 
 import socket
 
@@ -46,7 +47,8 @@ def init():
                         '--analysis',
                         dest='analysis',
                         type=str,
-                        choices=['Tech', 'Lab', 'Other', 'Urgent', 'Accounts', 'Askbot', 'Stackoverflow', 'Caretaker'],
+                        choices=['Tech', 'Lab', 'Other', 'Urgent', 'Accounts', 'Askbot',
+                                 'Stackoverflow', 'Caretaker', 'FLUAs'],
                         required=True,
                         help='The type of analysis of jira to develop.')
 
@@ -115,5 +117,9 @@ if __name__ == "__main__":
         # StackoverFlow synchronization, every day
         stackoverflowSync = StackOverflowSync(loglevel=loglevel)
         stackoverflowSync.process(year=2015, month=9, day=21)
+    elif option == 'FLUAs':
+        # FLUA tickets reassigment process
+        fluas = FLUAsCaretaker(loglevel=loglevel, mailer=mailer)
+        fluas.process()
 
     print("--- %s seconds ---" % (time() - start_time))

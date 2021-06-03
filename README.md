@@ -59,15 +59,16 @@ the following commands:
 
 ```bash
 echo "# FIWARE Management Script" | crontab -
-( crontab -l ; echo "00 2 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Tech" ) | crontab -
-( crontab -l ; echo "30 2 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Lab" ) | crontab - 
-( crontab -l ; echo "00 3 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Other" ) | crontab - 
-( crontab -l ; echo "30 3 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Urgent" ) | crontab -
-( crontab -l ; echo "00 4 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Accounts" ) | crontab -
+( crontab -l ; echo "00 2 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Tech 2>/dev/null" ) | crontab -
+( crontab -l ; echo "30 2 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Lab 2>/dev/null" ) | crontab - 
+( crontab -l ; echo "00 3 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Other 2>/dev/null" ) | crontab - 
+( crontab -l ; echo "30 3 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Urgent 2>/dev/null" ) | crontab -
+( crontab -l ; echo "00 4 * * MON /home/ubuntu/fiware-management-scripts/management.py -a Accounts 2>/dev/null" ) | crontab -
 
-( crontab -l ; echo "30 4 * * * /home/ubuntu/fiware-management-scripts/management.py -a Askbot" ) | crontab -
-( crontab -l ; echo "00 5 * * * /home/ubuntu/fiware-management-scripts/management.py -a Caretaker" ) | crontab -
-( crontab -l ; echo "30 5 * * * /home/ubuntu/fiware-management-scripts/management.py -a Stackoverflow" ) | crontab -
+( crontab -l ; echo "30 4 * * * /home/ubuntu/fiware-management-scripts/management.py -a Askbot 2>/dev/null" ) | crontab -
+( crontab -l ; echo "00 5 * * * /home/ubuntu/fiware-management-scripts/management.py -a Caretaker 2>/dev/null" ) | crontab -
+( crontab -l ; echo "30 5 * * * /home/ubuntu/fiware-management-scripts/management.py -a Stackoverflow 2>/dev/null" ) | crontab -
+( crontab -l ; echo "00 6 * * * /home/ubuntu/fiware-management-scripts/management.py -a FLUAs 2>/dev/null" ) | crontab -
 ```
 
 [Top](#top)

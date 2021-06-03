@@ -77,3 +77,13 @@
         compress
         missingok
 }
+
+/logs/fluas-caretaker.log {
+        size 1k
+        copytruncate
+        create 664 ubuntu ubuntu
+        dateext
+        rotate 4
+        compress
+        missingok
+}
