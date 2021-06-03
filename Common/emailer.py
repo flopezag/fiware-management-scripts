@@ -69,8 +69,6 @@ class Emailer:
 
     # Deleting (Calling destructor)
     def __del__(self):
-        info("[+] Destructor called, SMTP Client deleted.")
-
         if self.server is None:
             return
         else:

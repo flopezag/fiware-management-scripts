@@ -84,15 +84,16 @@ if [ "$result" == "" ]; then
     touch /tmp/cronlock
 
     echo "# FIWARE Management Script" | crontab -
-    ( crontab -l ; echo "00 2 * * MON "${working_directory}"/management.py -a Tech" ) | crontab -
-    ( crontab -l ; echo "30 2 * * MON "${working_directory}"/management.py -a Lab" ) | crontab -
-    ( crontab -l ; echo "00 3 * * MON "${working_directory}"/management.py -a Other" ) | crontab -
-    ( crontab -l ; echo "30 3 * * MON "${working_directory}"/management.py -a Urgent" ) | crontab -
-    ( crontab -l ; echo "00 4 * * MON "${working_directory}"/management.py -a Accounts" ) | crontab -
+    ( crontab -l ; echo "00 2 * * MON "${working_directory}"/management.py -a Tech 2>/dev/null" ) | crontab -
+    ( crontab -l ; echo "30 2 * * MON "${working_directory}"/management.py -a Lab 2>/dev/null" ) | crontab -
+    ( crontab -l ; echo "00 3 * * MON "${working_directory}"/management.py -a Other 2>/dev/null" ) | crontab -
+    ( crontab -l ; echo "30 3 * * MON "${working_directory}"/management.py -a Urgent 2>/dev/null" ) | crontab -
+    ( crontab -l ; echo "00 4 * * MON "${working_directory}"/management.py -a Accounts 2>/dev/null" ) | crontab -
 
-    ( crontab -l ; echo "30 4 * * * "${working_directory}"/management.py -a Askbot" ) | crontab -
-    ( crontab -l ; echo "00 5 * * * "${working_directory}"/management.py -a Caretaker" ) | crontab -
-    ( crontab -l ; echo "30 5 * * * "${working_directory}"/management.py -a Stackoverflow" ) | crontab -
+    ( crontab -l ; echo "30 4 * * * "${working_directory}"/management.py -a Askbot 2>/dev/null" ) | crontab -
+    ( crontab -l ; echo "00 5 * * * "${working_directory}"/management.py -a Caretaker 2>/dev/null" ) | crontab -
+    ( crontab -l ; echo "30 5 * * * "${working_directory}"/management.py -a Stackoverflow 2>/dev/null" ) | crontab -
+    ( crontab -l ; echo "30 1 * * * "${working_directory}"/management.py -a FLUAs 2>/dev/null" ) | crontab -
 
     rm -f /tmp/cronlock
 
@@ -101,24 +102,25 @@ else
 
     touch /tmp/cronlock
 
-    line=$(grep "00 4 * * mon-fri "${working_directory}"/dashboard.py --noauth_local_webserver" a.out)
+    line=$(grep "00 6 * * mon-fri "${working_directory}"/dashboard.py --noauth_local_webserver" a.out)
     if [ "$line" == "" ]; then
         (crontab -l; echo "") | crontab -
         (crontab -l; echo "# FIWARE TSC Enabler Dashboard") | crontab -
-        (crontab -l; echo "00 4 * * * "${working_directory}"/dashboard.py --noauth_local_webserver") | crontab -
+        (crontab -l; echo "00 6 * * * "${working_directory}"/dashboard.py --noauth_local_webserver") | crontab -
 
         (crontab -l; echo "") | crontab -
         (crontab -l; echo "# FIWARE Management Script") | crontab -
 
-        ( crontab -l ; echo "00 2 * * MON "${working_directory}"/management.py -a Tech" ) | crontab -
-        ( crontab -l ; echo "30 2 * * MON "${working_directory}"/management.py -a Lab" ) | crontab -
-        ( crontab -l ; echo "00 3 * * MON "${working_directory}"/management.py -a Other" ) | crontab -
-        ( crontab -l ; echo "30 3 * * MON "${working_directory}"/management.py -a Urgent" ) | crontab -
-        ( crontab -l ; echo "00 4 * * MON "${working_directory}"/management.py -a Accounts" ) | crontab -
+        ( crontab -l ; echo "00 2 * * MON "${working_directory}"/management.py -a Tech 2>/dev/null" ) | crontab -
+        ( crontab -l ; echo "30 2 * * MON "${working_directory}"/management.py -a Lab 2>/dev/null" ) | crontab -
+        ( crontab -l ; echo "00 3 * * MON "${working_directory}"/management.py -a Other 2>/dev/null" ) | crontab -
+        ( crontab -l ; echo "30 3 * * MON "${working_directory}"/management.py -a Urgent 2>/dev/null" ) | crontab -
+        ( crontab -l ; echo "00 4 * * MON "${working_directory}"/management.py -a Accounts 2>/dev/null" ) | crontab -
 
-        ( crontab -l ; echo "30 4 * * * "${working_directory}"/management.py -a Askbot" ) | crontab -
-        ( crontab -l ; echo "00 5 * * * "${working_directory}"/management.py -a Caretaker" ) | crontab -
-        ( crontab -l ; echo "30 5 * * * "${working_directory}"s/management.py -a Stackoverflow" ) | crontab -
+        ( crontab -l ; echo "30 4 * * * "${working_directory}"/management.py -a Askbot 2>/dev/null" ) | crontab -
+        ( crontab -l ; echo "00 5 * * * "${working_directory}"/management.py -a Caretaker 2>/dev/null" ) | crontab -
+        ( crontab -l ; echo "30 5 * * * "${working_directory}"/management.py -a Stackoverflow 2>/dev/null" ) | crontab -
+        ( crontab -l ; echo "30 1 * * * "${working_directory}"/management.py -a FLUAs 2>/dev/null" ) | crontab -
     fi
 
     rm -f /tmp/cronlock

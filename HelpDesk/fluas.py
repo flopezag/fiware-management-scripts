@@ -114,7 +114,7 @@ class FLUAs:
         current_assignee = issue.fields.assignee.name
         if current_assignee != assignee:
             info("Changing assignee for issue {} from {} to {}".format(key, current_assignee, assignee))
-            # self.jira.assign_issue(issue, assignee)
+            self.jira.assign_issue(issue, assignee)
 
     def __get_assignee_number__(self, a_date):
         """

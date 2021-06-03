@@ -68,7 +68,7 @@ echo "# FIWARE Management Script" | crontab -
 ( crontab -l ; echo "30 4 * * * /home/ubuntu/fiware-management-scripts/management.py -a Askbot 2>/dev/null" ) | crontab -
 ( crontab -l ; echo "00 5 * * * /home/ubuntu/fiware-management-scripts/management.py -a Caretaker 2>/dev/null" ) | crontab -
 ( crontab -l ; echo "30 5 * * * /home/ubuntu/fiware-management-scripts/management.py -a Stackoverflow 2>/dev/null" ) | crontab -
-( crontab -l ; echo "00 6 * * * /home/ubuntu/fiware-management-scripts/management.py -a FLUAs 2>/dev/null" ) | crontab -
+( crontab -l ; echo "30 1 * * * /home/ubuntu/fiware-management-scripts/management.py -a FLUAs 2>/dev/null" ) | crontab -
 ```
 
 [Top](#top)
