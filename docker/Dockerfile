@@ -1,8 +1,8 @@
 FROM python:3.7-alpine
 
-LABEL com.jira-management.version="1.3.0" \
+LABEL com.jira-management.version="2.0.0" \
       vendor="FIWARE Foundation, e.V." \
-      com.jira-management.release-date="2019-08-20" \
+      com.jira-management.release-date="2021-06-03" \
       com.jira-management.version.is-production="yes" \
       com.jira-management.maintainer="Fernando López <fernando.lopez@fiware.org>"
 

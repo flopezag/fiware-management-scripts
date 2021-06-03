@@ -1,6 +1,6 @@
 # Supported tags and respective `Dockerfile` links
 
--	[`latest`, `1.3.0`](https://github.com/flopezag/fiware-management-scripts/docker/Dockerfile)
+-	[`latest`, `2.0.0`](https://github.com/flopezag/fiware-management-scripts/docker/Dockerfile)
 
 # Quick reference
 

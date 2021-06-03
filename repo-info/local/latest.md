@@ -18,7 +18,7 @@
   - `CONFIG_FILE=/home/mgmt/fiware-management-scripts/Config/management.ini`
 - Labels:
   - `com.jira-management.maintainer=Fernando López <fernando.lopez@fiware.org>`
-  - `com.jira-management.release-date=2019-08-20`
-  - `com.jira-management.version=1.3.0`
+  - `com.jira-management.release-date=2021-06-03`
+  - `com.jira-management.version=2.0.0`
   - `com.jira-management.version.is-production=yes`
   - `vendor=FIWARE Foundation, e.V.`

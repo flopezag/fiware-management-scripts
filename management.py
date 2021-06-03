@@ -32,7 +32,7 @@ from HelpDesk.fluas import FLUAsCaretaker
 import socket
 
 __author__ = 'Fernando López'
-__version__ = "1.3.0"
+__version__ = "2.0.0"
 
 
 def init():
