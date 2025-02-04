@@ -288,7 +288,7 @@ class HelpDesk:
                                      'customfield_11104': None, 'customfield_11105': None})
                 info('update issue:{} {}'.format(issue, summary))
 
-        # name othen channels than TECH and LAB
+        # name other channels than TECH and LAB
         _channels = '|'.join(filterfalse(lambda x: x in ('Tech', 'Lab'), keywords.values()))
 
         info('====== other channels than Tech and Lab =======')
