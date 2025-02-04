@@ -23,18 +23,30 @@
 PYTHON_FILE="management.py"
 INITIAL_HEADER="#\!\/usr\/bin\/env python"
 FINAL_HEADER='#\!\/usr\/bin\/env '
-VIRTUALENV_DIR='\/.env\/bin\/python'
+VIRTUALENV_DIR='\/.venv\/bin\/python'
 
 
+# 0) Check and Install uv
+if ! command -v uv &> /dev/null; then
+    echo "uv is not installed."
+
+    if [[ -x "$(command -v apt)" ]]; then
+        echo "Installing uv using apt..."
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+    fi
+
+else
+    echo "uv is already installed."
+fi
+
+source $HOME/.local/bin/env
 
 # 1) Install&Config virtualenv for DesksReminder
-if [ ! -d ".env" ]; then
+if [ ! -d ".venv" ]; then
   # Control will enter here if env does not exist.
-  virtualenv -p python3.9 .env
-
-  source .env/bin/activate
-  pip install -r requirements.txt
-
+  uv venv --python 3.11
+  source .venv/bin/activate
+  uv pip install -r requirements.txt
   deactivate
 fi
 

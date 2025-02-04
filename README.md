@@ -28,8 +28,8 @@ installation.
 
 1. Clone this repository.
 2. Define the configuration file: `./Config/management.ini`
-3. Create the virtualenv: `uv venv --python 3.13`
-4. Activate the python environment: `source ./.venv/bin/activate`
+3. Create the virtualenv: `uv venv --python 3.11`
+4. Activate the python environment: `source .venv/bin/activate`
 5. Install the requirements: `uv pip install -r requirements.txt`
 
 By default, the service will take the content of the Environment variable `CONFIG_FILE`. If it is not specified, the
