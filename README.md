@@ -17,9 +17,7 @@ is maintained by me.
 
 The following software must be installed:
 
-- Python 3.9
-- pip
-- virtualenv
+- uv
 
 
 ### Installation
@@ -30,9 +28,9 @@ installation.
 
 1. Clone this repository.
 2. Define the configuration file: `./Config/management.ini`
-3. Create the virtualenv: `virtualenv -ppython3.9 env`
-4. Activate the python environment: `source ./env/bin/activate`
-5. Install the requirements: `pip install -r requirements.txt
+3. Create the virtualenv: `uv venv --python 3.13`
+4. Activate the python environment: `source ./.venv/bin/activate`
+5. Install the requirements: `uv pip install -r requirements.txt`
 
 By default, the service will take the content of the Environment variable `CONFIG_FILE`. If it is not specified, the
 service will take the values by default from the [local configuration file](./Config/management.ini) file.
@@ -41,14 +39,14 @@ service will take the values by default from the [local configuration file](./Co
 
 ## Configuration
 
-The scripts are searching the configuration parameters or in the '/etc/fiware.d'
+The scripts are searching the configuration parameters or in the `/etc/fiware.d`
 directory or in the environment variables. It tries to find if there is defined an environment
-variable whose name is 'CONFIG_FILE' to the 'management.ini' file. 
+variable whose name is `CONFIG_FILE` to the `management.ini` file. 
 If the scripts cannot get this environment variable, it tries to find this file in 
-'/etc/init.d'. In any other case, the scripts will give you an error.
+`/etc/init.d`. In any other case, the scripts will give you an error.
 
 One possible solution might be to provide a soft link in the `/etc/fiware.d` to the `management.ini`
-file in the corresponding `./Config` folder, excuting the command:
+file in the corresponding `./Config` folder, executing the command:
 
 ```bash
 ln -s /home/ubuntu/fiware-management-scripts/Config/management.ini management.ini
@@ -102,4 +100,4 @@ More details, take a look to the [README](./Common/README.md) content.
 
 ## License
 
-These scripts are licensed under Apache License 2.0.
+These scripts are licensed under [Apache License 2.0](LICENSE).
